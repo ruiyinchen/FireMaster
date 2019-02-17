@@ -1,0 +1,60 @@
+# server
+server:
+  port: 10086
+
+# datasource、aop、devtools、redis
+spring:
+  application:
+    name: FIRE-CONTROL
+  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.1.99:3306/fire_master?characterEncoding=utf8&useSSL=false&allowMultiQueries=true
+    username: root
+    password: 123456
+  #  aop:
+#    auto: true
+  devtools:
+    restart:
+      exclude: static/**.public/**
+#      livereload:
+#        enabled: false
+#        trigger-file:
+#        additional-exclude:
+  redis:
+    database: 0
+    host: 192.168.1.99
+    password: "0008"
+    port: 6379
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: 10s
+        max-idle: 8
+        min-idle: 0
+    timeout: 3s
+
+# logging
+logging:
+  file:
+    max-history: 30
+  level:
+    root: WARN
+    com:
+      battch: INFO
+      zfzn: INFO
+#  path: ./
+
+# mybatis
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.zfzn.firemaster.domain.en
+pagehelper:
+  helper-dialect: mysql
+  params: count=countSql
+  reasonable: false
+  support-methods-arguments: true
+
+fire-control:
+  server:
+    allow-start: false
+    port: 10010
