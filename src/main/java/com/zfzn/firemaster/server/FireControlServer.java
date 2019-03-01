@@ -3,7 +3,8 @@ package com.zfzn.firemaster.server;
 import com.zfzn.firemaster.coder.FireDecoder;
 import com.zfzn.firemaster.coder.FireEncoder;
 import com.zfzn.firemaster.handler.ActiveInboundHandler;
-import com.zfzn.firemaster.handler.OriginalInboundHander;
+import com.zfzn.firemaster.handler.DataAnalysisHandler;
+import com.zfzn.firemaster.handler.OriginalInboundHandler;
 import com.zfzn.firemaster.service.PackMessageSender;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -47,7 +48,8 @@ public class FireControlServer {
         ActiveInboundHandler activeHandler=new ActiveInboundHandler();
         FireEncoder encoder= new FireEncoder();
         FireDecoder decoder= new FireDecoder();
-        OriginalInboundHander originalInboundHander =new OriginalInboundHander(messageSender);
+        OriginalInboundHandler originalInboundHandler =new OriginalInboundHandler(messageSender);
+        DataAnalysisHandler analysisHandler =new DataAnalysisHandler();
 
         bootstrap.group(boss, worker)
                 .channel(NioServerSocketChannel.class)
@@ -61,7 +63,8 @@ public class FireControlServer {
                         channel.pipeline().addLast(activeHandler);
                         channel.pipeline().addLast(decoder);
                         channel.pipeline().addLast(encoder);
-                        channel.pipeline().addLast(originalInboundHander);
+                        channel.pipeline().addLast(originalInboundHandler);
+                        channel.pipeline().addLast(analysisHandler);
                     }
                 });
 

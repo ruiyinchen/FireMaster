@@ -10,16 +10,17 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import java.net.InetSocketAddress;
 
 /**
- * 消息发送handler
+ * 信息发送 handler
+ * 将收到的消息发送到消息队列
  *
  * @author : Tony.fuxudong
  * Created in 2019-02-11 11:04
  */
 @ChannelHandler.Sharable
-public class OriginalInboundHander extends ChannelInboundHandlerAdapter {
+public class OriginalInboundHandler extends ChannelInboundHandlerAdapter {
     private final PackMessageSender messageSender;
 
-    public OriginalInboundHander(PackMessageSender messageSender) {
+    public OriginalInboundHandler(PackMessageSender messageSender) {
         this.messageSender = messageSender;
     }
 
