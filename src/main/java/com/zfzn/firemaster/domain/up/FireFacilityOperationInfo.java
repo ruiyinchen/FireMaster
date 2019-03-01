@@ -1,4 +1,4 @@
-package com.zfzn.firemaster.domain.en;
+package com.zfzn.firemaster.domain.up;
 
 import java.util.Date;
 

@@ -1,6 +1,6 @@
 package com.zfzn.firemaster.factory;
 
-import com.zfzn.firemaster.factory.decode.*;
+import com.zfzn.firemaster.factory.up.*;
 
 import static com.zfzn.firemaster.util.Constant.*;
 
@@ -43,6 +43,19 @@ public class InfoBodyAnalysis {
                 break;
             case DATA_TYPE_UP_USER_DEVICE_RUN_STATUS:
                 parseObject = new UserInfoFacilityRunStatusParse();
+                break;
+            case DATA_TYPE_UP_USER_DEVICE_OPERATIONAL_INFO:
+                parseObject = new UserInfoFacilityOperationInfoParse();
+                break;
+            case DATA_TYPE_UP_USER_DEVICE_SOFTWARE_VERSION:
+                parseObject = new UserInfoFacilitySoftwareVersionParse();
+                break;
+            case DATA_TYPE_UP_USER_DEVICE_CONFIG:
+                parseObject = new UserInfoFacilityConfigInfoParse();
+                break;
+            case DATA_TYPE_UP_USER_DEVICE_SYS_TIME:
+                parseObject = new FireFacilitySystemTimeParse();
+                break;
         }
         return parseObject;
     }

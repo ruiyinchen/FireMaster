@@ -1,14 +1,14 @@
-package com.zfzn.firemaster.domain.en;
+package com.zfzn.firemaster.domain.up;
 
 import java.util.Date;
 
 /**
- * 消防设施部件模拟值
+ * 建筑消防设施系统部件配置情况
  *
  * @author : Tony.fuxudong
- * Created in 18:39 2019/2/28
+ * Created in 10:03 2019/3/1
  */
-public class FireFacilityComponentValue {
+public class FireFacilityComponentConfigInfo {
     /**
      * 系统类型
      */
@@ -30,30 +30,25 @@ public class FireFacilityComponentValue {
      */
     private int partPlace;
     /**
-     * 模拟量值类型
+     * 部件说明
      */
-    private int valueType;
-    /**
-     * 模拟量值
-     */
-    private int value;
+    private String legend;
     /**
      * 触发时间
      */
     private Date triggerTime;
 
-    public FireFacilityComponentValue(int systemType, int systemAddr, int partType, int partArea, int partPlace, int valueType, int value, Date triggerTime) {
+    public FireFacilityComponentConfigInfo(int systemType, int systemAddr, int partType, int partArea, int partPlace, String legend, Date triggerTime) {
         this.systemType = systemType;
         this.systemAddr = systemAddr;
         this.partType = partType;
         this.partArea = partArea;
         this.partPlace = partPlace;
-        this.valueType = valueType;
-        this.value = value;
+        this.legend = legend;
         this.triggerTime = triggerTime;
     }
 
-    public FireFacilityComponentValue() {
+    public FireFacilityComponentConfigInfo() {
     }
 
     public int getSystemType() {
@@ -96,20 +91,12 @@ public class FireFacilityComponentValue {
         this.partPlace = partPlace;
     }
 
-    public int getValueType() {
-        return valueType;
+    public String getLegend() {
+        return legend;
     }
 
-    public void setValueType(int valueType) {
-        this.valueType = valueType;
-    }
-
-    public int getValue() {
-        return value;
-    }
-
-    public void setValue(int value) {
-        this.value = value;
+    public void setLegend(String legend) {
+        this.legend = legend;
     }
 
     public Date getTriggerTime() {

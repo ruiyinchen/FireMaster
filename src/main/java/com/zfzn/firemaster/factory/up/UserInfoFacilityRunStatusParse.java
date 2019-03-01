@@ -1,6 +1,6 @@
-package com.zfzn.firemaster.factory.decode;
+package com.zfzn.firemaster.factory.up;
 
-import com.zfzn.firemaster.domain.en.UserInfoFacilityRunStatus;
+import com.zfzn.firemaster.domain.up.UserInfoFacilityRunStatus;
 import com.zfzn.firemaster.factory.ParseObject;
 import com.zfzn.firemaster.util.CommonUtils;
 import com.zfzn.firemaster.util.DateUtils;

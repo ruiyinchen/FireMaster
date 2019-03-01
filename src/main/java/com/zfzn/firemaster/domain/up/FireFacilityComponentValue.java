@@ -1,14 +1,14 @@
-package com.zfzn.firemaster.domain.en;
+package com.zfzn.firemaster.domain.up;
 
 import java.util.Date;
 
 /**
- * 建筑消防设施系统部件配置情况
+ * 消防设施部件模拟值
  *
  * @author : Tony.fuxudong
- * Created in 10:03 2019/3/1
+ * Created in 18:39 2019/2/28
  */
-public class FireFacilityComponentConfigInfo {
+public class FireFacilityComponentValue {
     /**
      * 系统类型
      */
@@ -30,25 +30,30 @@ public class FireFacilityComponentConfigInfo {
      */
     private int partPlace;
     /**
-     * 部件说明
+     * 模拟量值类型
      */
-    private String legend;
+    private int valueType;
+    /**
+     * 模拟量值
+     */
+    private int value;
     /**
      * 触发时间
      */
     private Date triggerTime;
 
-    public FireFacilityComponentConfigInfo(int systemType, int systemAddr, int partType, int partArea, int partPlace, String legend, Date triggerTime) {
+    public FireFacilityComponentValue(int systemType, int systemAddr, int partType, int partArea, int partPlace, int valueType, int value, Date triggerTime) {
         this.systemType = systemType;
         this.systemAddr = systemAddr;
         this.partType = partType;
         this.partArea = partArea;
         this.partPlace = partPlace;
-        this.legend = legend;
+        this.valueType = valueType;
+        this.value = value;
         this.triggerTime = triggerTime;
     }
 
-    public FireFacilityComponentConfigInfo() {
+    public FireFacilityComponentValue() {
     }
 
     public int getSystemType() {
@@ -91,12 +96,20 @@ public class FireFacilityComponentConfigInfo {
         this.partPlace = partPlace;
     }
 
-    public String getLegend() {
-        return legend;
+    public int getValueType() {
+        return valueType;
     }
 
-    public void setLegend(String legend) {
-        this.legend = legend;
+    public void setValueType(int valueType) {
+        this.valueType = valueType;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 
     public Date getTriggerTime() {
