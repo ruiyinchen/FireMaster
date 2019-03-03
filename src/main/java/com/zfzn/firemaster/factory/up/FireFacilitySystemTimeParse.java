@@ -22,6 +22,7 @@ public class FireFacilitySystemTimeParse implements ParseObject {
     public List<Object> analyze(ByteBuf buf, int objNum) {
         List<Object> list = new LinkedList<>();
         for (int i = 0; i < objNum; i++) {
+            // 系统类型
             int systemType = Integer.parseInt(buf.readBytes(2).toString(UTF_8), 16);
             // 系统地址
             int systemAddr = Integer.parseInt(buf.readBytes(2).toString(UTF_8), 16);

@@ -2,6 +2,7 @@ package com.zfzn.firemaster.server;
 
 import com.zfzn.firemaster.service.impl.MessageSender;
 import com.zfzn.firemaster.util.SpringContextUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -23,12 +24,18 @@ public class FireControlChannel {
     private boolean ALLOW_START = false;
     @Value("${fire-control.server.port}")
     private int port;
+    private final MessageSender messageSender;
+
+    @Autowired
+    public FireControlChannel(MessageSender messageSender) {
+        this.messageSender = messageSender;
+    }
 
     @PostConstruct
     private void init() {
         server = ALLOW_START ? new FireControlServer(port) : null;
         if (ALLOW_START){
-            server.start(SpringContextUtil.getBean(MessageSender.class));
+            server.start(messageSender);
         }
     }
 

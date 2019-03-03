@@ -38,7 +38,7 @@ public class DataAnalysisHandler extends ChannelInboundHandlerAdapter {
 
         // 信息对象数目
         int objNum = Integer.parseInt(dataSegment.readBytes(2).toString(UTF_8), 16);
-        dataUnit.setDataType(objNum);
+        dataUnit.setCount(objNum);
 
         // 应用数据单元处理
         ParseObject parseObj = InfoBodyAnalysis.createAnalysisBody(dataType);
