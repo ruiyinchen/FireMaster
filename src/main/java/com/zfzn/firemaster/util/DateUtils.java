@@ -1,6 +1,7 @@
 package com.zfzn.firemaster.util;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -17,6 +18,7 @@ import static io.netty.util.CharsetUtil.UTF_8;
 public class DateUtils {
     /**
      * 从 ByteBuf 中提取出时间
+     *
      * @param byteBuf byteBuf
      * @return
      */
@@ -26,7 +28,7 @@ public class DateUtils {
         int minute = Integer.parseInt(byteBuf.readBytes(2).toString(UTF_8), 16);
         int hour = Integer.parseInt(byteBuf.readBytes(2).toString(UTF_8), 16);
         int day = Integer.parseInt(byteBuf.readBytes(2).toString(UTF_8), 16);
-        int month = Integer.parseInt(byteBuf.readBytes(2).toString(UTF_8), 16);
+        int month = Integer.parseInt(byteBuf.readBytes(2).toString(UTF_8), 16)-1;
         int year = 2000 + Integer.parseInt(byteBuf.readBytes(2).toString(UTF_8), 16);
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.MILLISECOND, 0);
@@ -37,5 +39,38 @@ public class DateUtils {
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, second);
         return calendar.getTime();
+    }
+
+    /**
+     * 将时间转化为 ByteBuf
+     *
+     * @param date
+     * @return
+     */
+    public static ByteBuf dateToBuf(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        int[] dateInt = new int[]{
+                calendar.get(Calendar.SECOND),
+                calendar.get(Calendar.MINUTE),
+                calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.DAY_OF_MONTH),
+                calendar.get(Calendar.MONTH)+1,
+                calendar.get(Calendar.YEAR) - 2000
+        };
+
+        ByteBuf byteBuf= Unpooled.copiedBuffer("",UTF_8);
+        for (int n:dateInt){
+            if(n<16){
+                byteBuf.writeByte(48);
+            }
+            char[] arr = Integer.toHexString(n).toCharArray();
+            for (char anArr : arr) {
+                int m = (int) anArr;
+                byteBuf.writeByte(m);
+            }
+        }
+        return byteBuf;
     }
 }

@@ -1,6 +1,7 @@
 package com.zfzn.firemaster.coder;
 
 import com.zfzn.firemaster.domain.TcpDataPack;
+import com.zfzn.firemaster.factory.MsgAnswer;
 import com.zfzn.firemaster.util.Checksum;
 import com.zfzn.firemaster.util.DateUtils;
 import io.netty.buffer.ByteBuf;
@@ -21,8 +22,7 @@ public class FireDecoder extends ByteToMessageDecoder {
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf byteBuf, List<Object> list) throws Exception {
         if (new Checksum(byteBuf).passing()) {
-            // 确认回答
-            ctx.writeAndFlush(byteBuf.copy(4,48).writeBytes(new byte[]{48,51}));
+            ctx.writeAndFlush(new MsgAnswer(byteBuf).define());
 
             TcpDataPack dataPack = new TcpDataPack();
             // original
@@ -88,8 +88,7 @@ public class FireDecoder extends ByteToMessageDecoder {
 
             list.add(dataPack);
         } else {
-            // 否认回答
-            ctx.writeAndFlush(byteBuf.copy(4,48).writeBytes(new byte[]{48,54}));
+            ctx.writeAndFlush(new MsgAnswer(byteBuf).negative());
         }
     }
 }

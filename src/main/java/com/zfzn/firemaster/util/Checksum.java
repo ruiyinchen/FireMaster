@@ -60,6 +60,9 @@ public class Checksum {
      */
     public boolean passing() {
         byte checksum0 = (byte) sum();
+        if (checksum0 < 0) {
+            checksum0 += 128;
+        }
         return checksum == checksum0;
     }
 
