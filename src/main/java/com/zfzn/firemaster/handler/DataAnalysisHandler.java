@@ -8,6 +8,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.util.ReferenceCountUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,10 +43,10 @@ public class DataAnalysisHandler extends ChannelInboundHandlerAdapter {
 
         // 应用数据单元处理
         ParseObject parseObj = InfoBodyAnalysis.createAnalysisBody(dataType);
-        List<Object> list = parseObj.analyze(dataSegment,dataUnit.getCount());
+        List<Object> list = parseObj.analyze(dataSegment, dataUnit.getCount());
         dataUnit.setList(list);
 
+        ReferenceCountUtil.release(msg);
         // TODO 执行存储或发送命令
-
     }
 }

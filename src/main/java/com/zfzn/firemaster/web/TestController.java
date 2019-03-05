@@ -1,6 +1,7 @@
 package com.zfzn.firemaster.web;
 
 import com.zfzn.firemaster.domain.bo.PackInfo;
+import com.zfzn.firemaster.server.FireControlChannel;
 import com.zfzn.firemaster.service.impl.MessageSender;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -26,11 +27,13 @@ import static io.netty.util.CharsetUtil.UTF_8;
 public class TestController {
     private final RedisTemplate<String, Serializable> redisTemplate;
     private final MessageSender messageSender;
+    private final FireControlChannel controlChannel;
 
     @Autowired
-    public TestController(RedisTemplate<String, Serializable> redisTemplate, MessageSender messageSender) {
+    public TestController(RedisTemplate<String, Serializable> redisTemplate, MessageSender messageSender, FireControlChannel controlChannel) {
         this.redisTemplate = redisTemplate;
         this.messageSender = messageSender;
+        this.controlChannel = controlChannel;
     }
 
     @ApiOperation(value = "简单 GET 测试方法")
@@ -59,4 +62,10 @@ public class TestController {
         return "OK";
     }
 
+    @ApiOperation(value = "服务器消息下发")
+    @RequestMapping(value = "/send",method = RequestMethod.POST)
+    public Object send(@RequestParam String msg){
+        controlChannel.send(msg);
+        return "OK";
+    }
 }

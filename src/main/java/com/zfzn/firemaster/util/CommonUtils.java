@@ -104,15 +104,29 @@ public class CommonUtils {
     }
 
     /**
-     * 计算校验和
+     * 将一个int转化为String
      *
-     * @param byteBuf
+     * @param nt
      * @return
      */
-    public static int calc(ByteBuf byteBuf) {
+    public static String intToHex(int nt) {
+        String hex = Integer.toHexString(nt);
+        if (hex.length() % 2 != 0) {
+            hex = "0" + hex;
+        }
+        return hex;
+    }
+
+    /**
+     * 计算校验和
+     *
+     * @param buf
+     * @return
+     */
+    private static int countSum(ByteBuf buf) {
         int sum = 0;
-        while (byteBuf.readableBytes() >= 2) {
-            sum += Integer.parseInt(byteBuf.readBytes(2).toString(UTF_8),16);
+        while (buf.readableBytes() >= 2) {
+            sum += Integer.parseInt(buf.readBytes(2).toString(UTF_8), 16);
         }
         return sum;
     }

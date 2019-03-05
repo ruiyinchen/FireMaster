@@ -63,10 +63,8 @@ public class MsgAnswer {
      */
     private void sum(ByteBuf byteBuf) {
         int len = byteBuf.readableBytes();
-        byte sum = (byte) countSum(byteBuf.copy(4, len - 4));
-        if (sum < 0) {
-            sum += 128;
-        }
+        int sum = countSum(byteBuf.copy(4, len - 4));
+        sum = sum % 256;
         String sumHex = Integer.toString(sum, 16);
         char[] arr = sumHex.toCharArray();
         for (char anArr : arr) {

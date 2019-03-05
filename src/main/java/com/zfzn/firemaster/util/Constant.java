@@ -11,57 +11,57 @@ public class Constant {
     /**
      * 保留
      */
-    public static final int COMMAND_RESERVED=0;
+    public static final int COMMAND_RESERVED = 0;
     /**
      * 控制命令
      */
-    public static final int COMMAND_CONTROL=1;
+    public static final int COMMAND_CONTROL = 1;
     /**
      * 发送数据
      */
-    public static final int COMMAND_SEND_DATA=2;
+    public static final int COMMAND_SEND_DATA = 2;
     /**
      * 确认
      */
-    public static final int COMMAND_CONFIRM=3;
+    public static final int COMMAND_CONFIRM = 3;
     /**
      * 请求
      */
-    public static final int COMMAND_REQUEST=4;
+    public static final int COMMAND_REQUEST = 4;
     /**
      * 应答
      */
-    public static final int COMMAND_ANSWER=5;
+    public static final int COMMAND_ANSWER = 5;
     /**
      * 否认
      */
-    public static final int COMMAND_DENY=6;
+    public static final int COMMAND_DENY = 6;
 
     // 类型标志定义
     /**
      * 预留
      */
-    public static final int DATA_TYPE_RESERVED=0;
+    public static final int DATA_TYPE_RESERVED = 0;
     /**
      * 上传建筑消防设施系统状态
      */
-    public static final int DATA_TYPE_UP_FIRE_DEVICE_SYS_STATUS=1;
+    public static final int DATA_TYPE_UP_FIRE_DEVICE_SYS_STATUS = 1;
     /**
      * 上传建筑消防设施部件运行状态
      */
-    public static final int DATA_TYPE_UP_FIRE_UNIT_RUN_STATUS=2;
+    public static final int DATA_TYPE_UP_FIRE_UNIT_RUN_STATUS = 2;
     /**
      * 上传建筑消防设施部件模拟量值
      */
-    public static final int DATA_TYPE_UP_FIRE_UNIT_VALUE=3;
+    public static final int DATA_TYPE_UP_FIRE_UNIT_VALUE = 3;
     /**
      * 上传建筑消防设施操作信息
      */
-    public static final int DATA_TYPE_UP_FIRE_DEVICE_OPERATIONAL_INFO=4;
+    public static final int DATA_TYPE_UP_FIRE_DEVICE_OPERATIONAL_INFO = 4;
     /**
      * 上传建筑消防设施软件版本
      */
-    public static final int DATA_TYPE_UP_FIRE_DEVICE_SOFTWARE_VERSION=5;
+    public static final int DATA_TYPE_UP_FIRE_DEVICE_SOFTWARE_VERSION = 5;
     /**
      * 上传建筑消防设施系统配置情况
      */
@@ -189,6 +189,14 @@ public class Constant {
     // 92-127 预留
 
     // 128-254 用户自定义
+    /**
+     * 上传用户信息传输装置开关量状态
+     */
+    public static final int DATA_TYPE_UP_USER_DEVICE_SWITCH_STATUS = 204;
+    /**
+     * 上传气体灭火系统状态信息
+     */
+    public static final int DATE_TYPE_UP_GAS_EXTINGUISHING_SYSTEM_STATUS=205;
 
 
 }

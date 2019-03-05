@@ -5,14 +5,22 @@ import com.zfzn.firemaster.coder.FireEncoder;
 import com.zfzn.firemaster.handler.ActiveInboundHandler;
 import com.zfzn.firemaster.handler.DataAnalysisHandler;
 import com.zfzn.firemaster.handler.OriginalInboundHandler;
+import com.zfzn.firemaster.handler.TransmitOutBoundHandler;
 import com.zfzn.firemaster.service.PackMessageSender;
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+import static io.netty.util.CharsetUtil.UTF_8;
 
 /**
  * 消防主站中心服务器
@@ -21,7 +29,12 @@ import org.slf4j.LoggerFactory;
  * Created in 2019-02-03 17:38
  */
 public class FireControlServer {
-    private final Logger _logger= LoggerFactory.getLogger(getClass());
+    /**
+     * 远程连接通道
+     */
+    private static final Map<String, ChannelHandlerContext> channelContainer = Collections.synchronizedMap(new HashMap<>());
+
+    private final Logger _logger = LoggerFactory.getLogger(getClass());
 
     private EventLoopGroup boss;
     private EventLoopGroup worker;
@@ -35,7 +48,7 @@ public class FireControlServer {
 
     public FireControlServer(int port) {
         this.port = port;
-        boss = new NioEventLoopGroup();
+        boss = new NioEventLoopGroup(1);
         worker = new NioEventLoopGroup();
     }
 
@@ -45,11 +58,12 @@ public class FireControlServer {
     public void start(PackMessageSender messageSender) {
         ServerBootstrap bootstrap = new ServerBootstrap();
 
-        ActiveInboundHandler activeHandler=new ActiveInboundHandler();
-        FireEncoder encoder= new FireEncoder();
-        FireDecoder decoder= new FireDecoder();
-        OriginalInboundHandler originalInboundHandler =new OriginalInboundHandler(messageSender);
-        DataAnalysisHandler analysisHandler =new DataAnalysisHandler();
+        ActiveInboundHandler activeHandler = new ActiveInboundHandler(channelContainer);
+        FireEncoder encoder = new FireEncoder();
+        FireDecoder decoder = new FireDecoder();
+        OriginalInboundHandler originalInboundHandler = new OriginalInboundHandler(messageSender);
+        DataAnalysisHandler analysisHandler = new DataAnalysisHandler();
+        TransmitOutBoundHandler transmitHandler=new TransmitOutBoundHandler();
 
         bootstrap.group(boss, worker)
                 .channel(NioServerSocketChannel.class)
@@ -62,20 +76,19 @@ public class FireControlServer {
                     protected void initChannel(NioSocketChannel channel) {
                         channel.pipeline().addLast(activeHandler);
                         channel.pipeline().addLast(decoder);
-                        channel.pipeline().addLast(encoder);
                         channel.pipeline().addLast(originalInboundHandler);
                         channel.pipeline().addLast(analysisHandler);
+                        channel.pipeline().addLast(encoder);
+                        channel.pipeline().addLast(transmitHandler);
                     }
                 });
 
         future = bootstrap.bind(port)
                 .addListener((ChannelFutureListener) channelFuture ->
-                        _logger.info("Fire Control Server started！port:{}",port));
+                        _logger.info("Fire Control Server started！port:{}", port));
         future.channel()
                 .closeFuture()
-                .addListener((ChannelFutureListener) channelFuture -> {
-                    stop();
-                });
+                .addListener((ChannelFutureListener) channelFuture -> stop());
     }
 
     /**
@@ -97,5 +110,11 @@ public class FireControlServer {
             }
         }
         _logger.info("Fire Control Server stopped!");
+    }
+
+    public void send(String msg) {
+//        future.channel().writeAndFlush(Unpooled.copiedBuffer(msg,UTF_8));
+        // TODO 代码修改
+        channelContainer.forEach((key, ctx) -> ctx.writeAndFlush(Unpooled.copiedBuffer(msg, UTF_8)));
     }
 }

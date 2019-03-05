@@ -34,7 +34,7 @@ public class FireControlChannel {
     @PostConstruct
     private void init() {
         server = ALLOW_START ? new FireControlServer(port) : null;
-        if (ALLOW_START){
+        if (ALLOW_START) {
             server.start(messageSender);
         }
     }
@@ -43,6 +43,12 @@ public class FireControlChannel {
     private void destroy() {
         if (server != null) {
             server.stop();
+        }
+    }
+
+    public void send(String msg) {
+        if (server != null) {
+            server.send(msg);
         }
     }
 }

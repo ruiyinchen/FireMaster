@@ -59,10 +59,12 @@ public class Checksum {
      * @return
      */
     public boolean passing() {
-        byte checksum0 = (byte) sum();
+        // 此位置不可使用下面被注释的代码，原因在于C++中使用了无符号byte类型
+        int checksum0 = sum() % 256;
+        /*byte checksum0 = (byte) sum();
         if (checksum0 < 0) {
             checksum0 += 128;
-        }
+        }*/
         return checksum == checksum0;
     }
 

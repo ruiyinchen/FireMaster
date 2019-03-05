@@ -74,6 +74,7 @@
             <version>1.2.56</version>
         </dependency>
 
+        <!--正式打包时注销-->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
