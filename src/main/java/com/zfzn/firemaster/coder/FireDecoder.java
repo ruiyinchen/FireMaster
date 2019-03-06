@@ -25,8 +25,6 @@ public class FireDecoder extends ByteToMessageDecoder {
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf byteBuf, List<Object> list) throws Exception {
-        _logger.info(byteBuf.toString(UTF_8));
-
         if (new Checksum(byteBuf).passing()) {
             ctx.writeAndFlush(new MsgAnswer(byteBuf).define());
 
@@ -95,10 +93,10 @@ public class FireDecoder extends ByteToMessageDecoder {
             list.add(dataPack);
         } else {
             ctx.writeAndFlush(new MsgAnswer(byteBuf).negative());
-            // 1.此语句必须存在，否则将导致粘包
-            byteBuf.clear();
-            // 2.不可添加用一些代码代替代码1，否则会出现异常
-//            ReferenceCountUtil.release(byteBuf);
+            // 此语句必须存在，否则将导致粘包，
+            byteBuf.clear();    // 1
+            // 不可添加用一些代码代替代码1，否则会出现异常
+//            ReferenceCountUtil.release(byteBuf);  // 2
         }
     }
 }
