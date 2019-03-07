@@ -51,20 +51,21 @@ public class FireDecoder extends ByteToMessageDecoder {
             dataPack.setTime(DateUtils.bufToDate(byteBuf));
             // 获取源地址
             {
-                StringBuilder builder = new StringBuilder();
+                dataPack.setSourceAddress(byteBuf.readBytes(12).toString(UTF_8));
+                /*StringBuilder builder = new StringBuilder();
                 for (int i = 0; i < 6; i++) {
                     builder.insert(0, byteBuf.readBytes(2).toString(UTF_8));
                 }
-                dataPack.setSourceAddress(builder.toString());
+                dataPack.setSourceAddress(builder.toString());*/
             }
             // 获取目标地址
             {
-                StringBuilder builder = new StringBuilder();
+                dataPack.setTargetAddress(byteBuf.readBytes(12).toString(UTF_8));
+                /*StringBuilder builder = new StringBuilder();
                 for (int i = 0; i < 6; i++) {
                     builder.insert(0, byteBuf.readBytes(2).toString(UTF_8));
                 }
-                dataPack.setTargetAddress(builder.toString());
-
+                dataPack.setTargetAddress(builder.toString());*/
             }
             // 获取应用数据单元长度
             int dataLength = 0;

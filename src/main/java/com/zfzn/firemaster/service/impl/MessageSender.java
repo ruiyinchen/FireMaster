@@ -34,6 +34,8 @@ public class MessageSender implements PackMessageSender {
         stringRedisTemplate.convertAndSend(PACK_QUEUE, msg);
 
         // 将保存用户传输装置信息，以便下发信息使用
-        fireDataCache.learnGlobal(packInfo.getHost(), new GlobalValueAdapter(dataPack).value());
+        if (dataPack != null) {
+            fireDataCache.learnGlobal(packInfo.getHost(), new GlobalValueAdapter(dataPack).value());
+        }
     }
 }

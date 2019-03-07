@@ -104,15 +104,47 @@ public class CommonUtils {
     }
 
     /**
-     * 将一个int转化为String
+     * 将一个int转化为2位16进制的String
      *
      * @param nt
      * @return
      */
-    public static String intToHex(int nt) {
+    public static String intTo2Hex(int nt) {
         String hex = Integer.toHexString(nt);
         if (hex.length() % 2 != 0) {
             hex = "0" + hex;
+        }
+        return hex;
+    }
+
+    /**
+     * 将int转化为16进制的字节数组
+     *
+     * @param n
+     * @return
+     */
+    public static byte[] intToHexBytes(int n) {
+        return CommonUtils.intTo2Hex(n).getBytes(UTF_8);
+    }
+
+    /**
+     * 将一个int转化为2位16进制的String
+     * 低位在前，高位在后
+     *
+     * @param nt
+     * @return
+     */
+    public static String intTo4Hex(int nt) {
+        String hex = Integer.toHexString(nt);
+        if (hex.length() % 2 != 0) {
+            hex = "0" + hex;
+        }
+        if (hex.length() == 4) {
+            String high = hex.substring(0, 2);
+            String low = hex.substring(2, 4);
+            hex = low + high;
+        } else if (hex.length() == 2) {
+            hex = hex + "00";
         }
         return hex;
     }

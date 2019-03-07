@@ -31,8 +31,7 @@ public class OriginalInboundHandler extends ChannelInboundHandlerAdapter {
         TcpDataPack dataPack=(TcpDataPack)msg;
         InetSocketAddress socketAddr = (InetSocketAddress) ctx.channel().remoteAddress();
         PackInfo packInfo=new PackInfo(socketAddr.getHostString()+":"+socketAddr.getPort(),dataPack.getOriginal());
-        messageSender.sendMessage(packInfo);
-        messageSender.cache(dataPack);
+        messageSender.sendMessage(packInfo,dataPack);
         ctx.fireChannelRead(msg);
     }
 }
