@@ -18,6 +18,8 @@ import static io.netty.util.CharsetUtil.UTF_8;
 public interface EncoderObject {
     int FIXED_LENGTH = 4;
 
+    void writeUnitData(CommandItem item,ByteBuf byteBuf);
+
     /**
      * 编码处理方法
      *
@@ -32,8 +34,6 @@ public interface EncoderObject {
         list.forEach(item -> writeUnitData(item,byteBuf));
         return byteBuf;
     }
-
-    void writeUnitData(CommandItem item,ByteBuf byteBuf);
 
     /**
      * 写入共有的数据信息

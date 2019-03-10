@@ -8,7 +8,7 @@ import com.zfzn.firemaster.handler.OriginalInboundHandler;
 import com.zfzn.firemaster.handler.TransmitOutBoundHandler;
 import com.zfzn.firemaster.service.PackMessageSender;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.buffer.Unpooled;
+import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -19,8 +19,6 @@ import org.slf4j.LoggerFactory;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
-import static io.netty.util.CharsetUtil.UTF_8;
 
 /**
  * 消防主站中心服务器
@@ -63,7 +61,7 @@ public class FireControlServer {
         FireDecoder decoder = new FireDecoder();
         OriginalInboundHandler originalInboundHandler = new OriginalInboundHandler(messageSender);
         DataAnalysisHandler analysisHandler = new DataAnalysisHandler();
-        TransmitOutBoundHandler transmitHandler=new TransmitOutBoundHandler();
+        TransmitOutBoundHandler transmitHandler = new TransmitOutBoundHandler();
 
         bootstrap.group(boss, worker)
                 .channel(NioServerSocketChannel.class)
@@ -112,9 +110,9 @@ public class FireControlServer {
         _logger.info("Fire Control Server stopped!");
     }
 
-    public void send(String msg) {
+    public void send(ByteBuf byteBuf) {
 //        future.channel().writeAndFlush(Unpooled.copiedBuffer(msg,UTF_8));
         // TODO 代码修改
-        channelContainer.forEach((key, ctx) -> ctx.writeAndFlush(Unpooled.copiedBuffer(msg, UTF_8)));
+        channelContainer.forEach((key, ctx) -> ctx.writeAndFlush(byteBuf));
     }
 }

@@ -58,7 +58,7 @@ public class TestController {
     @ApiOperation(value = "redis 消息队列测试方法")
     @RequestMapping(value = "/sendChat",method = RequestMethod.PUT)
     public Object sendChat(@RequestBody PackInfo packInfo){
-        messageSender.sendMessage(packInfo);
+        messageSender.sendMessage(packInfo,null);
         return "OK";
     }
 

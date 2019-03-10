@@ -1,7 +1,10 @@
 package com.zfzn.firemaster.server;
 
+import com.zfzn.firemaster.domain.down.IssuedCommand;
+import com.zfzn.firemaster.factory.EncoderObject;
+import com.zfzn.firemaster.factory.down.PackEncoder;
 import com.zfzn.firemaster.service.impl.MessageSender;
-import com.zfzn.firemaster.util.SpringContextUtil;
+import io.netty.buffer.ByteBuf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -19,6 +22,7 @@ import javax.annotation.PreDestroy;
 public class FireControlChannel {
 
     private FireControlServer server;
+    private PackEncoder packEncoder;
 
     @Value("${fire-control.server.allow-start}")
     private boolean ALLOW_START = false;
@@ -27,7 +31,8 @@ public class FireControlChannel {
     private final MessageSender messageSender;
 
     @Autowired
-    public FireControlChannel(MessageSender messageSender) {
+    public FireControlChannel(PackEncoder packEncoder, MessageSender messageSender) {
+        this.packEncoder = packEncoder;
         this.messageSender = messageSender;
     }
 
@@ -46,9 +51,15 @@ public class FireControlChannel {
         }
     }
 
-    public void send(String msg) {
+    public void send(IssuedCommand command) {
         if (server != null) {
-            server.send(msg);
+            ByteBuf byteBuf=packEncoder.builder(command.getTarget());
+
+            EncoderObject encoderObj=packEncoder.bodyObj(command);
+            encoderObj.convert(command,byteBuf);
+
+            packEncoder.build(byteBuf);
+            server.send(byteBuf);
         }
     }
 }

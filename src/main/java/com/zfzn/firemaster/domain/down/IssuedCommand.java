@@ -1,7 +1,5 @@
 package com.zfzn.firemaster.domain.down;
 
-import com.zfzn.firemaster.cache.GlobalValue;
-
 import java.util.List;
 
 /**
@@ -14,7 +12,7 @@ public class IssuedCommand {
     /**
      * 包数据地址信息
      */
-    private GlobalValue globalValue;
+    private String target;
     /**
      * 类型标志
      */
@@ -24,8 +22,8 @@ public class IssuedCommand {
      */
     private List<? extends CommandItem> list;
 
-    public IssuedCommand(GlobalValue globalValue, int dataType, List<? extends CommandItem> list) {
-        this.globalValue = globalValue;
+    public IssuedCommand(String target, int dataType, List<? extends CommandItem> list) {
+        this.target = target;
         this.dataType = dataType;
         this.list = list;
     }
@@ -33,12 +31,12 @@ public class IssuedCommand {
     public IssuedCommand() {
     }
 
-    public GlobalValue getGlobalValue() {
-        return globalValue;
+    public String getTarget() {
+        return target;
     }
 
-    public void setGlobalValue(GlobalValue globalValue) {
-        this.globalValue = globalValue;
+    public void setTarget(String target) {
+        this.target = target;
     }
 
     public int getDataType() {
