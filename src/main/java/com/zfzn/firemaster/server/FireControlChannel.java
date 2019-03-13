@@ -3,6 +3,7 @@ package com.zfzn.firemaster.server;
 import com.zfzn.firemaster.domain.down.IssuedCommand;
 import com.zfzn.firemaster.factory.EncoderObject;
 import com.zfzn.firemaster.factory.down.PackEncoder;
+import com.zfzn.firemaster.manager.FireDataStorage;
 import com.zfzn.firemaster.service.impl.MessageSender;
 import io.netty.buffer.ByteBuf;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,18 +30,20 @@ public class FireControlChannel {
     @Value("${fire-control.server.port}")
     private int port;
     private final MessageSender messageSender;
+    private final FireDataStorage storage;
 
     @Autowired
-    public FireControlChannel(PackEncoder packEncoder, MessageSender messageSender) {
+    public FireControlChannel(PackEncoder packEncoder, MessageSender messageSender, FireDataStorage storage) {
         this.packEncoder = packEncoder;
         this.messageSender = messageSender;
+        this.storage = storage;
     }
 
     @PostConstruct
     private void init() {
         server = ALLOW_START ? new FireControlServer(port) : null;
         if (ALLOW_START) {
-            server.start(messageSender);
+            server.start(messageSender,storage);
         }
     }
 

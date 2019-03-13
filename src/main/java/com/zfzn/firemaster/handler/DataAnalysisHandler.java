@@ -4,6 +4,7 @@ import com.zfzn.firemaster.domain.AppDataUnit;
 import com.zfzn.firemaster.domain.TcpDataPack;
 import com.zfzn.firemaster.factory.InfoBodyAnalysis;
 import com.zfzn.firemaster.factory.ParseObject;
+import com.zfzn.firemaster.manager.FireDataStorage;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -26,6 +27,12 @@ import static io.netty.util.CharsetUtil.UTF_8;
 public class DataAnalysisHandler extends ChannelInboundHandlerAdapter {
     private final Logger _logger = LoggerFactory.getLogger(DataAnalysisHandler.class);
 
+    private final FireDataStorage storage;
+
+    public DataAnalysisHandler(FireDataStorage storage) {
+        this.storage = storage;
+    }
+
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         TcpDataPack dataPack = (TcpDataPack) msg;
@@ -43,10 +50,11 @@ public class DataAnalysisHandler extends ChannelInboundHandlerAdapter {
 
         // 应用数据单元处理
         ParseObject parseObj = InfoBodyAnalysis.createAnalysisBody(dataType);
-        List<Object> list = parseObj.analyze(dataSegment, dataUnit.getCount());
+        List<AppDataItem> list = parseObj.analyze(dataSegment, dataUnit.getCount());
         dataUnit.setList(list);
 
         ReferenceCountUtil.release(msg);
-        // TODO 执行存储或发送命令
+        // 执行存储或发送命令
+        storage.storage(dataUnit);
     }
 }

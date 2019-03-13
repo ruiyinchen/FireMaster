@@ -114,4 +114,25 @@
         gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
         WHERE id = #{id,jdbcType=INTEGER}
     </update>
+
+
+    <select id="checkDitto" parameterType="java.util.List" resultType="java.lang.Integer">
+        SELECT component_addr
+        FROM info_component
+        WHERE component_addr IN
+        <foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+            #{item.componentAddr,jdbcType=INTEGER}
+        </foreach>
+    </select>
+
+    <insert id="insertAll" parameterType="java.util.List">
+        INSERT INTO info_component
+        (sys_type, sys_addr, component_type, component_addr)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.sysType,jdbcType=INTEGER}, #{item.sysAddr,jdbcType=INTEGER},
+            #{item.componentType,jdbcType=INTEGER}, #{item.componentAddr,jdbcType=INTEGER}
+            )
+        </foreach>
+    </insert>
 </mapper>

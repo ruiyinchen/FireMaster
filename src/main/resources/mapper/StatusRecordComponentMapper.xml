@@ -185,4 +185,18 @@
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP}
         WHERE id = #{id,jdbcType=BIGINT}
     </update>
+
+    <insert id="insertAll" parameterType="java.util.List">
+        INSERT INTO status_record_component
+        (id, addr_code, normal_run, fire_alarm, breakdown, shield, supervision, started, feedback,
+        delay, electricity_failure, explanation, gmt_create)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id,jdbcType=BIGINT}, #{item.addrCode,jdbcType=INTEGER}, #{item.normalRun,jdbcType=TINYINT},
+            #{item.fireAlarm,jdbcType=TINYINT}, #{item.breakdown,jdbcType=TINYINT}, #{item.shield,jdbcType=TINYINT},
+            #{item.supervision,jdbcType=TINYINT}, #{item.started,jdbcType=TINYINT}, #{item.feedback,jdbcType=TINYINT},
+            #{item.delay,jdbcType=TINYINT}, #{item.electricityFailure,jdbcType=TINYINT}, #{item.explanation,jdbcType=VARCHAR},
+            #{item.gmtCreate,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
 </mapper>

@@ -47,7 +47,7 @@ logging:
 # mybatis
 mybatis:
   mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.zfzn.firemaster.domain.en
+  type-aliases-package: com.zfzn.firemaster.domain.od
 pagehelper:
   helper-dialect: mysql
   params: count=countSql

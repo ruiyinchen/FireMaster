@@ -16,5 +16,5 @@ public interface ParseObject {
      * @param buf
      * @return
      */
-    List<Object> analyze(ByteBuf buf,int  objNum);
+    List<Object> analyze(ByteBuf buf, int  objNum);
 }

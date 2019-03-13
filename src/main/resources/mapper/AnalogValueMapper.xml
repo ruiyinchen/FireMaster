@@ -90,4 +90,14 @@
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP}
         WHERE id = #{id,jdbcType=BIGINT}
     </update>
+
+    <insert id="insertAll" parameterType="java.util.List">
+        INSERT INTO analog_value
+        (id, addr_code, analog_type, analog_quantity, gmt_create)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id,jdbcType=BIGINT}, #{item.addrCode,jdbcType=INTEGER}, #{item.analogType,jdbcType=INTEGER},
+            #{item.analogQuantity,jdbcType=INTEGER}, #{item.gmtCreate,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
 </mapper>

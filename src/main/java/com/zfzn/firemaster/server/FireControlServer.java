@@ -6,6 +6,7 @@ import com.zfzn.firemaster.handler.ActiveInboundHandler;
 import com.zfzn.firemaster.handler.DataAnalysisHandler;
 import com.zfzn.firemaster.handler.OriginalInboundHandler;
 import com.zfzn.firemaster.handler.TransmitOutBoundHandler;
+import com.zfzn.firemaster.manager.FireDataStorage;
 import com.zfzn.firemaster.service.PackMessageSender;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;
@@ -53,14 +54,14 @@ public class FireControlServer {
     /**
      * 启动服务器
      */
-    public void start(PackMessageSender messageSender) {
+    public void start(PackMessageSender messageSender, FireDataStorage storage) {
         ServerBootstrap bootstrap = new ServerBootstrap();
 
         ActiveInboundHandler activeHandler = new ActiveInboundHandler(channelContainer);
         FireEncoder encoder = new FireEncoder();
         FireDecoder decoder = new FireDecoder();
         OriginalInboundHandler originalInboundHandler = new OriginalInboundHandler(messageSender);
-        DataAnalysisHandler analysisHandler = new DataAnalysisHandler();
+        DataAnalysisHandler analysisHandler = new DataAnalysisHandler(storage);
         TransmitOutBoundHandler transmitHandler = new TransmitOutBoundHandler();
 
         bootstrap.group(boss, worker)
