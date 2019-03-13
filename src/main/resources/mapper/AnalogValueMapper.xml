@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfzn.firemaster.dao.AnalogValueMapper">
+    <resultMap id="BaseResultMap" type="com.zfzn.firemaster.domain.od.AnalogValue">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="addr_code" jdbcType="INTEGER" property="addrCode"/>
+        <result column="analog_type" jdbcType="INTEGER" property="analogType"/>
+        <result column="analog_quantity" jdbcType="INTEGER" property="analogQuantity"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, addr_code, analog_type, analog_quantity, gmt_create
+    </sql>
+    <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM analog_value
+        WHERE id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM analog_value
+        WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.zfzn.firemaster.domain.od.AnalogValue">
+        INSERT INTO analog_value (id, addr_code, analog_type,
+        analog_quantity, gmt_create)
+        VALUES (#{id,jdbcType=BIGINT}, #{addrCode,jdbcType=INTEGER}, #{analogType,jdbcType=INTEGER},
+        #{analogQuantity,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.zfzn.firemaster.domain.od.AnalogValue">
+        INSERT INTO analog_value
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="addrCode != null">
+                addr_code,
+            </if>
+            <if test="analogType != null">
+                analog_type,
+            </if>
+            <if test="analogQuantity != null">
+                analog_quantity,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="addrCode != null">
+                #{addrCode,jdbcType=INTEGER},
+            </if>
+            <if test="analogType != null">
+                #{analogType,jdbcType=INTEGER},
+            </if>
+            <if test="analogQuantity != null">
+                #{analogQuantity,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByIdSelective" parameterType="com.zfzn.firemaster.domain.od.AnalogValue">
+        update analog_value
+        <set>
+            <if test="addrCode != null">
+                addr_code = #{addrCode,jdbcType=INTEGER},
+            </if>
+            <if test="analogType != null">
+                analog_type = #{analogType,jdbcType=INTEGER},
+            </if>
+            <if test="analogQuantity != null">
+                analog_quantity = #{analogQuantity,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateById" parameterType="com.zfzn.firemaster.domain.od.AnalogValue">
+        UPDATE analog_value
+        SET addr_code = #{addrCode,jdbcType=INTEGER},
+        analog_type = #{analogType,jdbcType=INTEGER},
+        analog_quantity = #{analogQuantity,jdbcType=INTEGER}
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP}
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

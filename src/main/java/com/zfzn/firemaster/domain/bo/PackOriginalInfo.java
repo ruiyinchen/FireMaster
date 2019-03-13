@@ -1,6 +1,6 @@
 package com.zfzn.firemaster.domain.bo;
 
-import com.zfzn.firemaster.domain.en.PackOriginal;
+import com.zfzn.firemaster.domain.od.PackOriginal;
 
 /**
  * PackOriginal 包装类

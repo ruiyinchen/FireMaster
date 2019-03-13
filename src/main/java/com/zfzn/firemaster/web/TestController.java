@@ -65,7 +65,7 @@ public class TestController {
     @ApiOperation(value = "服务器消息下发")
     @RequestMapping(value = "/send",method = RequestMethod.POST)
     public Object send(@RequestParam String msg){
-        controlChannel.send(msg);
+//        controlChannel.send(msg);
         return "OK";
     }
 }

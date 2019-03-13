@@ -1,6 +1,6 @@
 package com.zfzn.firemaster.dao;
 
-import com.zfzn.firemaster.domain.en.PackOriginal;
+import com.zfzn.firemaster.domain.od.PackOriginal;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 

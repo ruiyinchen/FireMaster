@@ -11,21 +11,24 @@
  Target Server Version : 50713
  File Encoding         : 65001
 
- Date: 11/03/2019 08:47:24
+ Date: 13/03/2019 15:22:23
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for alarm_record
+-- Table structure for analog_value
 -- ----------------------------
-DROP TABLE IF EXISTS `alarm_record`;
-CREATE TABLE `alarm_record`  (
-  `id` bigint(20) NOT NULL COMMENT '主键',
-  `addr_code` char(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '设备地址码',
+DROP TABLE IF EXISTS `analog_value`;
+CREATE TABLE `analog_value`  (
+  `id` bigint(20) NOT NULL COMMENT '表主键',
+  `addr_code` int(11) NULL DEFAULT NULL COMMENT '部件地址码',
+  `analog_type` int(11) NULL DEFAULT NULL COMMENT '模拟量类型',
+  `analog_quantity` int(11) NULL DEFAULT NULL COMMENT '模拟量值',
+  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '记录时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '模拟量值' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for equipment_info
@@ -13624,6 +13627,21 @@ INSERT INTO `equipment_info` VALUES (128029, '排烟风机M', NULL, '北设备�
 INSERT INTO `equipment_info` VALUES (128030, '排烟风机M', NULL, '北设备用房北设备用房走道', '北设备用房', NULL, '北设备用房走道', '北设备用房走道', NULL);
 
 -- ----------------------------
+-- Table structure for info_component
+-- ----------------------------
+DROP TABLE IF EXISTS `info_component`;
+CREATE TABLE `info_component`  (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '表主键',
+  `sys_type` int(11) NULL DEFAULT NULL COMMENT '系统类型',
+  `sys_addr` int(11) NULL DEFAULT NULL COMMENT '系统地址',
+  `component_type` int(11) NULL DEFAULT NULL COMMENT '部件类型',
+  `component_addr` int(11) NULL DEFAULT NULL COMMENT '部件地址',
+  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '记录时间',
+  `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部件信息表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
 -- Table structure for pack_original
 -- ----------------------------
 DROP TABLE IF EXISTS `pack_original`;
@@ -13634,7 +13652,7 @@ CREATE TABLE `pack_original`  (
   `gmt_create` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录创建时间',
   `memo` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '预留',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 39 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '接收客户端包存储' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '接收客户端包存储' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pack_original
@@ -13659,6 +13677,57 @@ INSERT INTO `pack_original` VALUES (35, '127.0.0.1:3969', '4040010001010D020E160
 INSERT INTO `pack_original` VALUES (36, '127.0.0.1:3969', '40400100010105210E1606110100000000000000000000003000020201C906120101010005000000000000000000000000000000000000202020202020202020202020202005290E160611AC2323', '2019-03-05 16:06:05', NULL);
 INSERT INTO `pack_original` VALUES (37, '127.0.0.1:4204', '40400100010105210E1606110100000000000000000000003000020201C906120101010005000000000000000000000000000000000000202020202020202020202020202005290E160611AC2323', '2019-03-05 16:10:20', NULL);
 INSERT INTO `pack_original` VALUES (38, '127.0.0.1:4204', '40400100010105210E1606110100000000000000000000003000020201C906120101010005000000000000000000000000000000000000202020202020202020202020202005290E160611AC2323', '2019-03-05 16:11:08', NULL);
+INSERT INTO `pack_original` VALUES (39, '127.0.0.1:13482', '4040020001010A13110B0313010000000000FFFF000000000A0002180104000A13110B0313CA2323', '2019-03-12 18:35:20', NULL);
+INSERT INTO `pack_original` VALUES (40, '127.0.0.1:13627', '4040020001010A13110B0313010000000000FFFF000000000A0002180104000A13110B0313CA2323', '2019-03-12 18:36:29', NULL);
+INSERT INTO `pack_original` VALUES (41, '127.0.0.1:13770', '4040020001010A13110B0313010000000000FFFF000000000A0002180104000A13110B0313CA2323', '2019-03-12 18:37:36', NULL);
+INSERT INTO `pack_original` VALUES (42, '127.0.0.1:13968', '4040020001010A13110B0313010000000000FFFF000000000A0002180104000A13110B0313CA2323', '2019-03-12 18:41:04', NULL);
+
+-- ----------------------------
+-- Table structure for status_record_component
+-- ----------------------------
+DROP TABLE IF EXISTS `status_record_component`;
+CREATE TABLE `status_record_component`  (
+  `id` bigint(20) NOT NULL COMMENT '主键',
+  `addr_code` int(11) NULL DEFAULT NULL COMMENT '设备地址码',
+  `normal_run` tinyint(4) NULL DEFAULT NULL COMMENT '部件状态，1：正常运行，2：测试运行',
+  `fire_alarm` tinyint(4) NULL DEFAULT NULL COMMENT '部件状态，1：火警，2：无火警',
+  `breakdown` tinyint(4) NULL DEFAULT NULL COMMENT '部件状态，1：故障，2：无故障',
+  `shield` tinyint(4) NULL DEFAULT NULL COMMENT '部件状态，1：屏蔽，2：无屏蔽',
+  `supervision` tinyint(4) NULL DEFAULT NULL COMMENT '部件状态，1：监管，2：五监管',
+  `started` tinyint(4) NULL DEFAULT NULL COMMENT '部件状态，1：启动（开启），2：停止（关闭）',
+  `feedback` tinyint(4) NULL DEFAULT NULL COMMENT '部件状态，1：反馈，2：无反馈',
+  `delay` tinyint(4) NULL DEFAULT NULL COMMENT '部件状态，1：延时状态，2：未延时',
+  `electricity_failure` tinyint(4) NULL DEFAULT NULL COMMENT '部件状态，1：电源故障，2：电源正常',
+  `explanation` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '部件说明',
+  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '记录创建时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部件状态记录' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for status_record_system
+-- ----------------------------
+DROP TABLE IF EXISTS `status_record_system`;
+CREATE TABLE `status_record_system`  (
+  `id` bigint(20) NOT NULL COMMENT '主键',
+  `sys_code` int(11) NULL DEFAULT NULL COMMENT '系统地址',
+  `sys_type` int(11) NULL DEFAULT NULL COMMENT '系统类型',
+  `normal_run` tinyint(4) NULL DEFAULT NULL COMMENT '系统状态，1：正常运行，2：测试运行',
+  `fire_alarm` tinyint(4) NULL DEFAULT NULL COMMENT '系统状态，1：火警，2：无火警',
+  `breakdown` tinyint(4) NULL DEFAULT NULL COMMENT '系统状态，1：故障，2：无故障',
+  `shield` tinyint(4) NULL DEFAULT NULL COMMENT '系统状态，1：屏蔽，2：无屏蔽',
+  `supervision` tinyint(4) NULL DEFAULT NULL COMMENT '系统状态，1：监管，2：五监管',
+  `started` tinyint(4) NULL DEFAULT NULL COMMENT '系统状态，1：启动（开启），2：停止（关闭）',
+  `feedback` tinyint(4) NULL DEFAULT NULL COMMENT '系统状态，1：反馈，2：无反馈',
+  `delay` tinyint(4) NULL DEFAULT NULL COMMENT '系统状态，1：延时状态，2：未延时',
+  `main_power_failure` tinyint(4) NULL DEFAULT NULL COMMENT '系统状态，1：主电源故障，2：主电源正常',
+  `backup_power_failure` tinyint(4) NULL DEFAULT NULL COMMENT '系统状态，1：备电源故障，2：备电源正常',
+  `bus_failure` tinyint(4) NULL DEFAULT NULL COMMENT '系统状态，1：总线故障，2：总线正常',
+  `manual_status` tinyint(4) NULL DEFAULT NULL COMMENT '系统状态，1：手动状态，2：自动状态',
+  `deploy_change` tinyint(4) NULL DEFAULT NULL COMMENT '系统状态，1：配置改变，2：无配置改变',
+  `reset` tinyint(4) NULL DEFAULT NULL COMMENT '系统状态，1：复位，2：正常',
+  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '记录时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统状态记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for sys_dict

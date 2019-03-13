@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfzn.firemaster.dao.InfoComponentMapper">
+    <resultMap id="BaseResultMap" type="com.zfzn.firemaster.domain.od.InfoComponent">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="sys_type" jdbcType="INTEGER" property="sysType"/>
+        <result column="sys_addr" jdbcType="INTEGER" property="sysAddr"/>
+        <result column="component_type" jdbcType="INTEGER" property="componentType"/>
+        <result column="component_addr" jdbcType="INTEGER" property="componentAddr"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, sys_type, sys_addr, component_type, component_addr, gmt_create, gmt_modified
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM info_component
+        WHERE id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM info_component
+        WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.zfzn.firemaster.domain.od.InfoComponent">
+        INSERT INTO info_component (id, sys_type, sys_addr,
+        component_type, component_addr, gmt_create,
+        gmt_modified)
+        VALUES (#{id,jdbcType=INTEGER}, #{sysType,jdbcType=INTEGER}, #{sysAddr,jdbcType=INTEGER},
+        #{componentType,jdbcType=INTEGER}, #{componentAddr,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP},
+        #{gmtModified,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.zfzn.firemaster.domain.od.InfoComponent">
+        INSERT INTO info_component
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="sysType != null">
+                sys_type,
+            </if>
+            <if test="sysAddr != null">
+                sys_addr,
+            </if>
+            <if test="componentType != null">
+                component_type,
+            </if>
+            <if test="componentAddr != null">
+                component_addr,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="sysType != null">
+                #{sysType,jdbcType=INTEGER},
+            </if>
+            <if test="sysAddr != null">
+                #{sysAddr,jdbcType=INTEGER},
+            </if>
+            <if test="componentType != null">
+                #{componentType,jdbcType=INTEGER},
+            </if>
+            <if test="componentAddr != null">
+                #{componentAddr,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zfzn.firemaster.domain.od.InfoComponent">
+        UPDATE info_component
+        <set>
+            <if test="sysType != null">
+                sys_type = #{sysType,jdbcType=INTEGER},
+            </if>
+            <if test="sysAddr != null">
+                sys_addr = #{sysAddr,jdbcType=INTEGER},
+            </if>
+            <if test="componentType != null">
+                component_type = #{componentType,jdbcType=INTEGER},
+            </if>
+            <if test="componentAddr != null">
+                component_addr = #{componentAddr,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.zfzn.firemaster.domain.od.InfoComponent">
+        UPDATE info_component
+        SET sys_type = #{sysType,jdbcType=INTEGER},
+        sys_addr = #{sysAddr,jdbcType=INTEGER},
+        component_type = #{componentType,jdbcType=INTEGER},
+        component_addr = #{componentAddr,jdbcType=INTEGER},
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

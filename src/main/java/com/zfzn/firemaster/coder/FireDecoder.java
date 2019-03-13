@@ -5,8 +5,10 @@ import com.zfzn.firemaster.factory.MsgAnswer;
 import com.zfzn.firemaster.util.Checksum;
 import com.zfzn.firemaster.util.DateUtils;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
+import io.netty.util.ReferenceCountUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +26,10 @@ public class FireDecoder extends ByteToMessageDecoder {
     private final Logger _logger = LoggerFactory.getLogger(FireDecoder.class);
 
     @Override
-    protected void decode(ChannelHandlerContext ctx, ByteBuf byteBuf, List<Object> list) throws Exception {
+    protected void decode(ChannelHandlerContext ctx, ByteBuf byteBuf0, List<Object> list) throws Exception {
+        ByteBuf byteBuf= Unpooled.copiedBuffer(byteBuf0.toString(UTF_8).replace(" ","").getBytes(UTF_8));
+        byteBuf0.readBytes(byteBuf0.readableBytes());
+
         if (new Checksum(byteBuf).passing()) {
             ctx.writeAndFlush(new MsgAnswer(byteBuf).define());
 

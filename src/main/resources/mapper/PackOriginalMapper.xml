@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zfzn.firemaster.dao.PackOriginalDao">
-    <resultMap id="BaseResultMap" type="com.zfzn.firemaster.domain.en.PackOriginal">
+    <resultMap id="BaseResultMap" type="com.zfzn.firemaster.domain.od.PackOriginal">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="host" jdbcType="CHAR" property="host"/>
         <result column="content" jdbcType="VARCHAR" property="content"/>
@@ -21,13 +21,13 @@
         DELETE FROM pack_original
         WHERE id = #{id,jdbcType=BIGINT}
     </delete>
-    <insert id="insert" parameterType="com.zfzn.firemaster.domain.en.PackOriginal">
+    <insert id="insert" parameterType="com.zfzn.firemaster.domain.od.PackOriginal">
         INSERT INTO pack_original (id, host, content, 
         memo)
         VALUES (#{id,jdbcType=BIGINT}, #{host,jdbcType=CHAR}, #{content,jdbcType=VARCHAR}, 
         #{memo,jdbcType=VARCHAR})
     </insert>
-    <insert id="insertSelective" parameterType="com.zfzn.firemaster.domain.en.PackOriginal">
+    <insert id="insertSelective" parameterType="com.zfzn.firemaster.domain.od.PackOriginal">
         INSERT INTO pack_original
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -64,7 +64,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByIdSelective" parameterType="com.zfzn.firemaster.domain.en.PackOriginal">
+    <update id="updateByIdSelective" parameterType="com.zfzn.firemaster.domain.od.PackOriginal">
         UPDATE pack_original
         <set>
             <if test="host != null">
@@ -79,7 +79,7 @@
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
-    <update id="updateById" parameterType="com.zfzn.firemaster.domain.en.PackOriginal">
+    <update id="updateById" parameterType="com.zfzn.firemaster.domain.od.PackOriginal">
         UPDATE pack_original
         SET host = #{host,jdbcType=CHAR},
         content = #{content,jdbcType=VARCHAR},
