@@ -24,36 +24,30 @@ public class FireFacilityComponentValueParse implements ParseObject {
         List<Object> list = new LinkedList<>();
         for (int i = 0; i < objNum; i++) {
             // 系统类型
-            int systemType = Integer.parseInt(buf.readBytes(2).toString(UTF_8), 16);
+            int systemType = buf.readUnsignedByte();
             // 系统地址
-            int systemAddr = Integer.parseInt(buf.readBytes(2).toString(UTF_8), 16);
+            int systemAddr = buf.readUnsignedByte();
             // 部件类型
-            int partType = Integer.parseInt(buf.readBytes(2).toString(UTF_8), 16);
-            // 部件地址
-            int addrCode = 0;
-            int partArea = 0;
-            int partPlace = 0;
-            {
-                // 位号
-                String low = buf.readBytes(2).toString(UTF_8);
-                String high = buf.readBytes(2).toString(UTF_8);
-                partPlace = Integer.parseInt(high + low, 16);
-                // 区号
-                String low1 = buf.readBytes(2).toString(UTF_8);
-                String high1 = buf.readBytes(2).toString(UTF_8);
-                partArea = Integer.parseInt(high1 + low1, 16);
+            int partType = buf.readUnsignedByte();
 
-                addrCode = Integer.parseInt(high1 + low1 + high + low, 16);
-            }
+            // 部件地址
+            byte[] ac = new byte[4];
+            buf.readBytes(ac);
+            // 位号
+            int partPlace = (ac[1] << 8) & 0xFF | ac[0] & 0xFF;
+            // 区号
+            int partArea = (ac[3] << 8) & 0xFF | ac[2] & 0xFF;
+            // 地址码
+            int addrCode = (ac[3] << 24) & 0xFFFFFF | ac[2] << 16 & 0xFFFFFF | (ac[1] << 8) & 0xFFFFFF | ac[0] & 0xFFFFFF;
+
             // 模拟量类型
-            int valueType = Integer.parseInt(buf.readBytes(2).toString(UTF_8), 16);
+            int valueType = buf.readUnsignedByte();
+
             // 模拟值
-            int value = 0;
-            {
-                String low = buf.readBytes(2).toString(UTF_8);
-                String high = buf.readBytes(2).toString(UTF_8);
-                value = Integer.parseInt(high + low, 16);
-            }
+            byte[] valueArr=new byte[2];
+            buf.readBytes(valueArr);
+            int value = (valueArr[1] << 8) & 0xFF | valueArr[0] & 0xFF;
+
             // 状态发生时间
             Date triggerTime = DateUtils.bufToDate(buf);
 

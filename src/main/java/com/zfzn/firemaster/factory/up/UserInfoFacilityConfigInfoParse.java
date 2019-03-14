@@ -24,9 +24,9 @@ public class UserInfoFacilityConfigInfoParse implements ParseObject {
         List<Object> list = new LinkedList<>();
         for (int i = 0; i < objNum; i++) {
             // 系统说明长度
-            int legendLength = Integer.parseInt(buf.readBytes(2).toString(UTF_8), 16);
+            int legendLength = buf.readUnsignedByte();
             // 系统说明
-            String legend = buf.readBytes(2 * legendLength).toString(Charset.forName("GB18030"));
+            String legend = buf.readBytes(legendLength).toString(Charset.forName("GB18030"));
 
             // 状态发生时间
             Date triggerTime = DateUtils.bufToDate(buf);

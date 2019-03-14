@@ -2,6 +2,7 @@ package com.zfzn.firemaster.util;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.buffer.UnpooledByteBufAllocator;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -23,21 +24,14 @@ public class DateUtils {
      * @return
      */
     public static Date bufToDate(ByteBuf byteBuf) {
-        // 此处不再使用 valueOf 方法，直接使用 parseInt 以节省包装类的开销
-        int second = Integer.parseInt(byteBuf.readBytes(2).toString(UTF_8), 16);
-        int minute = Integer.parseInt(byteBuf.readBytes(2).toString(UTF_8), 16);
-        int hour = Integer.parseInt(byteBuf.readBytes(2).toString(UTF_8), 16);
-        int day = Integer.parseInt(byteBuf.readBytes(2).toString(UTF_8), 16);
-        int month = Integer.parseInt(byteBuf.readBytes(2).toString(UTF_8), 16)-1;
-        int year = 2000 + Integer.parseInt(byteBuf.readBytes(2).toString(UTF_8), 16);
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.MILLISECOND, 0);
-        calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, month - 1);
-        calendar.set(Calendar.DAY_OF_MONTH, day);
-        calendar.set(Calendar.HOUR_OF_DAY, hour);
-        calendar.set(Calendar.MINUTE, minute);
-        calendar.set(Calendar.SECOND, second);
+        calendar.set(Calendar.SECOND, byteBuf.readUnsignedByte());
+        calendar.set(Calendar.MINUTE, byteBuf.readUnsignedByte());
+        calendar.set(Calendar.HOUR_OF_DAY, byteBuf.readUnsignedByte());
+        calendar.set(Calendar.DAY_OF_MONTH, byteBuf.readUnsignedByte());
+        calendar.set(Calendar.MONTH, byteBuf.readUnsignedByte() - 1);
+        calendar.set(Calendar.YEAR, 2000+byteBuf.readUnsignedByte());
         return calendar.getTime();
     }
 
@@ -60,16 +54,9 @@ public class DateUtils {
                 calendar.get(Calendar.YEAR) - 2000
         };
 
-        ByteBuf byteBuf= Unpooled.copiedBuffer("",UTF_8);
+        ByteBuf byteBuf= UnpooledByteBufAllocator.DEFAULT.buffer() ;
         for (int n:dateInt){
-            if(n<16){
-                byteBuf.writeByte(48);
-            }
-            char[] arr = Integer.toHexString(n).toCharArray();
-            for (char anArr : arr) {
-                int m = (int) anArr;
-                byteBuf.writeByte(m);
-            }
+            byteBuf.writeByte(n);
         }
         return byteBuf;
     }

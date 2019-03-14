@@ -25,22 +25,19 @@ public class FireFacilitySystemStatusParse implements ParseObject {
         List<Object> list = new LinkedList<>();
         for (int i = 0; i < objNum; i++) {
             // 系统类型
-            int systemType = Integer.parseInt(buf.readBytes(2).toString(UTF_8), 16);
+            int systemType = buf.readUnsignedByte();
             // 系统地址
-            int systemAddr = Integer.parseInt(buf.readBytes(2).toString(UTF_8), 16);
-            // 系统状态
-            String sysStatusStr = buf.readBytes(4).toString(UTF_8);
-            byte[] sysStatus=null;
-            try {
-                sysStatus= CommonUtils.hexToBin(sysStatusStr);
+            int systemAddr = buf.readUnsignedByte();
 
-            } catch (DataFormatException e) {
-                e.printStackTrace();
-            }
+            // 系统状态
+            byte[] statusArr = new byte[2];
+            buf.readBytes(statusArr);
+            byte[] status = CommonUtils.byteArrayTo8BinArray(statusArr);
+
             // 状态发生时间
             Date triggerTime=DateUtils.bufToDate(buf);
 
-            FireFacilitySystemStatus infoObj=new FireFacilitySystemStatus(systemType,systemAddr,sysStatus,triggerTime);
+            FireFacilitySystemStatus infoObj=new FireFacilitySystemStatus(systemType,systemAddr,status,triggerTime);
             list.add(infoObj);
         }
         return list;

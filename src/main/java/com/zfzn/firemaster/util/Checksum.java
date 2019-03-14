@@ -22,11 +22,8 @@ public class Checksum {
      * 计算校验和
      */
     private void capture() {
-        int checkIndex = byteBuf.readableBytes() - 6;
-        this.checksum = Integer.parseInt(byteBuf.copy(checkIndex, 2).toString(UTF_8), 16);
-
-        int length = byteBuf.readableBytes() - 10;
-        this.byteBuf = byteBuf.copy(4, length);
+        int length = byteBuf.readableBytes() - 4;
+        this.byteBuf = byteBuf.copy(2, length);
     }
 
     /**
@@ -37,9 +34,10 @@ public class Checksum {
 
     private int calc() {
         int sum = 0;
-        while (byteBuf.readableBytes() >= 2) {
-            sum += Integer.parseInt(byteBuf.readBytes(2).toString(UTF_8), 16);
+        while (byteBuf.readableBytes() > 1) {
+            sum += byteBuf.readUnsignedByte();
         }
+        this.checksum=byteBuf.readUnsignedByte();
         return sum;
     }
 

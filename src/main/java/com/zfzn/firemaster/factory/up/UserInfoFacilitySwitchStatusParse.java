@@ -9,8 +9,6 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import static io.netty.util.CharsetUtil.UTF_8;
-
 /**
  * 用户传输装置开关量状态 解析
  *
@@ -22,19 +20,16 @@ public class UserInfoFacilitySwitchStatusParse implements ParseObject {
     public List<Object> analyze(ByteBuf buf, int objNum) {
         List<Object> list = new LinkedList<>();
         for (int i = 0; i < objNum; i++) {
-            int systemAddr;
-            {
-                // 系统地址
-                String low = buf.readBytes(2).toString(UTF_8);
-                String high = buf.readBytes(2).toString(UTF_8);
-                systemAddr = Integer.parseInt(high + low, 16);
-            }
+            // 系统地址
+            byte[] sysArr=new byte[2];
+            buf.readBytes(sysArr);
+            int systemAddr = (sysArr[1] << 8) & 0xFF | sysArr[0] & 0xFF;
 
             buf.readBytes(8);
             // 开关量位置
-            int switchPosition = Integer.parseInt(buf.readBytes(2).toString(UTF_8), 16);
+            int switchPosition = buf.readUnsignedByte();
             // 状态
-            int status = Integer.parseInt(buf.readBytes(2).toString(UTF_8), 16);
+            int status = buf.readUnsignedByte();
 
             buf.readBytes(4);
             // 状态发生时间

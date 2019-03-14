@@ -2,6 +2,8 @@ package com.zfzn.firemaster.domain.bo;
 
 import com.zfzn.firemaster.domain.od.PackOriginal;
 
+import java.util.Arrays;
+
 /**
  * PackOriginal 包装类
  *
@@ -22,6 +24,6 @@ public class PackOriginalInfo extends PackOriginal {
 
     @Override
     public String getContent() {
-        return packInfo.getMessage();
+        return Arrays.toString(packInfo.getMessage());
     }
 }

@@ -25,11 +25,11 @@ public class GlobalValue implements Serializable {
     /**
      * 监控中心地址
      */
-    private String monitorCenterAddr;
+    private byte[] monitorCenterAddr;
     /**
      * 用户信息传输装置地址
      */
-    private String transmissionDeviceAddr;
+    private byte[] transmissionDeviceAddr;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -51,19 +51,19 @@ public class GlobalValue implements Serializable {
         this.userVersionNo = userVersionNo;
     }
 
-    public String getMonitorCenterAddr() {
+    public byte[] getMonitorCenterAddr() {
         return monitorCenterAddr;
     }
 
-    public void setMonitorCenterAddr(String monitorCenterAddr) {
+    public void setMonitorCenterAddr(byte[] monitorCenterAddr) {
         this.monitorCenterAddr = monitorCenterAddr;
     }
 
-    public String getTransmissionDeviceAddr() {
+    public byte[] getTransmissionDeviceAddr() {
         return transmissionDeviceAddr;
     }
 
-    public void setTransmissionDeviceAddr(String transmissionDeviceAddr) {
+    public void setTransmissionDeviceAddr(byte[] transmissionDeviceAddr) {
         this.transmissionDeviceAddr = transmissionDeviceAddr;
     }
 }

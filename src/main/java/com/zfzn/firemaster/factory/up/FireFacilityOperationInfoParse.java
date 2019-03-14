@@ -25,21 +25,16 @@ public class FireFacilityOperationInfoParse implements ParseObject {
         List<Object> list = new LinkedList<>();
         for (int i = 0; i < objNum; i++) {
             // 系统类型
-            int systemType = Integer.parseInt(buf.readBytes(2).toString(UTF_8), 16);
+            int systemType = buf.readUnsignedByte();
             // 系统地址
-            int systemAddr = Integer.parseInt(buf.readBytes(2).toString(UTF_8), 16);
+            int systemAddr = buf.readUnsignedByte();
 
             // 操作标志
-            String operationalSignStr = buf.readBytes(2).toString(UTF_8);
-            byte[] operationalSign = null;
-            try {
-                operationalSign = CommonUtils.hexToBin(operationalSignStr);
-            } catch (DataFormatException e) {
-                e.printStackTrace();
-            }
+            short operationalSignValue = buf.readUnsignedByte();
+            byte[] operationalSign = CommonUtils.intTo8BinArray(operationalSignValue);
 
             // 操作员编号
-            int operatorNo = Integer.parseInt(buf.readBytes(2).toString(UTF_8), 16);
+            int operatorNo = buf.readUnsignedByte();
             // 状态发生时间
             Date triggerTime = DateUtils.bufToDate(buf);
 

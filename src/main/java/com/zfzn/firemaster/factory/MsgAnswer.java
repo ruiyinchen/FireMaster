@@ -1,12 +1,9 @@
 package com.zfzn.firemaster.factory;
 
-import com.zfzn.firemaster.domain.ov.Packet;
 import com.zfzn.firemaster.util.DateUtils;
 import io.netty.buffer.ByteBuf;
 
 import java.util.Date;
-
-import static io.netty.util.CharsetUtil.UTF_8;
 
 /**
  * 消息回答
@@ -18,7 +15,7 @@ public class MsgAnswer {
     private ByteBuf byteBuf;
 
     public MsgAnswer(ByteBuf byteBuf) {
-        this.byteBuf = byteBuf.copy(0, 48);
+        this.byteBuf = byteBuf.copy(0, 24);
     }
 
     /**
@@ -26,10 +23,11 @@ public class MsgAnswer {
      */
     public ByteBuf define() {
         ByteBuf res = answer(byteBuf);
-        res.writeBytes(new byte[]{48, 48, 48, 48, 48, 51});
+        // 应用数据单元长度、确认命令
+        res.writeBytes(new byte[]{0, 0, 3});
         sum(res);
         cutoff(res);
-        return new Packet(res).packet();
+        return res;
     }
 
     /**
@@ -37,10 +35,10 @@ public class MsgAnswer {
      */
     public ByteBuf negative() {
         ByteBuf res = answer(byteBuf);
-        res.writeBytes(new byte[]{48, 48, 48, 48, 48, 54});
+        res.writeBytes(new byte[]{0, 0, 6});
         sum(res);
         cutoff(res);
-        return new Packet(res).packet();
+        return res;
     }
 
     /**
@@ -50,10 +48,10 @@ public class MsgAnswer {
      * @return
      */
     private ByteBuf answer(ByteBuf byteBuf) {
-        ByteBuf res = byteBuf.copy(0, 12);
+        ByteBuf res = byteBuf.copy(0, 6);
         res.writeBytes(DateUtils.dateToBuf(new Date()));
-        ByteBuf addr1 = byteBuf.copy(24, 12);
-        ByteBuf addr2 = byteBuf.copy(36, 12);
+        ByteBuf addr1 = byteBuf.copy(12, 6);
+        ByteBuf addr2 = byteBuf.copy(18, 6);
         return res.writeBytes(addr2).writeBytes(addr1);
     }
 
@@ -64,14 +62,9 @@ public class MsgAnswer {
      */
     private void sum(ByteBuf byteBuf) {
         int len = byteBuf.readableBytes();
-        int sum = countSum(byteBuf.copy(4, len - 4));
+        int sum = countSum(byteBuf.copy(2, len - 2));
         sum = sum % 256;
-        String sumHex = Integer.toString(sum, 16);
-        char[] arr = sumHex.toCharArray();
-        for (char anArr : arr) {
-            int n = (int) anArr;
-            byteBuf.writeByte(n);
-        }
+        byteBuf.writeByte(sum);
     }
 
     /**
@@ -82,8 +75,8 @@ public class MsgAnswer {
      */
     private int countSum(ByteBuf buf) {
         int sum = 0;
-        while (buf.readableBytes() >= 2) {
-            sum += Integer.parseInt(buf.readBytes(2).toString(UTF_8), 16);
+        while (buf.readableBytes() >0) {
+            sum += buf.readUnsignedByte();
         }
         return sum;
     }
@@ -94,6 +87,6 @@ public class MsgAnswer {
      * @param byteBuf
      */
     private void cutoff(ByteBuf byteBuf) {
-        byteBuf.writeBytes(new byte[]{50, 51, 50, 51});
+        byteBuf.writeBytes(new byte[]{35, 35});
     }
 }

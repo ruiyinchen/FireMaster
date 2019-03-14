@@ -11,69 +11,69 @@ import java.util.Date;
  * Created in 2019-02-09 19:38
  */
 public class TcpDataPack {
-    private String original;
+    private byte[] original;
     // 2B 起始符
-    private String beginSign;
+    private byte[] beginSign;
     // 2B 流水号
-    private String serialNumber;
+    private int serialNumber;
     // 1B 主版本号
-    private int mainVersionNo;
+    private short mainVersionNo;
     // 1B 用户版本号
-    private int userVersionNo;
+    private short userVersionNo;
     // 6B 时间标签
     private Date time;
     // 6B 源地址
-    private String sourceAddress;
+    private byte[] sourceAddress;
     // 6B 目标地址
-    private String targetAddress;
+    private byte[] targetAddress;
     // 2B 应用数据长度
     private int dataLength;
     // 1B 命令
-    private int command;
+    private short command;
     // *B<=1024B 应用数据单元
     private ByteBuf data;
     // 1B 校验和
-    private String checksum;
+    private short checksum;
     // 2B 结束符
-    private String endSign;
+    private byte[] endSign;
 
-    public String getOriginal() {
+    public byte[] getOriginal() {
         return original;
     }
 
-    public void setOriginal(String original) {
+    public void setOriginal(byte[] original) {
         this.original = original;
     }
 
-    public String getBeginSign() {
+    public byte[] getBeginSign() {
         return beginSign;
     }
 
-    public void setBeginSign(String beginSign) {
+    public void setBeginSign(byte[] beginSign) {
         this.beginSign = beginSign;
     }
 
-    public String getSerialNumber() {
+    public int getSerialNumber() {
         return serialNumber;
     }
 
-    public void setSerialNumber(String serialNumber) {
+    public void setSerialNumber(int serialNumber) {
         this.serialNumber = serialNumber;
     }
 
-    public int getMainVersionNo() {
+    public short getMainVersionNo() {
         return mainVersionNo;
     }
 
-    public void setMainVersionNo(int mainVersionNo) {
+    public void setMainVersionNo(short mainVersionNo) {
         this.mainVersionNo = mainVersionNo;
     }
 
-    public int getUserVersionNo() {
+    public short getUserVersionNo() {
         return userVersionNo;
     }
 
-    public void setUserVersionNo(int userVersionNo) {
+    public void setUserVersionNo(short userVersionNo) {
         this.userVersionNo = userVersionNo;
     }
 
@@ -85,19 +85,19 @@ public class TcpDataPack {
         this.time = time;
     }
 
-    public String getSourceAddress() {
+    public byte[] getSourceAddress() {
         return sourceAddress;
     }
 
-    public void setSourceAddress(String sourceAddress) {
+    public void setSourceAddress(byte[] sourceAddress) {
         this.sourceAddress = sourceAddress;
     }
 
-    public String getTargetAddress() {
+    public byte[] getTargetAddress() {
         return targetAddress;
     }
 
-    public void setTargetAddress(String targetAddress) {
+    public void setTargetAddress(byte[] targetAddress) {
         this.targetAddress = targetAddress;
     }
 
@@ -109,11 +109,11 @@ public class TcpDataPack {
         this.dataLength = dataLength;
     }
 
-    public int getCommand() {
+    public short getCommand() {
         return command;
     }
 
-    public void setCommand(int command) {
+    public void setCommand(short command) {
         this.command = command;
     }
 
@@ -125,19 +125,19 @@ public class TcpDataPack {
         this.data = data;
     }
 
-    public String getChecksum() {
+    public short getChecksum() {
         return checksum;
     }
 
-    public void setChecksum(String checksum) {
+    public void setChecksum(short checksum) {
         this.checksum = checksum;
     }
 
-    public String getEndSign() {
+    public byte[] getEndSign() {
         return endSign;
     }
 
-    public void setEndSign(String endSign) {
+    public void setEndSign(byte[] endSign) {
         this.endSign = endSign;
     }
 }

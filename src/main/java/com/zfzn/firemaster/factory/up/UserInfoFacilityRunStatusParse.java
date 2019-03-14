@@ -25,13 +25,8 @@ public class UserInfoFacilityRunStatusParse implements ParseObject {
         List<Object> list=new LinkedList<>();
         for(int i=0;i<objNum;i++){
             // 系统状态
-            String statusStr = buf.readBytes(2).toString(UTF_8);
-            byte[] status=null;
-            try {
-                status= CommonUtils.hexToBin(statusStr);
-            } catch (DataFormatException e) {
-                e.printStackTrace();
-            }
+            byte[] status = CommonUtils.intTo8BinArray(buf.readUnsignedByte());
+
             // 状态发生时间
             Date triggerTime= DateUtils.bufToDate(buf);
 

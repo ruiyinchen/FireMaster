@@ -25,15 +25,10 @@ public class UserInfoFacilityOperationInfoParse implements ParseObject {
         List<Object> list = new LinkedList<>();
         for (int i = 0; i < objNum; i++) {
             // 操作标志
-            String operationalSignStr = buf.readBytes(2).toString(UTF_8);
-            byte[] operationalSign = null;
-            try {
-                operationalSign = CommonUtils.hexToBin(operationalSignStr);
-            } catch (DataFormatException e) {
-                e.printStackTrace();
-            }
+            byte[] operationalSign = CommonUtils.intTo8BinArray(buf.readUnsignedByte());
+
             // 操作员编号
-            int operatorNo = Integer.parseInt(buf.readBytes(2).toString(UTF_8), 16);
+            int operatorNo = buf.readUnsignedByte();
             // 状态发生时间
             Date triggerTime = DateUtils.bufToDate(buf);
 

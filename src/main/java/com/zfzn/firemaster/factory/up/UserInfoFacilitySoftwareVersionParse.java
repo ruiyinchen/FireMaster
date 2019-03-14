@@ -23,9 +23,9 @@ public class UserInfoFacilitySoftwareVersionParse implements ParseObject {
         List<Object> list = new LinkedList<>();
         for (int i = 0; i < objNum; i++) {
             // 主版本号
-            int majorVersionNo = Integer.parseInt(buf.readBytes(2).toString(UTF_8), 16);
+            int majorVersionNo = buf.readUnsignedByte();
             // 次版本号
-            int minorVersionNo = Integer.parseInt(buf.readBytes(2).toString(UTF_8), 16);
+            int minorVersionNo = buf.readUnsignedByte();
 
             // 状态发生时间
             Date triggerTime = DateUtils.bufToDate(buf);

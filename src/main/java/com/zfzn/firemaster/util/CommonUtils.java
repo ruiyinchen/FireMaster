@@ -2,6 +2,8 @@ package com.zfzn.firemaster.util;
 
 import io.netty.buffer.ByteBuf;
 
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.DataFormatException;
@@ -33,6 +35,7 @@ public class CommonUtils {
     private static final byte[] HF = new byte[]{1, 1, 1, 1};
 
     private static final Pattern PATTERN = Pattern.compile("^[A-F0-9]+$");
+
 
     /**
      * 十六进制字符串转二进制
@@ -102,6 +105,53 @@ public class CommonUtils {
         }
         return bytes;
     }
+
+    /**
+     * 将int型数组转为若干8位二进制数组
+     *
+     * @param numArr
+     * @return
+     */
+    public static byte[] byteArrayTo8BinArray(byte[] numArr) {
+        int numLen = numArr.length << 3;
+        byte[] binArr = new byte[numLen];
+        for (int i = 0; i < numArr.length; i++) {
+            byte[] binArr0 = intTo8BinArray(numArr[i]);
+            // 将binArr0的元素复制到binArr相应的位置
+            System.arraycopy(binArr0, 0, binArr, i << 3, 8);
+        }
+        return binArr;
+    }
+
+    /**
+     * 将一个int转化为8位二进制
+     *
+     * @param num
+     * @return
+     */
+    public static byte[] intTo8BinArray(int num) {
+        byte[] binArr = new byte[8];
+        for (int i = 0; i < 8; i++) {
+            binArr[7 - i] = (byte) (num & 1);
+            num = num >> 1;
+        }
+        return binArr;
+    }
+
+    /**
+     * 将byte[]数组转为int[]
+     *
+     * @param byteArr
+     * @return
+     */
+    private static byte[] intArrayToByteArray(int[] byteArr) {
+        byte[] intArr = new byte[byteArr.length];
+        for (int i = 0; i < byteArr.length; i++) {
+            intArr[i] = (byte) byteArr[i];
+        }
+        return intArr;
+    }
+
 
     /**
      * 将一个int转化为2位16进制的String

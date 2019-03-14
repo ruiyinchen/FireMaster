@@ -11,12 +11,12 @@ import java.io.Serializable;
 public class PackInfo implements Serializable {
     private static final long serialVersionUID = -1011233794643668350L;
     private String host;
-    private String message;
+    private byte[] message;
 
     public PackInfo() {
     }
 
-    public PackInfo(String host, String message) {
+    public PackInfo(String host, byte[] message) {
         this.host = host;
         this.message = message;
     }
@@ -29,11 +29,15 @@ public class PackInfo implements Serializable {
         this.host = host;
     }
 
-    public String getMessage() {
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public byte[] getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
+    public void setMessage(byte[] message) {
         this.message = message;
     }
 }

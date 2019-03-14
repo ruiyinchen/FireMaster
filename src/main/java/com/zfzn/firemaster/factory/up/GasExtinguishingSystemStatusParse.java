@@ -9,8 +9,6 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import static io.netty.util.CharsetUtil.UTF_8;
-
 /**
  * 上传气体灭火系统状态信息 解析
  *
@@ -23,16 +21,16 @@ public class GasExtinguishingSystemStatusParse implements ParseObject {
         List<Object> list = new LinkedList<>();
         for (int i = 0; i < objNum; i++) {
             // 系统类型
-            int systemType = Integer.parseInt(buf.readBytes(2).toString(UTF_8), 16);
+            int systemType = buf.readUnsignedByte();
             // 系统地址
-            int systemAddr = Integer.parseInt(buf.readBytes(2).toString(UTF_8), 16);
+            int systemAddr = buf.readUnsignedByte();
             // 分区地址
-            int partAddr = Integer.parseInt(buf.readBytes(2).toString(UTF_8), 16);
+            int partAddr = buf.readUnsignedByte();
 
             // 系统状态报警类型
-            int alarmType = Integer.parseInt(buf.readBytes(2).toString(UTF_8), 16);
+            int alarmType = buf.readUnsignedByte();
             // 报警恢复
-            int alarmRecovery = Integer.parseInt(buf.readBytes(2).toString(UTF_8), 16);
+            int alarmRecovery = buf.readUnsignedByte();
 
             buf.readBytes(2);
 

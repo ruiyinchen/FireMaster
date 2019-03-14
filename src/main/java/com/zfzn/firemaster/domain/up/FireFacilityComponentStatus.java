@@ -32,7 +32,6 @@ public class FireFacilityComponentStatus extends FireFacilityComponent{
     public FireFacilityComponentStatus() {
     }
 
-
     public byte[] getStatus() {
         return status;
     }

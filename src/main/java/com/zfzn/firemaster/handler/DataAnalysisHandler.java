@@ -15,8 +15,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-import static io.netty.util.CharsetUtil.UTF_8;
-
 /**
  * 消防数据数据解析
  *
@@ -41,11 +39,11 @@ public class DataAnalysisHandler extends ChannelInboundHandlerAdapter {
         AppDataUnit dataUnit = new AppDataUnit();
 
         // 应用单元数据类型
-        int dataType = Integer.parseInt(dataSegment.readBytes(2).toString(UTF_8), 16);
+        int dataType = dataSegment.readUnsignedByte();
         dataUnit.setDataType(dataType);
 
         // 信息对象数目
-        int objNum = Integer.parseInt(dataSegment.readBytes(2).toString(UTF_8), 16);
+        int objNum = dataSegment.readUnsignedByte();
         dataUnit.setCount(objNum);
 
         // 应用数据单元处理

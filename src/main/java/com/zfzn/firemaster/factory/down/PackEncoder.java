@@ -43,8 +43,8 @@ public class PackEncoder {
         byteBuf.writeBytes(CommonUtils.intTo4Hex(globalValue.getMainVersionNo()).getBytes());
         byteBuf.writeBytes(CommonUtils.intTo4Hex(globalValue.getUserVersionNo()).getBytes());
         byteBuf.writeBytes(DateUtils.dateToBuf(new Date()));
-        byteBuf.writeBytes(globalValue.getMonitorCenterAddr().getBytes(UTF_8));
-        byteBuf.writeBytes(globalValue.getTransmissionDeviceAddr().getBytes(UTF_8));
+        byteBuf.writeBytes(globalValue.getMonitorCenterAddr());
+        byteBuf.writeBytes(globalValue.getTransmissionDeviceAddr());
         return byteBuf;
     }
 

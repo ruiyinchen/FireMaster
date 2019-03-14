@@ -24,28 +24,24 @@ public class FireFacilityComponentConfigInfoParse implements ParseObject {
         List<Object> list=new LinkedList<>();
         for(int i=0;i<objNum;i++){
             // 系统类型
-            int systemType = Integer.parseInt(buf.readBytes(2).toString(UTF_8), 16);
+            int systemType = buf.readUnsignedByte();
             // 系统地址
-            int systemAddr = Integer.parseInt(buf.readBytes(2).toString(UTF_8), 16);
+            int systemAddr = buf.readUnsignedByte();
             // 部件类型
-            int partType = Integer.parseInt(buf.readBytes(2).toString(UTF_8), 16);
+            int partType = buf.readUnsignedByte();
+
             // 部件地址
-            int partArea = 0;
-            {
-                // 区号
-                String low = buf.readBytes(2).toString(UTF_8);
-                String high = buf.readBytes(2).toString(UTF_8);
-                partArea = Integer.parseInt(high + low, 16);
-            }
-            int partPlace = 0;
-            {
-                // 位号
-                String low = buf.readBytes(2).toString(UTF_8);
-                String high = buf.readBytes(2).toString(UTF_8);
-                partPlace = Integer.parseInt(high + low, 16);
-            }
+            byte[] ac = new byte[4];
+            buf.readBytes(ac);
+            // 位号
+            int partPlace = (ac[1] << 8) & 0xFF | ac[0] & 0xFF;
+            // 区号
+            int partArea = (ac[3] << 8) & 0xFF | ac[2] & 0xFF;
+            // TODO 添加地址码
+            int addrCode = (ac[3] << 24) & 0xFFFFFF | ac[2] << 16 & 0xFFFFFF | (ac[1] << 8) & 0xFFFFFF | ac[0] & 0xFFFFFF;
+
             // 部件说明
-            String partLegend = buf.readBytes(62).toString(Charset.forName("GB18030"));
+            String partLegend = buf.readBytes(31).toString(Charset.forName("GB18030"));
             // 状态发生时间
             Date triggerTime = DateUtils.bufToDate(buf);
 

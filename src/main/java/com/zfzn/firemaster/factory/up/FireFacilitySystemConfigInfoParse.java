@@ -24,14 +24,14 @@ public class FireFacilitySystemConfigInfoParse implements ParseObject {
         List<Object> list = new LinkedList<>();
         for (int i = 0; i < objNum; i++) {
             // 系统类型
-            int systemType = Integer.parseInt(buf.readBytes(2).toString(UTF_8), 16);
+            int systemType = buf.readUnsignedByte();
             // 系统地址
-            int systemAddr = Integer.parseInt(buf.readBytes(2).toString(UTF_8), 16);
+            int systemAddr = buf.readUnsignedByte();
 
             // 系统说明长度
-            int legendLength = Integer.parseInt(buf.readBytes(2).toString(UTF_8), 16);
+            int legendLength = buf.readUnsignedByte();
             // 系统说明
-            String legend = buf.readBytes(2 * legendLength).toString(Charset.forName("GB18030"));
+            String legend = buf.readBytes(31).toString(Charset.forName("GB18030"));
 
             // 状态发生时间
             Date triggerTime = DateUtils.bufToDate(buf);
