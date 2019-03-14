@@ -78,8 +78,7 @@ public class FireDataStorage {
         infoC.setSysType(component.getSystemType());
         infoC.setSysAddr(component.getSystemAddr());
         infoC.setComponentType(component.getPartType());
-        // TODO 此处需要将区位号转化为地址码
-        infoC.setComponentAddr(component.getPartArea());
+        infoC.setComponentAddr(component.getAddrCode());
         return infoC;
     }
 }

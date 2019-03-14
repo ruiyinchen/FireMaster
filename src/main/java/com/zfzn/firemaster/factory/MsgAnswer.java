@@ -1,5 +1,6 @@
 package com.zfzn.firemaster.factory;
 
+import com.zfzn.firemaster.domain.ov.Packet;
 import com.zfzn.firemaster.util.DateUtils;
 import io.netty.buffer.ByteBuf;
 
@@ -28,7 +29,7 @@ public class MsgAnswer {
         res.writeBytes(new byte[]{48, 48, 48, 48, 48, 51});
         sum(res);
         cutoff(res);
-        return res;
+        return new Packet(res).packet();
     }
 
     /**
@@ -39,7 +40,7 @@ public class MsgAnswer {
         res.writeBytes(new byte[]{48, 48, 48, 48, 48, 54});
         sum(res);
         cutoff(res);
-        return res;
+        return new Packet(res).packet();
     }
 
     /**

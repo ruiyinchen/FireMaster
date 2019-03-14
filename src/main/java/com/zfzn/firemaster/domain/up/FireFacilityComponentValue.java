@@ -10,6 +10,10 @@ import java.util.Date;
  */
 public class FireFacilityComponentValue extends FireFacilityComponent{
     /**
+     * 值类型
+     */
+    private int valueType;
+    /**
      * 模拟量值
      */
     private int value;
@@ -18,13 +22,22 @@ public class FireFacilityComponentValue extends FireFacilityComponent{
      */
     private Date triggerTime;
 
-    public FireFacilityComponentValue(int systemType, int systemAddr, int partType, int partArea, int partPlace, int valueType, int value, Date triggerTime) {
-        super(systemType, systemAddr, partType, partArea, partPlace);
+    public FireFacilityComponentValue(int systemType, int systemAddr, int partType, int partArea, int partPlace, int addrCode, int valueType, int value, Date triggerTime) {
+        super(systemType, systemAddr, partType, partArea, partPlace, addrCode);
+        this.valueType = valueType;
         this.value = value;
         this.triggerTime = triggerTime;
     }
 
     public FireFacilityComponentValue() {
+    }
+
+    public int getValueType() {
+        return valueType;
+    }
+
+    public void setValueType(int valueType) {
+        this.valueType = valueType;
     }
 
     public int getValue() {

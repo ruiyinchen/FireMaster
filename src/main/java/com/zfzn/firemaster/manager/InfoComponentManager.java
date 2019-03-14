@@ -29,6 +29,6 @@ public class InfoComponentManager {
         List<InfoComponent> list=componentList.stream()
                 .filter(item->!dittoList.contains(item.getComponentAddr()))
                 .collect(Collectors.toList());
-        return infoComponentMapper.insertAll(list);
+        return list.size()>0?infoComponentMapper.insertAll(list):0;
     }
 }

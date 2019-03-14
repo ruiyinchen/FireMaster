@@ -27,13 +27,18 @@ public abstract class FireFacilityComponent {
      * 部件地址(位号)
      */
     private int partPlace;
+    /**
+     * 部件地址码
+     */
+    private int addrCode;
 
-    public FireFacilityComponent(int systemType, int systemAddr, int partType, int partArea, int partPlace) {
+    public FireFacilityComponent(int systemType, int systemAddr, int partType, int partArea, int partPlace, int addrCode) {
         this.systemType = systemType;
         this.systemAddr = systemAddr;
         this.partType = partType;
         this.partArea = partArea;
         this.partPlace = partPlace;
+        this.addrCode = addrCode;
     }
 
     public FireFacilityComponent() {
@@ -77,5 +82,13 @@ public abstract class FireFacilityComponent {
 
     public void setPartPlace(int partPlace) {
         this.partPlace = partPlace;
+    }
+
+    public int getAddrCode() {
+        return addrCode;
+    }
+
+    public void setAddrCode(int addrCode) {
+        this.addrCode = addrCode;
     }
 }

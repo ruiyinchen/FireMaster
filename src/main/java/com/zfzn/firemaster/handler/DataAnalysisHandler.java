@@ -50,7 +50,7 @@ public class DataAnalysisHandler extends ChannelInboundHandlerAdapter {
 
         // 应用数据单元处理
         ParseObject parseObj = InfoBodyAnalysis.createAnalysisBody(dataType);
-        List<AppDataItem> list = parseObj.analyze(dataSegment, dataUnit.getCount());
+        List<Object> list = parseObj.analyze(dataSegment, dataUnit.getCount());
         dataUnit.setList(list);
 
         ReferenceCountUtil.release(msg);

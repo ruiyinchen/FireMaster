@@ -22,8 +22,8 @@ public class FireFacilityComponentStatus extends FireFacilityComponent{
      */
     private Date triggerTime;
 
-    public FireFacilityComponentStatus(int systemType, int systemAddr, int partType, int partArea, int partPlace, byte[] status, String partLegend, Date triggerTime) {
-        super(systemType, systemAddr, partType, partArea, partPlace);
+    public FireFacilityComponentStatus(int systemType, int systemAddr, int partType, int partArea, int partPlace, int addrCode, byte[] status, String partLegend, Date triggerTime) {
+        super(systemType, systemAddr, partType, partArea, partPlace, addrCode);
         this.status = status;
         this.partLegend = partLegend;
         this.triggerTime = triggerTime;

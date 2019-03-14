@@ -42,12 +42,20 @@ public class StatusRecordComponentManager {
                     FireFacilityComponentStatus fcs = (FireFacilityComponentStatus) item;
                     StatusRecordComponent src = new StatusRecordComponent();
                     src.setId(idWorker.nextId());
-                    // TODO 此处需要将区位号转化为地址码
-                    src.setAddrCode(fcs.getPartArea());
+                    src.setAddrCode(fcs.getAddrCode());
                     src.setExplanation(fcs.getPartLegend());
                     src.setGmtCreate(fcs.getTriggerTime());
 
-                    byte[] bytes=fcs.getStatus();
+                    byte[] fcsStatus=fcs.getStatus();
+                    src.setElectricityFailure(fcsStatus[15]);
+                    src.setDelay(fcsStatus[0]);
+                    src.setFeedback(fcsStatus[1]);
+                    src.setStarted(fcsStatus[2]);
+                    src.setSupervision(fcsStatus[3]);
+                    src.setShield(fcsStatus[4]);
+                    src.setBreakdown(fcsStatus[5]);
+                    src.setFireAlarm(fcsStatus[6]);
+                    src.setNormalRun(fcsStatus[7]);
 
                     return src;
                 })

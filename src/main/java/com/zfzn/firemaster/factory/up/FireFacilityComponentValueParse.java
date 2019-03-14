@@ -30,19 +30,20 @@ public class FireFacilityComponentValueParse implements ParseObject {
             // 部件类型
             int partType = Integer.parseInt(buf.readBytes(2).toString(UTF_8), 16);
             // 部件地址
+            int addrCode = 0;
             int partArea = 0;
-            {
-                // 区号
-                String low = buf.readBytes(2).toString(UTF_8);
-                String high = buf.readBytes(2).toString(UTF_8);
-                partArea = Integer.parseInt(high + low, 16);
-            }
             int partPlace = 0;
             {
                 // 位号
                 String low = buf.readBytes(2).toString(UTF_8);
                 String high = buf.readBytes(2).toString(UTF_8);
                 partPlace = Integer.parseInt(high + low, 16);
+                // 区号
+                String low1 = buf.readBytes(2).toString(UTF_8);
+                String high1 = buf.readBytes(2).toString(UTF_8);
+                partArea = Integer.parseInt(high1 + low1, 16);
+
+                addrCode = Integer.parseInt(high1 + low1 + high + low, 16);
             }
             // 模拟量类型
             int valueType = Integer.parseInt(buf.readBytes(2).toString(UTF_8), 16);
@@ -56,7 +57,7 @@ public class FireFacilityComponentValueParse implements ParseObject {
             // 状态发生时间
             Date triggerTime = DateUtils.bufToDate(buf);
 
-            FireFacilityComponentValue infoObj = new FireFacilityComponentValue(systemType, systemAddr, partType, partArea, partPlace, valueType, value, triggerTime);
+            FireFacilityComponentValue infoObj = new FireFacilityComponentValue(systemType, systemAddr, partType, partArea, partPlace, addrCode, valueType, value, triggerTime);
             list.add(infoObj);
         }
         return list;

@@ -40,8 +40,7 @@ public class AnalogValueManager {
                     FireFacilityComponentValue originalValue = (FireFacilityComponentValue) item;
                     AnalogValue value = new AnalogValue();
                     value.setId(idWorker.nextId());
-                    // TODO 此处需要将区位号转化为地址码
-                    value.setAddrCode(originalValue.getPartArea());
+                    value.setAddrCode(originalValue.getAddrCode());
                     value.setAnalogType(originalValue.getValueType());
                     value.setAnalogQuantity(originalValue.getValue());
                     value.setGmtCreate(originalValue.getTriggerTime());

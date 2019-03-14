@@ -33,7 +33,26 @@ public class StatusRecordSystemManager {
                 .map(item -> {
                     FireFacilitySystemStatus fss = (FireFacilitySystemStatus) item;
                     StatusRecordSystem srs = new StatusRecordSystem();
-                    // TODO 待补充类型转化代码
+                    srs.setSysCode(fss.getSystemAddr());
+                    srs.setSysType(fss.getSystemType());
+                    srs.setGmtCreate(fss.getTriggerTime());
+
+                    byte[]  fssStatus=fss.getStatus();
+                    srs.setReset(fssStatus[10]);
+                    srs.setDeployChange(fssStatus[11]);
+                    srs.setManualStatus(fssStatus[12]);
+                    srs.setBusFailure(fssStatus[13]);
+                    srs.setBackupPowerFailure(fssStatus[14]);
+                    srs.setMainPowerFailure(fssStatus[15]);
+                    srs.setDelay(fssStatus[0]);
+                    srs.setFeedback(fssStatus[1]);
+                    srs.setStarted(fssStatus[2]);
+                    srs.setSupervision(fssStatus[3]);
+                    srs.setShield(fssStatus[4]);
+                    srs.setBreakdown(fssStatus[5]);
+                    srs.setFireAlarm(fssStatus[6]);
+                    srs.setNormalRun(fssStatus[7]);
+
                     return srs;
                 }).collect(Collectors.toList());
         int n=statusRecordSystemMapper.insertAll(list);
