@@ -3,6 +3,7 @@ package com.zfzn.firemaster.manager;
 import com.zfzn.firemaster.dao.StatusRecordSystemMapper;
 import com.zfzn.firemaster.domain.od.StatusRecordSystem;
 import com.zfzn.firemaster.domain.up.FireFacilitySystemStatus;
+import com.zfzn.firemaster.util.SnowflakeIdWorker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 public class StatusRecordSystemManager {
     private final Logger _logger = LoggerFactory.getLogger(StatusRecordComponentManager.class);
 
+    private final SnowflakeIdWorker idWorker = SnowflakeIdWorker.getInstance();
     private final StatusRecordSystemMapper statusRecordSystemMapper;
 
     @Autowired
@@ -33,6 +35,7 @@ public class StatusRecordSystemManager {
                 .map(item -> {
                     FireFacilitySystemStatus fss = (FireFacilitySystemStatus) item;
                     StatusRecordSystem srs = new StatusRecordSystem();
+                    srs.setId(idWorker.nextId());
                     srs.setSysCode(fss.getSystemAddr());
                     srs.setSysType(fss.getSystemType());
                     srs.setGmtCreate(fss.getTriggerTime());

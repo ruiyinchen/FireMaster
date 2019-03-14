@@ -1,5 +1,6 @@
 package com.zfzn.firemaster.manager;
 
+import com.alibaba.fastjson.JSON;
 import com.zfzn.firemaster.dao.InfoComponentMapper;
 import com.zfzn.firemaster.dao.StatusRecordComponentMapper;
 import com.zfzn.firemaster.dao.StatusRecordSystemMapper;
@@ -8,6 +9,7 @@ import com.zfzn.firemaster.domain.od.InfoComponent;
 import com.zfzn.firemaster.domain.up.FireFacilityComponent;
 import com.zfzn.firemaster.domain.up.FireFacilityComponentStatus;
 import com.zfzn.firemaster.domain.up.FireFacilityComponentValue;
+import com.zfzn.firemaster.factory.up.*;
 import com.zfzn.firemaster.util.SnowflakeIdWorker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,6 +58,43 @@ public class FireDataStorage {
             case DATA_TYPE_UP_FIRE_UNIT_VALUE:
                 componentStorage(dataUnit);
                 analogValueManager.saveAll(dataUnit.getList());
+                break;
+            case DATA_TYPE_UP_FIRE_DEVICE_OPERATIONAL_INFO:
+                _logger.info("消防设施操作信息："+ JSON.toJSONString(dataUnit));
+                break;
+            case DATA_TYPE_UP_FIRE_DEVICE_SOFTWARE_VERSION:
+                _logger.info("消防设施软件版本："+ JSON.toJSONString(dataUnit));
+                break;
+            case DATA_TYPE_UP_FIRE_DEVICE_SYS_CONFIG:
+                _logger.info("消防设施系统配置："+ JSON.toJSONString(dataUnit));
+                break;
+            case DATA_TYPE_UP_FIRE_DEVICE_UNIT_CONFIG:
+                _logger.info("消防设施部件配置："+ JSON.toJSONString(dataUnit));
+                break;
+            case DATA_TYPE_UP_USER_DEVICE_RUN_STATUS:
+                // TODO 待存储
+                _logger.info("用户信息传输装置运行状态："+ JSON.toJSONString(dataUnit));
+                break;
+            case DATA_TYPE_UP_USER_DEVICE_OPERATIONAL_INFO:
+                _logger.info("用户信息传输装置操作信息："+ JSON.toJSONString(dataUnit));
+                break;
+            case DATA_TYPE_UP_USER_DEVICE_SOFTWARE_VERSION:
+                _logger.info("用户信息传输装置软件版本："+ JSON.toJSONString(dataUnit));
+                break;
+            case DATA_TYPE_UP_USER_DEVICE_CONFIG:
+                _logger.info("用户信息传输装置配置："+ JSON.toJSONString(dataUnit));
+                break;
+            case DATA_TYPE_UP_FIRE_DEVICE_SYSTEM_TIME:
+                _logger.info("建筑消防设施系统时间："+ JSON.toJSONString(dataUnit));
+                break;
+            case DATA_TYPE_UP_USER_DEVICE_SWITCH_STATUS:
+                _logger.info("用户信息传输装置开关量状态："+ JSON.toJSONString(dataUnit));
+                break;
+            case DATE_TYPE_UP_GAS_EXTINGUISHING_SYSTEM_STATUS:
+                _logger.info("气体灭火系统状态信息："+ JSON.toJSONString(dataUnit));
+                break;
+            case DATA_TYPE_UP_USER_DEVICE_SYS_TIME:
+                _logger.info("用户信息传输装置系统时间："+ JSON.toJSONString(dataUnit));
                 break;
         }
     }

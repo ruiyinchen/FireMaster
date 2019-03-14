@@ -28,12 +28,11 @@ public class StatusRecordComponentManager {
 
     private final SnowflakeIdWorker idWorker = SnowflakeIdWorker.getInstance();
     private final StatusRecordComponentMapper statusRecordComponentMapper;
-    private final InfoComponentManager infoComponentManager;
 
     @Autowired
     public StatusRecordComponentManager(StatusRecordComponentMapper statusRecordComponentMapper, InfoComponentManager infoComponentManager) {
         this.statusRecordComponentMapper = statusRecordComponentMapper;
-        this.infoComponentManager = infoComponentManager;
+        InfoComponentManager infoComponentManager1 = infoComponentManager;
     }
 
     public int saveAll(List<Object> srcList) {

@@ -53,7 +53,7 @@ public class InfoBodyAnalysis {
             case DATA_TYPE_UP_USER_DEVICE_CONFIG:
                 parseObject = new UserInfoFacilityConfigInfoParse();
                 break;
-            case DATA_TYPE_UP_USER_DEVICE_SYS_TIME:
+            case DATA_TYPE_UP_FIRE_DEVICE_SYSTEM_TIME:
                 parseObject = new FireFacilitySystemTimeParse();
                 break;
             case DATA_TYPE_UP_USER_DEVICE_SWITCH_STATUS:
@@ -61,6 +61,9 @@ public class InfoBodyAnalysis {
                 break;
             case DATE_TYPE_UP_GAS_EXTINGUISHING_SYSTEM_STATUS:
                 parseObject = new GasExtinguishingSystemStatusParse();
+                break;
+            case DATA_TYPE_UP_USER_DEVICE_SYS_TIME:
+                parseObject = new UserInfoFacilitySystemTimeParse();
                 break;
         }
         return parseObject;
