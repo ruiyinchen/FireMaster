@@ -11,7 +11,7 @@
  Target Server Version : 50713
  File Encoding         : 65001
 
- Date: 15/03/2019 11:26:23
+ Date: 15/03/2019 17:59:52
 */
 
 SET NAMES utf8mb4;
@@ -13673,7 +13673,14 @@ CREATE TABLE `info_component`  (
   `gmt_create` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录时间',
   `gmt_modified` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部件信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部件信息表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of info_component
+-- ----------------------------
+INSERT INTO `info_component` VALUES (1, 203, 2, 10, 131329, '2019-03-15 16:34:42', '2019-03-15 16:34:42');
+INSERT INTO `info_component` VALUES (2, 19, 4, 85, 262401, '2019-03-15 16:35:42', '2019-03-15 16:35:42');
+INSERT INTO `info_component` VALUES (3, 201, 6, 18, 65793, '2019-03-15 16:35:50', '2019-03-15 16:35:50');
 
 -- ----------------------------
 -- Table structure for operation_record_facility
@@ -13683,7 +13690,14 @@ CREATE TABLE `operation_record_facility`  (
   `id` bigint(20) NOT NULL COMMENT 'ID、表主键',
   `sys_type` int(11) NULL DEFAULT NULL COMMENT '系统类型',
   `sys_addr` int(11) NULL DEFAULT NULL COMMENT '系统地址',
-  `operational_info` int(11) NULL DEFAULT NULL COMMENT '操作信息',
+  `reset` tinyint(4) NULL DEFAULT NULL COMMENT '1：复位，0：无操作',
+  `silence` tinyint(4) NULL DEFAULT NULL COMMENT '1：消音0：无操作',
+  `manual_alarm` tinyint(4) NULL DEFAULT NULL COMMENT '1：手动报警，0：无操作',
+  `eliminate_alarm` tinyint(4) NULL DEFAULT NULL COMMENT '1：消除报警，0：无操作',
+  `self_test` tinyint(4) NULL DEFAULT NULL COMMENT '1：自检，0：无操作',
+  `confirm` tinyint(4) NULL DEFAULT NULL COMMENT '1：确认，0：无操作',
+  `test` tinyint(4) NULL DEFAULT NULL COMMENT '1：测试，0：无操作',
+  `reserved` tinyint(4) NULL DEFAULT NULL COMMENT '1：预留，0：无操作',
   `operator` int(11) NULL DEFAULT NULL COMMENT '操作员编号',
   `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '记录时间',
   PRIMARY KEY (`id`) USING BTREE
@@ -13695,11 +13709,24 @@ CREATE TABLE `operation_record_facility`  (
 DROP TABLE IF EXISTS `operation_record_user_info_facility`;
 CREATE TABLE `operation_record_user_info_facility`  (
   `id` bigint(20) NOT NULL COMMENT 'ID、表主键',
-  `operational_info` int(11) NULL DEFAULT NULL COMMENT '操作信息',
+  `reset` tinyint(4) NULL DEFAULT NULL COMMENT '1：复位，0：无操作',
+  `silence` tinyint(4) NULL DEFAULT NULL COMMENT '1：消音0：无操作',
+  `manual_alarm` tinyint(4) NULL DEFAULT NULL COMMENT '1：手动报警，0：无操作',
+  `eliminate_alarm` tinyint(4) NULL DEFAULT NULL COMMENT '1：消除报警，0：无操作',
+  `self_test` tinyint(4) NULL DEFAULT NULL COMMENT '1：自检，0：无操作',
+  `confirm` tinyint(4) NULL DEFAULT NULL COMMENT '1：确认，0：无操作',
+  `test` tinyint(4) NULL DEFAULT NULL COMMENT '1：测试，0：无操作',
+  `reserved` tinyint(4) NULL DEFAULT NULL COMMENT '1：预留，0：无操作',
   `operator` int(11) NULL DEFAULT NULL COMMENT '操作员编号',
   `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '操作记录时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户信息传输装置操作记录' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of operation_record_user_info_facility
+-- ----------------------------
+INSERT INTO `operation_record_user_info_facility` VALUES (26691806789402624, 0, 0, 1, 0, 0, NULL, 0, 0, 0, '2019-03-11 17:19:10');
+INSERT INTO `operation_record_user_info_facility` VALUES (26725901963657216, 0, 0, 0, 0, 1, NULL, 0, 0, 1, '2012-09-26 09:58:02');
 
 -- ----------------------------
 -- Table structure for pack_original
@@ -13712,7 +13739,7 @@ CREATE TABLE `pack_original`  (
   `gmt_create` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录创建时间',
   `memo` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '预留',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 87 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '接收客户端包存储' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 109 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '接收客户端包存储' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pack_original
@@ -13726,6 +13753,28 @@ INSERT INTO `pack_original` VALUES (83, '192.168.249.1:7325', '[64, 64, 1, 0, 1,
 INSERT INTO `pack_original` VALUES (84, '192.168.249.1:7325', '[64, 64, 1, 0, 1, 1, 32, 58, 9, 26, 9, 12, 121, 3, 0, 0, 0, 0, 56, 91, 1, 0, 0, 0, 9, 0, 2, 21, 1, 8, 2, 58, 9, 26, 9, 12, 66, 35, 35]', '2019-03-15 09:28:59', NULL);
 INSERT INTO `pack_original` VALUES (85, '192.168.249.1:7325', '[64, 64, 1, 0, 1, 1, 32, 58, 9, 26, 9, 12, 121, 3, 0, 0, 0, 0, 56, 91, 1, 0, 0, 0, 10, 0, 2, 24, 1, 32, 1, 2, 58, 9, 26, 9, 12, 95, 35, 35]', '2019-03-15 09:29:10', NULL);
 INSERT INTO `pack_original` VALUES (86, '192.168.249.1:7354', '[64, 64, 1, 0, 1, 1, 32, 58, 9, 26, 9, 12, 121, 3, 0, 0, 0, 0, 56, 91, 1, 0, 0, 0, 10, 0, 2, 24, 1, 32, 1, 2, 58, 9, 26, 9, 12, 95, 35, 35]', '2019-03-15 09:30:32', NULL);
+INSERT INTO `pack_original` VALUES (87, '192.168.249.1:14955', '[64, 64, 2, 0, 1, 1, 10, 19, 17, 11, 3, 19, 1, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 10, 0, 2, 24, 1, 4, 0, 10, 19, 17, 11, 3, 19, -54, 35, 35]', '2019-03-15 15:41:41', NULL);
+INSERT INTO `pack_original` VALUES (88, '192.168.249.1:1110', '[64, 64, 2, 0, 1, 1, 10, 19, 17, 11, 3, 19, 1, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 10, 0, 2, 24, 1, 4, 0, 10, 19, 17, 11, 3, 19, -54, 35, 35]', '2019-03-15 15:43:43', NULL);
+INSERT INTO `pack_original` VALUES (89, '192.168.249.1:1110', '[64, 64, 2, 0, 1, 1, 11, 19, 17, 11, 3, 19, 1, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 8, 0, 2, 28, 1, 11, 19, 17, 11, 3, 19, -54, 35, 35]', '2019-03-15 15:44:42', NULL);
+INSERT INTO `pack_original` VALUES (90, '192.168.249.1:2593', '[64, 64, 1, 0, 1, 1, 32, 58, 9, 26, 9, 12, 121, 3, 0, 0, 0, 0, 56, 91, 1, 0, 0, 0, 19, 0, 2, -52, 1, 0, 1, 17, 0, 0, 0, 1, 1, 0, 0, 32, 58, 9, 26, 9, 12, 10, 55, 35, 35]', '2019-03-15 16:28:00', NULL);
+INSERT INTO `pack_original` VALUES (91, '192.168.249.1:2769', '[64, 64, 1, 0, 1, 1, 32, 58, 9, 26, 9, 12, 121, 3, 0, 0, 0, 0, 56, 91, 1, 0, 0, 0, 19, 0, 2, -52, 1, 0, 1, 17, 0, 0, 0, 1, 1, 0, 0, 32, 58, 9, 26, 9, 12, 10, 55, 35, 35]', '2019-03-15 16:30:54', NULL);
+INSERT INTO `pack_original` VALUES (92, '192.168.249.1:2769', '[64, 64, 1, 0, 1, 1, 7, 45, 13, 22, 6, 17, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 0, 2, -51, 1, 13, 1, 0, 40, 1, 0, 0, 7, 52, 16, 22, 6, 17, 0, 35, 35]', '2019-03-15 16:33:27', NULL);
+INSERT INTO `pack_original` VALUES (93, '192.168.249.1:2769', '[64, 64, 1, 0, 1, 1, 7, 45, 13, 22, 6, 17, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 0, 2, -51, 1, 13, 1, 0, 40, 1, 0, 0, 7, 52, 16, 22, 6, 17, 0, 35, 35]', '2019-03-15 16:33:46', NULL);
+INSERT INTO `pack_original` VALUES (94, '192.168.249.1:2769', '[64, 64, 1, 0, 1, 1, 6, 51, 13, 22, 6, 17, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 0, 2, -51, 1, 13, 5, 1, 78, 1, 0, 0, 6, 2, 11, 22, 6, 17, -8, 35, 35]', '2019-03-15 16:33:53', NULL);
+INSERT INTO `pack_original` VALUES (95, '192.168.249.1:2769', '[64, 64, 1, 0, 1, 1, 13, 2, 14, 22, 6, 17, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 0, 2, 1, 1, -53, 2, 1, 9, 13, 12, 10, 22, 6, 17, -123, 35, 35]', '2019-03-15 16:34:00', NULL);
+INSERT INTO `pack_original` VALUES (96, '192.168.249.1:2769', '[64, 64, 1, 0, 1, 1, 12, 6, 14, 22, 6, 17, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 48, 0, 2, 2, 1, -53, 2, 10, 1, 1, 2, 0, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -77, -8, -73, -65, 0, 0, 0, 0, 0, 0, 0, -86, -69, 0, 12, 33, 10, 22, 6, 17, 92, 35, 35]', '2019-03-15 16:34:42', NULL);
+INSERT INTO `pack_original` VALUES (97, '192.168.249.1:2769', '[64, 64, 1, 0, 1, 1, 46, 25, 14, 22, 6, 17, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 48, 0, 2, 2, 1, 19, 4, 85, 1, 1, 4, 0, 33, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -77, -93, -79, -43, -61, -59, 32, 32, 32, 32, 32, 32, 32, 32, 46, 36, 13, 22, 6, 17, 62, 35, 35]', '2019-03-15 16:35:42', NULL);
+INSERT INTO `pack_original` VALUES (98, '192.168.249.1:2769', '[64, 64, 1, 0, 1, 1, 5, 33, 14, 22, 6, 17, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 48, 0, 2, 2, 1, -55, 6, 18, 1, 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 5, 41, 14, 22, 6, 17, -84, 35, 35]', '2019-03-15 16:35:50', NULL);
+INSERT INTO `pack_original` VALUES (99, '192.168.249.1:5675', '[64, 64, 1, 0, 1, 1, 7, 45, 13, 22, 6, 17, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 0, 2, -51, 1, 13, 1, 0, 40, 1, 0, 0, 7, 52, 16, 22, 6, 17, 0, 35, 35]', '2019-03-15 17:56:49', NULL);
+INSERT INTO `pack_original` VALUES (100, '192.168.249.1:5675', '[64, 64, 1, 0, 1, 1, 6, 51, 13, 22, 6, 17, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 0, 2, -51, 1, 13, 5, 1, 78, 1, 0, 0, 6, 2, 11, 22, 6, 17, -8, 35, 35]', '2019-03-15 17:56:56', NULL);
+INSERT INTO `pack_original` VALUES (101, '192.168.249.1:5675', '[64, 64, 1, 0, 1, 1, 13, 2, 14, 22, 6, 17, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 0, 2, 1, 1, -53, 2, 1, 9, 13, 12, 10, 22, 6, 17, -123, 35, 35]', '2019-03-15 17:57:03', NULL);
+INSERT INTO `pack_original` VALUES (102, '192.168.249.1:5675', '[64, 64, 1, 0, 1, 1, 12, 6, 14, 22, 6, 17, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 48, 0, 2, 2, 1, -53, 2, 10, 1, 1, 2, 0, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -77, -8, -73, -65, 0, 0, 0, 0, 0, 0, 0, -86, -69, 0, 12, 33, 10, 22, 6, 17, 92, 35, 35]', '2019-03-15 17:57:09', NULL);
+INSERT INTO `pack_original` VALUES (103, '192.168.249.1:5675', '[64, 64, 1, 0, 1, 1, 46, 25, 14, 22, 6, 17, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 48, 0, 2, 2, 1, 19, 4, 85, 1, 1, 4, 0, 33, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -77, -93, -79, -43, -61, -59, 32, 32, 32, 32, 32, 32, 32, 32, 46, 36, 13, 22, 6, 17, 62, 35, 35]', '2019-03-15 17:57:14', NULL);
+INSERT INTO `pack_original` VALUES (104, '192.168.249.1:5675', '[64, 64, 1, 0, 1, 1, 5, 33, 14, 22, 6, 17, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 48, 0, 2, 2, 1, -55, 6, 18, 1, 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 5, 41, 14, 22, 6, 17, -84, 35, 35]', '2019-03-15 17:57:19', NULL);
+INSERT INTO `pack_original` VALUES (105, '192.168.249.1:5675', '[64, 64, 1, 0, 1, 1, 32, 58, 9, 26, 9, 12, 121, 3, 0, 0, 0, 0, 56, 91, 1, 0, 0, 0, 9, 0, 2, 21, 1, 8, 2, 58, 9, 26, 9, 12, 66, 35, 35]', '2019-03-15 17:57:25', NULL);
+INSERT INTO `pack_original` VALUES (106, '192.168.249.1:5823', '[64, 64, 1, 0, 1, 1, 32, 58, 9, 26, 9, 12, 121, 3, 0, 0, 0, 0, 56, 91, 1, 0, 0, 0, 9, 0, 2, 21, 1, 8, 2, 58, 9, 26, 9, 12, 66, 35, 35]', '2019-03-15 17:58:59', NULL);
+INSERT INTO `pack_original` VALUES (107, '192.168.249.1:5823', '[64, 64, 1, 0, 1, 1, 32, 58, 9, 26, 9, 12, 121, 3, 0, 0, 0, 0, 56, 91, 1, 0, 0, 0, 10, 0, 2, 24, 1, 32, 1, 2, 58, 9, 26, 9, 12, 95, 35, 35]', '2019-03-15 17:59:12', NULL);
+INSERT INTO `pack_original` VALUES (108, '192.168.249.1:5823', '[64, 64, 1, 0, 1, 1, 32, 58, 9, 26, 9, 12, 121, 3, 0, 0, 0, 0, 56, 91, 1, 0, 0, 0, 19, 0, 2, -52, 1, 0, 1, 17, 0, 0, 0, 1, 1, 0, 0, 32, 58, 9, 26, 9, 12, 10, 55, 35, 35]', '2019-03-15 17:59:18', NULL);
 
 -- ----------------------------
 -- Table structure for software_version_facility
@@ -13775,6 +13824,37 @@ CREATE TABLE `status_record_component`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部件状态记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Records of status_record_component
+-- ----------------------------
+INSERT INTO `status_record_component` VALUES (26704640466255872, 131329, 1, 0, 0, 0, 1, 0, 0, 0, 0, '厨房\0\0\0\0\0\0\0', '2017-06-22 10:33:12');
+INSERT INTO `status_record_component` VALUES (26704889796657152, 262401, 1, 0, 0, 0, 0, 1, 0, 0, 0, '常闭门', '2017-06-22 13:36:46');
+INSERT INTO `status_record_component` VALUES (26704923216871424, 65793, 1, 0, 1, 0, 0, 0, 0, 0, 0, '', '2017-06-22 14:41:05');
+INSERT INTO `status_record_component` VALUES (26725387179950080, 131329, 1, 0, 0, 0, 1, 0, 0, 0, 0, '厨房\0\0\0\0\0\0\0', '2017-06-22 10:33:12');
+INSERT INTO `status_record_component` VALUES (26725409690779648, 262401, 1, 0, 0, 0, 0, 1, 0, 0, 0, '常闭门', '2017-06-22 13:36:46');
+INSERT INTO `status_record_component` VALUES (26725431299833856, 65793, 1, 0, 1, 0, 0, 0, 0, 0, 0, '', '2017-06-22 14:41:05');
+
+-- ----------------------------
+-- Table structure for status_record_gas_exterminate
+-- ----------------------------
+DROP TABLE IF EXISTS `status_record_gas_exterminate`;
+CREATE TABLE `status_record_gas_exterminate`  (
+  `id` bigint(20) NOT NULL COMMENT 'ID、表主键',
+  `sys_type` int(11) NULL DEFAULT NULL COMMENT '系统类型',
+  `sys_addr` int(11) NULL DEFAULT NULL COMMENT '系统地址',
+  `area_addr` int(11) NULL DEFAULT NULL COMMENT '分区地址',
+  `alarm_type` int(11) NULL DEFAULT NULL COMMENT '报警类型',
+  `alarm_value` tinyint(4) NULL DEFAULT NULL COMMENT '1：报警，0：报警恢复',
+  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '记录时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of status_record_gas_exterminate
+-- ----------------------------
+INSERT INTO `status_record_gas_exterminate` VALUES (26725303507779584, 13, 1, 0, 40, 1, '2017-06-22 16:52:07');
+INSERT INTO `status_record_gas_exterminate` VALUES (26725332595277824, 13, 5, 1, 78, 1, '2017-06-22 11:02:06');
+
+-- ----------------------------
 -- Table structure for status_record_system
 -- ----------------------------
 DROP TABLE IF EXISTS `status_record_system`;
@@ -13801,6 +13881,12 @@ CREATE TABLE `status_record_system`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统状态记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Records of status_record_system
+-- ----------------------------
+INSERT INTO `status_record_system` VALUES (26704461021347840, 2, 203, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, '2017-06-22 10:12:13');
+INSERT INTO `status_record_system` VALUES (26725362920095744, 2, 203, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, '2017-06-22 10:12:13');
+
+-- ----------------------------
 -- Table structure for status_record_user_info_facility
 -- ----------------------------
 DROP TABLE IF EXISTS `status_record_user_info_facility`;
@@ -13817,6 +13903,29 @@ CREATE TABLE `status_record_user_info_facility`  (
   `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '触发时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户信息传输装置运行状态' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of status_record_user_info_facility
+-- ----------------------------
+INSERT INTO `status_record_user_info_facility` VALUES (26725848993792000, 0, 0, 0, 1, 0, 0, 0, 0, '2012-09-26 09:58:02');
+
+-- ----------------------------
+-- Table structure for switch_satus_user_info_facility
+-- ----------------------------
+DROP TABLE IF EXISTS `switch_satus_user_info_facility`;
+CREATE TABLE `switch_satus_user_info_facility`  (
+  `id` bigint(20) NOT NULL COMMENT 'ID、表主键',
+  `sys_addr` int(11) NULL DEFAULT NULL COMMENT '系统地址',
+  `location` int(11) NULL DEFAULT NULL COMMENT '开关量位置',
+  `normal` tinyint(4) NULL DEFAULT NULL COMMENT '1：正常，2：动作',
+  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '记录时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '上传用户信息传输装置开关量状态' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of switch_satus_user_info_facility
+-- ----------------------------
+INSERT INTO `switch_satus_user_info_facility` VALUES (26725930304569344, 1, 1, 1, '2012-09-26 09:58:32');
 
 -- ----------------------------
 -- Table structure for sys_dict

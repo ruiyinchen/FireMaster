@@ -3,6 +3,7 @@ package com.zfzn.firemaster.manager;
 import com.zfzn.firemaster.dao.StatusRecordUserInfoFacilityDao;
 import com.zfzn.firemaster.domain.od.StatusRecordUserInfoFacility;
 import com.zfzn.firemaster.domain.up.UserInfoFacilityRunStatus;
+import com.zfzn.firemaster.util.SnowflakeIdWorker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
  */
 @Component
 public class StatusRecordUserInfoFacilityManager {
+    private final SnowflakeIdWorker idWorker=SnowflakeIdWorker.getInstance();
     private final StatusRecordUserInfoFacilityDao statusRecordUserInfoFacilityDao;
 
     @Autowired
@@ -29,6 +31,7 @@ public class StatusRecordUserInfoFacilityManager {
                 .map(item -> {
                     UserInfoFacilityRunStatus frs = (UserInfoFacilityRunStatus) item;
                     StatusRecordUserInfoFacility sru = new StatusRecordUserInfoFacility();
+                    sru.setId(idWorker.nextId());
                     byte[] bytes = frs.getStatus();
                     sru.setNormal(bytes[7]);
                     sru.setFireAlarm(bytes[6]);

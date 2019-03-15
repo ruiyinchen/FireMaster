@@ -50,7 +50,7 @@
     </insert>
 
     <insert id="insertAll" parameterType="java.util.List">
-        INSERT INTO operation_record_facility
+        INSERT INTO conf_facility_component
         (id, addr_code, component_description)
         VALUES
         <foreach collection="list" item="item" separator=",">

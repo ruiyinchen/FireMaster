@@ -1,10 +1,7 @@
 package com.zfzn.firemaster.manager;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.zfzn.firemaster.dao.InfoComponentDao;
-import com.zfzn.firemaster.dao.StatusRecordComponentDao;
-import com.zfzn.firemaster.dao.StatusRecordSystemDao;
 import com.zfzn.firemaster.domain.AppDataUnit;
 import com.zfzn.firemaster.domain.od.InfoComponent;
 import com.zfzn.firemaster.domain.up.FireFacilityComponent;
@@ -42,10 +39,11 @@ public class FireDataStorage {
     private final OperationRecordUserInfoFacilityManager operationRecordUserInfoFacilityManager;
     private final SoftwareVersionUserInfoFacilityManager softwareVersionUserInfoFacilityManager;
     private final ConfUserInfoFacilityManager confUserInfoFacilityManager;
-    private final RedisTemplate<String, Serializable> redisTemplate;
+    private final StatusRecordGasExterminateManager statusRecordGasExterminateManager;
+    private final SwitchSatusUserInfoFacilityManager switchSatusUserInfoFacilityManager;
 
     @Autowired
-    public FireDataStorage(AnalogValueManager analogValueManager, StatusRecordComponentManager statusRecordComponentManager, InfoComponentDao infoComponentDao, StatusRecordComponentDao statusRecordComponentDao, StatusRecordSystemDao statusRecordSystemDao, InfoComponentManager infoComponentManager, StatusRecordSystemManager statusRecordSystemManager, OperationRecordFacilityManager operationRecordFacilityManager, SoftwareVersionFacilityManager softwareVersionFacilityManager, ConfFacilitySysManager confFacilitySysManager, ConfFacilityComponentManager confFacilityComponentManager, StatusRecordUserInfoFacilityManager statusRecordUserInfoFacilityManager, OperationRecordUserInfoFacilityManager operationRecordUserInfoFacilityManager, SoftwareVersionUserInfoFacilityManager softwareVersionUserInfoFacilityManager, ConfUserInfoFacilityManager confUserInfoFacilityManager, RedisTemplate<String, Serializable> redisTemplate) {
+    public FireDataStorage(AnalogValueManager analogValueManager, StatusRecordComponentManager statusRecordComponentManager, InfoComponentDao infoComponentDao, InfoComponentManager infoComponentManager, StatusRecordSystemManager statusRecordSystemManager, OperationRecordFacilityManager operationRecordFacilityManager, SoftwareVersionFacilityManager softwareVersionFacilityManager, ConfFacilitySysManager confFacilitySysManager, ConfFacilityComponentManager confFacilityComponentManager, StatusRecordUserInfoFacilityManager statusRecordUserInfoFacilityManager, OperationRecordUserInfoFacilityManager operationRecordUserInfoFacilityManager, SoftwareVersionUserInfoFacilityManager softwareVersionUserInfoFacilityManager, ConfUserInfoFacilityManager confUserInfoFacilityManager, RedisTemplate<String, Serializable> redisTemplate, StatusRecordGasExterminateManager statusRecordGasExterminateManager, SwitchSatusUserInfoFacilityManager switchSatusUserInfoFacilityManager) {
         this.analogValueManager = analogValueManager;
         this.statusRecordComponentManager = statusRecordComponentManager;
         this.infoComponentManager = infoComponentManager;
@@ -58,7 +56,8 @@ public class FireDataStorage {
         this.operationRecordUserInfoFacilityManager = operationRecordUserInfoFacilityManager;
         this.softwareVersionUserInfoFacilityManager = softwareVersionUserInfoFacilityManager;
         this.confUserInfoFacilityManager = confUserInfoFacilityManager;
-        this.redisTemplate = redisTemplate;
+        this.statusRecordGasExterminateManager = statusRecordGasExterminateManager;
+        this.switchSatusUserInfoFacilityManager = switchSatusUserInfoFacilityManager;
     }
 
     public void storage(AppDataUnit dataUnit) {
@@ -102,10 +101,10 @@ public class FireDataStorage {
                 _logger.info("建筑消防设施系统时间：" + JSON.toJSONString(dataUnit));
                 break;
             case DATA_TYPE_UP_USER_DEVICE_SWITCH_STATUS:
-                _logger.info("用户信息传输装置开关量状态：" + JSON.toJSONString(dataUnit));
+                switchSatusUserInfoFacilityManager.saveAll(dataUnit.getList());
                 break;
             case DATE_TYPE_UP_GAS_EXTINGUISHING_SYSTEM_STATUS:
-                _logger.info("气体灭火系统状态信息：" + JSON.toJSONString(dataUnit));
+                statusRecordGasExterminateManager.saveAll(dataUnit.getList());
                 break;
             case DATA_TYPE_UP_USER_DEVICE_SYS_TIME:
                 _logger.info("用户信息传输装置系统时间：" + JSON.toJSONString(dataUnit));

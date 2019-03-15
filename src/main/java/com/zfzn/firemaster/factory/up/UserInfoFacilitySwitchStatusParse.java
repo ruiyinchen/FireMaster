@@ -23,15 +23,15 @@ public class UserInfoFacilitySwitchStatusParse implements ParseObject {
             // 系统地址
             byte[] sysArr=new byte[2];
             buf.readBytes(sysArr);
-            int systemAddr = (sysArr[1] << 8) & 0xFF | sysArr[0] & 0xFF;
+            int systemAddr = (sysArr[0] << 8) & 0xFF | sysArr[1] & 0xFF;
 
-            buf.readBytes(8);
+            buf.readBytes(4);
             // 开关量位置
             int switchPosition = buf.readUnsignedByte();
             // 状态
             int status = buf.readUnsignedByte();
 
-            buf.readBytes(4);
+            buf.readBytes(2);
             // 状态发生时间
             Date triggerTime = DateUtils.bufToDate(buf);
 
