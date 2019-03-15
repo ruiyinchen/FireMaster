@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfzn.firemaster.dao.SoftwareVersionUserInfoFacilityMapper">
+    <resultMap id="BaseResultMap" type="com.zfzn.firemaster.domain.od.SoftwareVersionUserInfoFacility">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="main_version" jdbcType="INTEGER" property="mainVersion"/>
+        <result column="minor_version" jdbcType="INTEGER" property="minorVersion"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, main_version, minor_version, gmt_create
+    </sql>
+    <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM software_version_user_info_facility
+        WHERE id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM software_version_user_info_facility
+        WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.zfzn.firemaster.domain.od.SoftwareVersionUserInfoFacility">
+        INSERT INTO software_version_user_info_facility (id, main_version, minor_version,
+        gmt_create)
+        VALUES (#{id,jdbcType=BIGINT}, #{mainVersion,jdbcType=INTEGER}, #{minorVersion,jdbcType=INTEGER},
+        #{gmtCreate,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.zfzn.firemaster.domain.od.SoftwareVersionUserInfoFacility">
+        INSERT INTO software_version_user_info_facility
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="mainVersion != null">
+                main_version,
+            </if>
+            <if test="minorVersion != null">
+                minor_version,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="mainVersion != null">
+                #{mainVersion,jdbcType=INTEGER},
+            </if>
+            <if test="minorVersion != null">
+                #{minorVersion,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByIdSelective" parameterType="com.zfzn.firemaster.domain.od.SoftwareVersionUserInfoFacility">
+        UPDATE software_version_user_info_facility
+        <set>
+            <if test="mainVersion != null">
+                main_version = #{mainVersion,jdbcType=INTEGER},
+            </if>
+            <if test="minorVersion != null">
+                minor_version = #{minorVersion,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateById" parameterType="com.zfzn.firemaster.domain.od.SoftwareVersionUserInfoFacility">
+        UPDATE software_version_user_info_facility
+        SET main_version = #{mainVersion,jdbcType=INTEGER},
+        minor_version = #{minorVersion,jdbcType=INTEGER},
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP}
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

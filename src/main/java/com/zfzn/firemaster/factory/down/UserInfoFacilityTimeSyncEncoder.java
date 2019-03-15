@@ -23,12 +23,12 @@ public class UserInfoFacilityTimeSyncEncoder implements EncoderObject {
     }
 
     @Override
-    public byte[] command() {
-        return new byte[]{48, 49};
+    public byte command() {
+        return 1;
     }
 
     @Override
     public int itemLength() {
-        return 24;
+        return 12;
     }
 }

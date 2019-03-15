@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfzn.firemaster.dao.StatusRecordUserInfoFacilityMapper">
+    <resultMap id="BaseResultMap" type="com.zfzn.firemaster.domain.od.StatusRecordUserInfoFacility">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="normal" jdbcType="TINYINT" property="normal"/>
+        <result column="fire_alarm" jdbcType="TINYINT" property="fireAlarm"/>
+        <result column="breakdown" jdbcType="TINYINT" property="breakdown"/>
+        <result column="main_power_failure" jdbcType="TINYINT" property="mainPowerFailure"/>
+        <result column="backup_power_failure" jdbcType="TINYINT" property="backupPowerFailure"/>
+        <result column="channel_failure" jdbcType="TINYINT" property="channelFailure"/>
+        <result column="connection_failure" jdbcType="TINYINT" property="connectionFailure"/>
+        <result column="reserved" jdbcType="TINYINT" property="reserved"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, normal, fire_alarm, breakdown, main_power_failure, backup_power_failure, channel_failure,
+        connection_failure, reserved, gmt_create
+    </sql>
+    <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM status_record_user_info_facility
+        WHERE id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM status_record_user_info_facility
+        WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.zfzn.firemaster.domain.od.StatusRecordUserInfoFacility">
+        INSERT INTO status_record_user_info_facility (id, normal, fire_alarm,
+        breakdown, main_power_failure, backup_power_failure,
+        channel_failure, connection_failure, reserved,
+        gmt_create)
+        VALUES (#{id,jdbcType=BIGINT}, #{normal,jdbcType=TINYINT}, #{fireAlarm,jdbcType=TINYINT},
+        #{breakdown,jdbcType=TINYINT}, #{mainPowerFailure,jdbcType=TINYINT}, #{backupPowerFailure,jdbcType=TINYINT},
+        #{channelFailure,jdbcType=TINYINT}, #{connectionFailure,jdbcType=TINYINT}, #{reserved,jdbcType=TINYINT},
+        #{gmtCreate,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.zfzn.firemaster.domain.od.StatusRecordUserInfoFacility">
+        INSERT INTO status_record_user_info_facility
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="normal != null">
+                normal,
+            </if>
+            <if test="fireAlarm != null">
+                fire_alarm,
+            </if>
+            <if test="breakdown != null">
+                breakdown,
+            </if>
+            <if test="mainPowerFailure != null">
+                main_power_failure,
+            </if>
+            <if test="backupPowerFailure != null">
+                backup_power_failure,
+            </if>
+            <if test="channelFailure != null">
+                channel_failure,
+            </if>
+            <if test="connectionFailure != null">
+                connection_failure,
+            </if>
+            <if test="reserved != null">
+                reserved,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="normal != null">
+                #{normal,jdbcType=TINYINT},
+            </if>
+            <if test="fireAlarm != null">
+                #{fireAlarm,jdbcType=TINYINT},
+            </if>
+            <if test="breakdown != null">
+                #{breakdown,jdbcType=TINYINT},
+            </if>
+            <if test="mainPowerFailure != null">
+                #{mainPowerFailure,jdbcType=TINYINT},
+            </if>
+            <if test="backupPowerFailure != null">
+                #{backupPowerFailure,jdbcType=TINYINT},
+            </if>
+            <if test="channelFailure != null">
+                #{channelFailure,jdbcType=TINYINT},
+            </if>
+            <if test="connectionFailure != null">
+                #{connectionFailure,jdbcType=TINYINT},
+            </if>
+            <if test="reserved != null">
+                #{reserved,jdbcType=TINYINT},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByIdSelective" parameterType="com.zfzn.firemaster.domain.od.StatusRecordUserInfoFacility">
+        UPDATE status_record_user_info_facility
+        <set>
+            <if test="normal != null">
+                normal = #{normal,jdbcType=TINYINT},
+            </if>
+            <if test="fireAlarm != null">
+                fire_alarm = #{fireAlarm,jdbcType=TINYINT},
+            </if>
+            <if test="breakdown != null">
+                breakdown = #{breakdown,jdbcType=TINYINT},
+            </if>
+            <if test="mainPowerFailure != null">
+                main_power_failure = #{mainPowerFailure,jdbcType=TINYINT},
+            </if>
+            <if test="backupPowerFailure != null">
+                backup_power_failure = #{backupPowerFailure,jdbcType=TINYINT},
+            </if>
+            <if test="channelFailure != null">
+                channel_failure = #{channelFailure,jdbcType=TINYINT},
+            </if>
+            <if test="connectionFailure != null">
+                connection_failure = #{connectionFailure,jdbcType=TINYINT},
+            </if>
+            <if test="reserved != null">
+                reserved = #{reserved,jdbcType=TINYINT},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateById" parameterType="com.zfzn.firemaster.domain.od.StatusRecordUserInfoFacility">
+        UPDATE status_record_user_info_facility
+        SET normal = #{normal,jdbcType=TINYINT},
+        fire_alarm = #{fireAlarm,jdbcType=TINYINT},
+        breakdown = #{breakdown,jdbcType=TINYINT},
+        main_power_failure = #{mainPowerFailure,jdbcType=TINYINT},
+        backup_power_failure = #{backupPowerFailure,jdbcType=TINYINT},
+        channel_failure = #{channelFailure,jdbcType=TINYINT},
+        connection_failure = #{connectionFailure,jdbcType=TINYINT},
+        reserved = #{reserved,jdbcType=TINYINT},
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP}
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

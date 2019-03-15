@@ -15,21 +15,21 @@ import java.util.Date;
  * @author : Tony.fuxudong
  * Created in 16:14 2019/3/7
  */
-public class ChackCommandEncoder implements EncoderObject {
+public class CheckCommandEncoder implements EncoderObject {
     @Override
     public void writeUnitData(CommandItem item, ByteBuf byteBuf) {
         CheckCommand obj = (CheckCommand) item;
-        byteBuf.writeBytes(CommonUtils.intToHexBytes(obj.getOvertime()));
+        byteBuf.writeByte(obj.getOvertime());
         byteBuf.writeBytes(DateUtils.dateToBuf(obj.getTriggerTime() != null ? obj.getTriggerTime() : new Date()));
     }
 
     @Override
-    public byte[] command() {
-        return new byte[]{48, 49};
+    public byte command() {
+        return 1;
     }
 
     @Override
     public int itemLength() {
-        return 14;
+        return 7;
     }
 }

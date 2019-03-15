@@ -4,7 +4,6 @@ import com.zfzn.firemaster.cache.FireDataCache;
 import com.zfzn.firemaster.cache.GlobalValue;
 import com.zfzn.firemaster.domain.down.IssuedCommand;
 import com.zfzn.firemaster.factory.EncoderObject;
-import com.zfzn.firemaster.util.CommonUtils;
 import com.zfzn.firemaster.util.DateUtils;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -39,9 +38,9 @@ public class PackEncoder {
     public ByteBuf builder(String tar) {
         List<GlobalValue> globalList = fireDataCache.readTarget(tar);
         GlobalValue globalValue = globalList.get(0);
-        ByteBuf byteBuf = Unpooled.copiedBuffer(new byte[]{52, 48, 52, 48});
-        byteBuf.writeBytes(CommonUtils.intTo4Hex(globalValue.getMainVersionNo()).getBytes());
-        byteBuf.writeBytes(CommonUtils.intTo4Hex(globalValue.getUserVersionNo()).getBytes());
+        ByteBuf byteBuf = Unpooled.copiedBuffer(new byte[]{65, 65});
+        byteBuf.writeByte(globalValue.getMainVersionNo());
+        byteBuf.writeByte(globalValue.getUserVersionNo());
         byteBuf.writeBytes(DateUtils.dateToBuf(new Date()));
         byteBuf.writeBytes(globalValue.getMonitorCenterAddr());
         byteBuf.writeBytes(globalValue.getTransmissionDeviceAddr());
@@ -86,7 +85,7 @@ public class PackEncoder {
                 encoderObj = new UserInfoFacilityTimeSyncEncoder();
                 break;
             case DATA_TYPE_DOWN_PATROL_COMMAND:
-                encoderObj = new ChackCommandEncoder();
+                encoderObj = new CheckCommandEncoder();
                 break;
 
         }
@@ -101,7 +100,7 @@ public class PackEncoder {
      */
     public void build(ByteBuf byteBuf) {
         countSum(byteBuf);
-        byteBuf.writeBytes(new byte[]{50, 51, 50, 51});
+        byteBuf.writeBytes(new byte[]{35, 35});
 
     }
 
@@ -111,18 +110,12 @@ public class PackEncoder {
      * @param byteBuf
      */
     private void countSum(ByteBuf byteBuf) {
-        ByteBuf buf = byteBuf.copy(4, byteBuf.readableBytes() - 4);
+        ByteBuf buf = byteBuf.copy(2, byteBuf.readableBytes() - 2);
         int sum = 0;
-        while (buf.readableBytes() >= 2) {
-            sum += Integer.parseInt(byteBuf.readBytes(2).toString(UTF_8), 16);
+        while (buf.readableBytes() > 0) {
+            sum += buf.readUnsignedByte();
         }
-        sum = sum % 256;
-        String sumHex = Integer.toString(sum, 16);
-        /*char[] arr = sumHex.toCharArray();
-        for (char anArr : arr) {
-            int n = (int) anArr;
-            byteBuf.writeByte(n);
-        }*/
-        byteBuf.writeBytes(sumHex.getBytes());
+        sum = sum & 0xFF;
+        byteBuf.writeByte(sum);
     }
 }

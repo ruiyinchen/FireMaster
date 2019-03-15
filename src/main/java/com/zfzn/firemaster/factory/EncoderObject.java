@@ -16,7 +16,7 @@ import static io.netty.util.CharsetUtil.UTF_8;
  * Created in 9:35 2019/3/7
  */
 public interface EncoderObject {
-    int FIXED_LENGTH = 4;
+    int FIXED_LENGTH = 2;
 
     void writeUnitData(CommandItem item,ByteBuf byteBuf);
 
@@ -44,8 +44,8 @@ public interface EncoderObject {
     default void writeCommon(IssuedCommand command, ByteBuf byteBuf) {
         writeDataUnitLength(command.getObjNum(), byteBuf);
         writeCommand(byteBuf);
-        byteBuf.writeBytes(CommonUtils.intTo2Hex(command.getDataType()).getBytes(UTF_8));
-        byteBuf.writeBytes(CommonUtils.intTo2Hex(command.getObjNum()).getBytes(UTF_8));
+        byteBuf.writeByte(command.getDataType());
+        byteBuf.writeByte(command.getObjNum());
     }
 
     /**
@@ -56,7 +56,7 @@ public interface EncoderObject {
      */
     default void writeDataUnitLength(int objNum, ByteBuf byteBuf) {
         int dataLength = objNum * itemLength() + FIXED_LENGTH;
-        byteBuf.writeBytes(CommonUtils.intTo4Hex(dataLength).getBytes(UTF_8));
+        byteBuf.writeBytes(CommonUtils.intToByteArray(dataLength));
     }
 
     /**
@@ -65,11 +65,11 @@ public interface EncoderObject {
      * @param byteBuf
      */
     default void writeCommand(ByteBuf byteBuf) {
-        byteBuf.writeBytes(command());
+        byteBuf.writeByte(command());
     }
 
-    default byte[] command() {
-        return new byte[]{48, 52};
+    default byte command() {
+        return 4;
     }
 
     default int itemLength() {

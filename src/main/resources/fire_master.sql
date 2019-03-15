@@ -11,7 +11,7 @@
  Target Server Version : 50713
  File Encoding         : 65001
 
- Date: 13/03/2019 15:22:23
+ Date: 15/03/2019 11:26:23
 */
 
 SET NAMES utf8mb4;
@@ -29,6 +29,40 @@ CREATE TABLE `analog_value`  (
   `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '记录时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '模拟量值' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for conf_facility_component
+-- ----------------------------
+DROP TABLE IF EXISTS `conf_facility_component`;
+CREATE TABLE `conf_facility_component`  (
+  `id` bigint(20) NOT NULL COMMENT 'ID、表主键',
+  `addr_code` int(11) NULL DEFAULT NULL COMMENT '部件地址码',
+  `component_description` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '部件说明',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '建筑消防设施部件配置' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for conf_facility_sys
+-- ----------------------------
+DROP TABLE IF EXISTS `conf_facility_sys`;
+CREATE TABLE `conf_facility_sys`  (
+  `id` bigint(20) NOT NULL COMMENT 'ID、表主键',
+  `sys_type` int(11) NULL DEFAULT NULL COMMENT '系统类型',
+  `sys_addr` int(11) NULL DEFAULT NULL COMMENT '系统地址',
+  `sys_description` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '系统说明',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '建筑消防设施系统配置' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for conf_user_info_facility
+-- ----------------------------
+DROP TABLE IF EXISTS `conf_user_info_facility`;
+CREATE TABLE `conf_user_info_facility`  (
+  `id` bigint(20) NOT NULL,
+  `description` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '配置说明',
+  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '记录时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户传输装置配置信息' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for equipment_info
@@ -13636,10 +13670,36 @@ CREATE TABLE `info_component`  (
   `sys_addr` int(11) NULL DEFAULT NULL COMMENT '系统地址',
   `component_type` int(11) NULL DEFAULT NULL COMMENT '部件类型',
   `component_addr` int(11) NULL DEFAULT NULL COMMENT '部件地址',
-  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '记录时间',
-  `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `gmt_create` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录时间',
+  `gmt_modified` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部件信息表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for operation_record_facility
+-- ----------------------------
+DROP TABLE IF EXISTS `operation_record_facility`;
+CREATE TABLE `operation_record_facility`  (
+  `id` bigint(20) NOT NULL COMMENT 'ID、表主键',
+  `sys_type` int(11) NULL DEFAULT NULL COMMENT '系统类型',
+  `sys_addr` int(11) NULL DEFAULT NULL COMMENT '系统地址',
+  `operational_info` int(11) NULL DEFAULT NULL COMMENT '操作信息',
+  `operator` int(11) NULL DEFAULT NULL COMMENT '操作员编号',
+  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '记录时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '建筑消防设施操作信息记录\r\n' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for operation_record_user_info_facility
+-- ----------------------------
+DROP TABLE IF EXISTS `operation_record_user_info_facility`;
+CREATE TABLE `operation_record_user_info_facility`  (
+  `id` bigint(20) NOT NULL COMMENT 'ID、表主键',
+  `operational_info` int(11) NULL DEFAULT NULL COMMENT '操作信息',
+  `operator` int(11) NULL DEFAULT NULL COMMENT '操作员编号',
+  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '操作记录时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户信息传输装置操作记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for pack_original
@@ -13652,35 +13712,46 @@ CREATE TABLE `pack_original`  (
   `gmt_create` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录创建时间',
   `memo` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '预留',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '接收客户端包存储' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 87 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '接收客户端包存储' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pack_original
 -- ----------------------------
-INSERT INTO `pack_original` VALUES (19, '127.0.0.1:14308', '404001000101203A091A090C790300000000385B01000000090002150108023A091A090C422323', '2019-03-05 14:49:44', NULL);
-INSERT INTO `pack_original` VALUES (20, '127.0.0.1:1478', '404001000101203A091A090C790300000000385B01000000130002CC0100011100000001010000203A091A090C0A372323', '2019-03-05 15:19:44', NULL);
-INSERT INTO `pack_original` VALUES (21, '127.0.0.1:1478', '404001000101072D0D1606110100000000000000000000000F0002CD010D010028010000073410160611002323', '2019-03-05 15:21:39', NULL);
-INSERT INTO `pack_original` VALUES (22, '127.0.0.1:1997', '404001000101072D0D1606110100000000000000000000000F0002CD010D010028010000073410160611002323', '2019-03-05 15:27:12', NULL);
-INSERT INTO `pack_original` VALUES (23, '127.0.0.1:2242', '404001000101203A091A090C790300000000385B0100000030000202010101280A000200020020202020202020202020202020202020202020202020202020202020202000023A091A090C462323', '2019-03-05 15:31:29', NULL);
-INSERT INTO `pack_original` VALUES (24, '127.0.0.1:2242', '404001000101203A091A090C790300000000385B01000000090002150108023A091A090C422323', '2019-03-05 15:31:41', NULL);
-INSERT INTO `pack_original` VALUES (25, '127.0.0.1:2242', '404001000101203A091A090C790300000000385B01000000130002CC0100011100000001010000203A091A090C0A372323', '2019-03-05 15:31:52', NULL);
-INSERT INTO `pack_original` VALUES (26, '127.0.0.1:2242', '404001000101072D0D1606110100000000000000000000000F0002CD010D010028010000073410160611002323', '2019-03-05 15:32:03', NULL);
-INSERT INTO `pack_original` VALUES (27, '127.0.0.1:2560', '404001000101203A091A090C790300000000385B0100000030000202010101280A000200020020202020202020202020202020202020202020202020202020202020202000023A091A090C462323', '2019-03-05 15:38:17', NULL);
-INSERT INTO `pack_original` VALUES (28, '127.0.0.1:2560', '4040010001012E190E16061101000000000000000000000030000202011304550101040021000000000000000000000000000000000000B3A3B1D5C3C520202020202020202E240D1606113E2323', '2019-03-05 15:40:32', NULL);
-INSERT INTO `pack_original` VALUES (29, '127.0.0.1:3355', '404001000101203A091A090C790300000000385B01000000090002150108023A091A090C422323', '2019-03-05 15:50:25', NULL);
-INSERT INTO `pack_original` VALUES (30, '127.0.0.1:3355', '404001000101203A091A090C790300000000385B01000000130002CC0100011100000001010000203A091A090C0A372323', '2019-03-05 15:52:55', NULL);
-INSERT INTO `pack_original` VALUES (31, '127.0.0.1:3355', '404001000101072D0D1606110100000000000000000000000F0002CD010D010028010000073410160611002323', '2019-03-05 15:53:06', NULL);
-INSERT INTO `pack_original` VALUES (32, '127.0.0.1:3355', '4040010001010C060E1606110100000000000000000000003000020201CB020A0101020011000000000000000000000000000000000000B3F8B7BF00000000000000AABB000C210A1606115C2323', '2019-03-05 15:53:22', NULL);
-INSERT INTO `pack_original` VALUES (33, '127.0.0.1:3969', '404001000101203A091A090C790300000000385B01000000130002CC0100011100000001010000203A091A090C0A372323', '2019-03-05 16:05:40', NULL);
-INSERT INTO `pack_original` VALUES (34, '127.0.0.1:3969', '40400100010106330D1606110100000000000000000000000F0002CD010D05014E01000006020B160611F82323', '2019-03-05 16:05:50', NULL);
-INSERT INTO `pack_original` VALUES (35, '127.0.0.1:3969', '4040010001010D020E1606110100000000000000000000000C00020101CB0201090D0C0A160611852323', '2019-03-05 16:05:55', NULL);
-INSERT INTO `pack_original` VALUES (36, '127.0.0.1:3969', '40400100010105210E1606110100000000000000000000003000020201C906120101010005000000000000000000000000000000000000202020202020202020202020202005290E160611AC2323', '2019-03-05 16:06:05', NULL);
-INSERT INTO `pack_original` VALUES (37, '127.0.0.1:4204', '40400100010105210E1606110100000000000000000000003000020201C906120101010005000000000000000000000000000000000000202020202020202020202020202005290E160611AC2323', '2019-03-05 16:10:20', NULL);
-INSERT INTO `pack_original` VALUES (38, '127.0.0.1:4204', '40400100010105210E1606110100000000000000000000003000020201C906120101010005000000000000000000000000000000000000202020202020202020202020202005290E160611AC2323', '2019-03-05 16:11:08', NULL);
-INSERT INTO `pack_original` VALUES (39, '127.0.0.1:13482', '4040020001010A13110B0313010000000000FFFF000000000A0002180104000A13110B0313CA2323', '2019-03-12 18:35:20', NULL);
-INSERT INTO `pack_original` VALUES (40, '127.0.0.1:13627', '4040020001010A13110B0313010000000000FFFF000000000A0002180104000A13110B0313CA2323', '2019-03-12 18:36:29', NULL);
-INSERT INTO `pack_original` VALUES (41, '127.0.0.1:13770', '4040020001010A13110B0313010000000000FFFF000000000A0002180104000A13110B0313CA2323', '2019-03-12 18:37:36', NULL);
-INSERT INTO `pack_original` VALUES (42, '127.0.0.1:13968', '4040020001010A13110B0313010000000000FFFF000000000A0002180104000A13110B0313CA2323', '2019-03-12 18:41:04', NULL);
+INSERT INTO `pack_original` VALUES (78, '10.0.75.1:8442', '[64, 64, 1, 0, 1, 1, 32, 58, 9, 26, 9, 12, 121, 3, 0, 0, 0, 0, 56, 91, 1, 0, 0, 0, 9, 0, 2, 21, 1, 8, 2, 58, 9, 26, 9, 12, 66, 35, 35]', '2019-03-14 21:29:11', NULL);
+INSERT INTO `pack_original` VALUES (79, '10.0.75.1:8442', '[64, 64, 1, 0, 1, 1, 32, 58, 9, 26, 9, 12, 121, 3, 0, 0, 0, 0, 56, 91, 1, 0, 0, 0, 9, 0, 2, 21, 1, 8, 2, 58, 9, 26, 9, 12, 66, 35, 35]', '2019-03-14 21:30:25', NULL);
+INSERT INTO `pack_original` VALUES (80, '10.0.75.1:8442', '[64, 64, 1, 0, 1, 1, 32, 58, 9, 26, 9, 12, 121, 3, 0, 0, 0, 0, 56, 91, 1, 0, 0, 0, 10, 0, 2, 24, 1, 32, 1, 2, 58, 9, 26, 9, 12, 95, 35, 35]', '2019-03-14 21:33:43', NULL);
+INSERT INTO `pack_original` VALUES (81, '10.0.75.1:8442', '[64, 64, 1, 0, 1, 1, 32, 58, 9, 26, 9, 12, 121, 3, 0, 0, 0, 0, 56, 91, 1, 0, 0, 0, 10, 0, 2, 24, 1, 32, 1, 2, 58, 9, 26, 9, 12, 95, 35, 35]', '2019-03-14 21:34:30', NULL);
+INSERT INTO `pack_original` VALUES (82, '192.168.249.1:7325', '[64, 64, 1, 0, 1, 1, 32, 58, 9, 26, 9, 12, 121, 3, 0, 0, 0, 0, 56, 91, 1, 0, 0, 0, 9, 0, 2, 21, 1, 8, 2, 58, 9, 26, 9, 12, 66, 35, 35]', '2019-03-15 09:28:36', NULL);
+INSERT INTO `pack_original` VALUES (83, '192.168.249.1:7325', '[64, 64, 1, 0, 1, 1, 32, 58, 9, 26, 9, 12, 121, 3, 0, 0, 0, 0, 56, 91, 1, 0, 0, 0, 9, 0, 2, 21, 1, 8, 2, 58, 9, 26, 9, 12, 66, 35, 35]', '2019-03-15 09:28:54', NULL);
+INSERT INTO `pack_original` VALUES (84, '192.168.249.1:7325', '[64, 64, 1, 0, 1, 1, 32, 58, 9, 26, 9, 12, 121, 3, 0, 0, 0, 0, 56, 91, 1, 0, 0, 0, 9, 0, 2, 21, 1, 8, 2, 58, 9, 26, 9, 12, 66, 35, 35]', '2019-03-15 09:28:59', NULL);
+INSERT INTO `pack_original` VALUES (85, '192.168.249.1:7325', '[64, 64, 1, 0, 1, 1, 32, 58, 9, 26, 9, 12, 121, 3, 0, 0, 0, 0, 56, 91, 1, 0, 0, 0, 10, 0, 2, 24, 1, 32, 1, 2, 58, 9, 26, 9, 12, 95, 35, 35]', '2019-03-15 09:29:10', NULL);
+INSERT INTO `pack_original` VALUES (86, '192.168.249.1:7354', '[64, 64, 1, 0, 1, 1, 32, 58, 9, 26, 9, 12, 121, 3, 0, 0, 0, 0, 56, 91, 1, 0, 0, 0, 10, 0, 2, 24, 1, 32, 1, 2, 58, 9, 26, 9, 12, 95, 35, 35]', '2019-03-15 09:30:32', NULL);
+
+-- ----------------------------
+-- Table structure for software_version_facility
+-- ----------------------------
+DROP TABLE IF EXISTS `software_version_facility`;
+CREATE TABLE `software_version_facility`  (
+  `id` bigint(20) NOT NULL COMMENT 'ID、表主键',
+  `sys_type` int(11) NULL DEFAULT NULL COMMENT '系统类型',
+  `sys_addr` int(11) NULL DEFAULT NULL COMMENT '系统地址',
+  `main_version` int(11) NULL DEFAULT NULL COMMENT '主版本号',
+  `minor_version` int(11) NULL DEFAULT NULL COMMENT '次版本号',
+  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '建筑消防设施软件版本' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for software_version_user_info_facility
+-- ----------------------------
+DROP TABLE IF EXISTS `software_version_user_info_facility`;
+CREATE TABLE `software_version_user_info_facility`  (
+  `id` bigint(20) NOT NULL COMMENT 'ID、用户传输装置软件版本',
+  `main_version` int(11) NULL DEFAULT NULL COMMENT '主版本号',
+  `minor_version` int(11) NULL DEFAULT NULL COMMENT '次版本号',
+  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户信息传输装置软件按版本' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for status_record_component
@@ -13728,6 +13799,24 @@ CREATE TABLE `status_record_system`  (
   `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '记录时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统状态记录' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for status_record_user_info_facility
+-- ----------------------------
+DROP TABLE IF EXISTS `status_record_user_info_facility`;
+CREATE TABLE `status_record_user_info_facility`  (
+  `id` bigint(20) NOT NULL COMMENT ' ID、表主键',
+  `normal` tinyint(4) NULL DEFAULT NULL COMMENT '1：正常监视，0：测试状态',
+  `fire_alarm` tinyint(4) NULL DEFAULT NULL COMMENT '1：火警，0：无火警',
+  `breakdown` tinyint(4) NULL DEFAULT NULL COMMENT '1：故障，0：无故障',
+  `main_power_failure` tinyint(4) NULL DEFAULT NULL COMMENT '1：主电截障，0：主电正常\r',
+  `backup_power_failure` tinyint(4) NULL DEFAULT NULL COMMENT '1：备电故障，0：备电正常',
+  `channel_failure` tinyint(4) NULL DEFAULT NULL COMMENT '1：通道故障，0：通道正常',
+  `connection_failure` tinyint(4) NULL DEFAULT NULL COMMENT '1：监测连接线路故障，0：检测连接线路正常',
+  `reserved` tinyint(4) NULL DEFAULT NULL COMMENT '1：预留',
+  `gmt_create` datetime(0) NULL DEFAULT NULL COMMENT '触发时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户信息传输装置运行状态' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for sys_dict

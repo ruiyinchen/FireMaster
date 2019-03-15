@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfzn.firemaster.dao.ConfFacilityComponentMapper">
+    <resultMap id="BaseResultMap" type="com.zfzn.firemaster.domain.od.ConfFacilityComponent">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="addr_code" jdbcType="INTEGER" property="addrCode"/>
+        <result column="component_description" jdbcType="VARCHAR" property="componentDescription"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, addr_code, component_description
+  </sql>
+    <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM conf_facility_component
+        WHERE id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM conf_facility_component
+        WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.zfzn.firemaster.domain.od.ConfFacilityComponent">
+        INSERT INTO conf_facility_component (id, addr_code, component_description)
+        VALUES (#{id,jdbcType=BIGINT}, #{addrCode,jdbcType=INTEGER}, #{componentDescription,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.zfzn.firemaster.domain.od.ConfFacilityComponent">
+        INSERT INTO conf_facility_component
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="addrCode != null">
+                addr_code,
+            </if>
+            <if test="componentDescription != null">
+                component_description,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="addrCode != null">
+                #{addrCode,jdbcType=INTEGER},
+            </if>
+            <if test="componentDescription != null">
+                #{componentDescription,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByIdSelective" parameterType="com.zfzn.firemaster.domain.od.ConfFacilityComponent">
+        UPDATE conf_facility_component
+        <set>
+            <if test="addrCode != null">
+                addr_code = #{addrCode,jdbcType=INTEGER},
+            </if>
+            <if test="componentDescription != null">
+                component_description = #{componentDescription,jdbcType=VARCHAR},
+            </if>
+        </set>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateById" parameterType="com.zfzn.firemaster.domain.od.ConfFacilityComponent">
+        UPDATE conf_facility_component
+        SET addr_code = #{addrCode,jdbcType=INTEGER},
+        component_description = #{componentDescription,jdbcType=VARCHAR}
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

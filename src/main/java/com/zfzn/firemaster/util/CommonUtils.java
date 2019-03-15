@@ -152,6 +152,19 @@ public class CommonUtils {
         return intArr;
     }
 
+    /**
+     * 将int转为byte[]
+     *
+     * @param num
+     * @return
+     */
+    public static byte[] intToByteArray(int num) {
+        byte[] bytes = new byte[2];
+        bytes[0] = (byte) (num & 0x00FF);
+        bytes[1] = (byte) (num & 0xFF00);
+        return bytes;
+    }
+
 
     /**
      * 将一个int转化为2位16进制的String

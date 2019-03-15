@@ -19,15 +19,15 @@ public class FireFacilityOperationInfoEncoder implements EncoderObject {
     @Override
     public void writeUnitData(CommandItem item, ByteBuf byteBuf) {
         FireFacilityOperationInfo obj = (FireFacilityOperationInfo) item;
-        byteBuf.writeBytes(CommonUtils.intToHexBytes(obj.getSystemType()));
-        byteBuf.writeBytes(CommonUtils.intToHexBytes(obj.getSystemAddr()));
-        byteBuf.writeBytes(CommonUtils.intToHexBytes(obj.getRecordNum()));
+        byteBuf.writeByte(obj.getSystemType());
+        byteBuf.writeByte(obj.getSystemAddr());
+        byteBuf.writeByte(obj.getRecordNum());
         byteBuf.writeBytes(DateUtils.dateToBuf(obj.getStartTime()));
         byteBuf.writeBytes(DateUtils.dateToBuf(obj.getTriggerTime() != null ? obj.getTriggerTime() : new Date()));
     }
 
     @Override
     public int itemLength() {
-        return 30;
+        return 15;
     }
 }

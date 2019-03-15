@@ -5,6 +5,7 @@ import com.zfzn.firemaster.factory.MsgAnswer;
 import com.zfzn.firemaster.util.Checksum;
 import com.zfzn.firemaster.util.DateUtils;
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import org.slf4j.Logger;

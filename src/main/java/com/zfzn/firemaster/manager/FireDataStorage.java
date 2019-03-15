@@ -31,7 +31,6 @@ import static com.zfzn.firemaster.util.Constant.*;
 @Component
 public class FireDataStorage {
     private final Logger _logger = LoggerFactory.getLogger(FireDataStorage.class);
-    private final SnowflakeIdWorker idWorker = SnowflakeIdWorker.getInstance();
 
     private final AnalogValueManager analogValueManager;
     private final StatusRecordComponentManager statusRecordComponentManager;

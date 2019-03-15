@@ -19,13 +19,13 @@ public class UserInfoFacilityOperationInfoEncoder implements EncoderObject {
     @Override
     public void writeUnitData(CommandItem item, ByteBuf byteBuf) {
         UserInfoFacilityOperationInfo obj = (UserInfoFacilityOperationInfo) item;
-        byteBuf.writeBytes(CommonUtils.intToHexBytes(obj.getRecordNum()));
+        byteBuf.writeByte(obj.getRecordNum());
         byteBuf.writeBytes(DateUtils.dateToBuf(obj.getStartTime()));
         byteBuf.writeBytes(DateUtils.dateToBuf(obj.getTriggerTime() != null ? obj.getTriggerTime() : new Date()));
     }
 
     @Override
     public int itemLength() {
-        return 26;
+        return 13;
     }
 }

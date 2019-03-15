@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfzn.firemaster.dao.SoftwareVersionFacilityMapper">
+    <resultMap id="BaseResultMap" type="com.zfzn.firemaster.domain.od.SoftwareVersionFacility">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="sys_type" jdbcType="INTEGER" property="sysType"/>
+        <result column="sys_addr" jdbcType="INTEGER" property="sysAddr"/>
+        <result column="main_version" jdbcType="INTEGER" property="mainVersion"/>
+        <result column="minor_version" jdbcType="INTEGER" property="minorVersion"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, sys_type, sys_addr, main_version, minor_version, gmt_create
+    </sql>
+    <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM software_version_facility
+        WHERE id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM software_version_facility
+        WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.zfzn.firemaster.domain.od.SoftwareVersionFacility">
+        INSERT INFO software_version_facility (id, sys_type, sys_addr,
+        main_version, minor_version, gmt_create)
+        VALUES (#{id,jdbcType=BIGINT}, #{sysType,jdbcType=INTEGER}, #{sysAddr,jdbcType=INTEGER},
+        #{mainVersion,jdbcType=INTEGER}, #{minorVersion,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.zfzn.firemaster.domain.od.SoftwareVersionFacility">
+        INSERT INTO software_version_facility
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="sysType != null">
+                sys_type,
+            </if>
+            <if test="sysAddr != null">
+                sys_addr,
+            </if>
+            <if test="mainVersion != null">
+                main_version,
+            </if>
+            <if test="minorVersion != null">
+                minor_version,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="sysType != null">
+                #{sysType,jdbcType=INTEGER},
+            </if>
+            <if test="sysAddr != null">
+                #{sysAddr,jdbcType=INTEGER},
+            </if>
+            <if test="mainVersion != null">
+                #{mainVersion,jdbcType=INTEGER},
+            </if>
+            <if test="minorVersion != null">
+                #{minorVersion,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByIdSelective" parameterType="com.zfzn.firemaster.domain.od.SoftwareVersionFacility">
+        UPDATE software_version_facility
+        <set>
+            <if test="sysType != null">
+                sys_type = #{sysType,jdbcType=INTEGER},
+            </if>
+            <if test="sysAddr != null">
+                sys_addr = #{sysAddr,jdbcType=INTEGER},
+            </if>
+            <if test="mainVersion != null">
+                main_version = #{mainVersion,jdbcType=INTEGER},
+            </if>
+            <if test="minorVersion != null">
+                minor_version = #{minorVersion,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateById" parameterType="com.zfzn.firemaster.domain.od.SoftwareVersionFacility">
+        UPDATE software_version_facility
+        SET sys_type = #{sysType,jdbcType=INTEGER},
+        sys_addr = #{sysAddr,jdbcType=INTEGER},
+        main_version = #{mainVersion,jdbcType=INTEGER},
+        minor_version = #{minorVersion,jdbcType=INTEGER},
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP}
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

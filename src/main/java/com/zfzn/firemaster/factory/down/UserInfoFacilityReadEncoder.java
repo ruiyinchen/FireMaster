@@ -24,12 +24,12 @@ public class UserInfoFacilityReadEncoder implements EncoderObject {
     @Override
     public void writeUnitData(CommandItem item, ByteBuf byteBuf) {
         UserInfoFacilityRead obj = (UserInfoFacilityRead) item;
-        byteBuf.writeBytes(CommonUtils.intToHexBytes(obj.getReserved()));
+        byteBuf.writeByte(obj.getReserved());
         byteBuf.writeBytes(DateUtils.dateToBuf(obj.getTriggerTime() != null ? obj.getTriggerTime() : new Date()));
     }
 
     @Override
     public int itemLength() {
-        return 14;
+        return 7;
     }
 }

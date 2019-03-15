@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfzn.firemaster.dao.OperationRecordFacilityMapper">
+    <resultMap id="BaseResultMap" type="com.zfzn.firemaster.domain.od.OperationRecordFacility">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="sys_type" jdbcType="INTEGER" property="sysType"/>
+        <result column="sys_addr" jdbcType="INTEGER" property="sysAddr"/>
+        <result column="operational_info" jdbcType="INTEGER" property="operationalInfo"/>
+        <result column="operator" jdbcType="INTEGER" property="operator"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, sys_type, sys_addr, operational_info, operator, gmt_create
+    </sql>
+    <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM operation_record_facility
+        WHERE id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM operation_record_facility
+        WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.zfzn.firemaster.domain.od.OperationRecordFacility">
+        INSERT INTO operation_record_facility (id, sys_type, sys_addr,
+        operational_info, operator, gmt_create)
+        VALUES (#{id,jdbcType=BIGINT}, #{sysType,jdbcType=INTEGER}, #{sysAddr,jdbcType=INTEGER},
+        #{operationalInfo,jdbcType=INTEGER}, #{operator,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.zfzn.firemaster.domain.od.OperationRecordFacility">
+        INSERT INTO operation_record_facility
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="sysType != null">
+                sys_type,
+            </if>
+            <if test="sysAddr != null">
+                sys_addr,
+            </if>
+            <if test="operationalInfo != null">
+                operational_info,
+            </if>
+            <if test="operator != null">
+                operator,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="sysType != null">
+                #{sysType,jdbcType=INTEGER},
+            </if>
+            <if test="sysAddr != null">
+                #{sysAddr,jdbcType=INTEGER},
+            </if>
+            <if test="operationalInfo != null">
+                #{operationalInfo,jdbcType=INTEGER},
+            </if>
+            <if test="operator != null">
+                #{operator,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByIdSelective" parameterType="com.zfzn.firemaster.domain.od.OperationRecordFacility">
+        UPDATE operation_record_facility
+        <set>
+            <if test="sysType != null">
+                sys_type = #{sysType,jdbcType=INTEGER},
+            </if>
+            <if test="sysAddr != null">
+                sys_addr = #{sysAddr,jdbcType=INTEGER},
+            </if>
+            <if test="operationalInfo != null">
+                operational_info = #{operationalInfo,jdbcType=INTEGER},
+            </if>
+            <if test="operator != null">
+                operator = #{operator,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateById" parameterType="com.zfzn.firemaster.domain.od.OperationRecordFacility">
+        UPDATE operation_record_facility
+        SET sys_type = #{sysType,jdbcType=INTEGER},
+        sys_addr = #{sysAddr,jdbcType=INTEGER},
+        operational_info = #{operationalInfo,jdbcType=INTEGER},
+        operator = #{operator,jdbcType=INTEGER},
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP}
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

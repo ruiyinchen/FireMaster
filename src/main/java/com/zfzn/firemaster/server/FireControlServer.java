@@ -58,8 +58,6 @@ public class FireControlServer {
         ServerBootstrap bootstrap = new ServerBootstrap();
 
         ActiveInboundHandler activeHandler = new ActiveInboundHandler(channelContainer);
-        FireEncoder encoder = new FireEncoder();
-        FireDecoder decoder = new FireDecoder();
         OriginalInboundHandler originalInboundHandler = new OriginalInboundHandler(messageSender);
         DataAnalysisHandler analysisHandler = new DataAnalysisHandler(storage);
         TransmitOutBoundHandler transmitHandler = new TransmitOutBoundHandler();
@@ -74,10 +72,10 @@ public class FireControlServer {
                     @Override
                     protected void initChannel(NioSocketChannel channel) {
                         channel.pipeline().addLast(activeHandler);
-                        channel.pipeline().addLast(decoder);
+                        channel.pipeline().addLast(new FireDecoder());
                         channel.pipeline().addLast(originalInboundHandler);
                         channel.pipeline().addLast(analysisHandler);
-                        channel.pipeline().addLast(encoder);
+                        channel.pipeline().addLast(new FireEncoder());
                         channel.pipeline().addLast(transmitHandler);
                     }
                 });

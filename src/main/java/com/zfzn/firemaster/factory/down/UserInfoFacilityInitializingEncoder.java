@@ -19,18 +19,18 @@ public class UserInfoFacilityInitializingEncoder implements EncoderObject {
     @Override
     public void writeUnitData(CommandItem item, ByteBuf byteBuf) {
         UserInfoFacilityInitializing obj = (UserInfoFacilityInitializing) item;
-        byteBuf.writeBytes(CommonUtils.intToHexBytes(obj.getReserved()));
+        byteBuf.writeByte(obj.getReserved());
         byteBuf.writeBytes(DateUtils.dateToBuf(obj.getTriggerTime() != null ? obj.getTriggerTime() : new Date()));
     }
 
     @Override
-    public byte[] command() {
+    public byte command() {
         // TODO 初始化用户传输装置的命令类型有待确认
-        return new byte[]{48,49};
+        return 1;
     }
 
     @Override
     public int itemLength() {
-        return 14;
+        return 7;
     }
 }

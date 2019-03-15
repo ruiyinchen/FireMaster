@@ -23,13 +23,13 @@ public class FireFacilityEncoder implements EncoderObject {
     @Override
     public void writeUnitData(CommandItem item, ByteBuf byteBuf) {
         FireFacilityRead obj = (FireFacilityRead) item;
-        byteBuf.writeBytes(CommonUtils.intToHexBytes(obj.getSystemType()));
-        byteBuf.writeBytes(CommonUtils.intToHexBytes(obj.getSystemAddr()));
+        byteBuf.writeByte(obj.getSystemType());
+        byteBuf.writeByte(obj.getSystemAddr());
         byteBuf.writeBytes(DateUtils.dateToBuf(obj.getTriggerTime() != null ? obj.getTriggerTime() : new Date()));
     }
 
     @Override
     public int itemLength() {
-        return 16;
+        return 8;
     }
 }

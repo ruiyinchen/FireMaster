@@ -30,9 +30,8 @@ public class StatusRecordComponentManager {
     private final StatusRecordComponentMapper statusRecordComponentMapper;
 
     @Autowired
-    public StatusRecordComponentManager(StatusRecordComponentMapper statusRecordComponentMapper, InfoComponentManager infoComponentManager) {
+    public StatusRecordComponentManager(StatusRecordComponentMapper statusRecordComponentMapper) {
         this.statusRecordComponentMapper = statusRecordComponentMapper;
-        InfoComponentManager infoComponentManager1 = infoComponentManager;
     }
 
     public int saveAll(List<Object> srcList) {
