@@ -1,9 +1,6 @@
 package com.zfzn.firemaster.manager;
 
-import com.zfzn.firemaster.dao.InfoComponentMapper;
-import com.zfzn.firemaster.dao.StatusRecordComponentMapper;
-import com.zfzn.firemaster.domain.AppDataUnit;
-import com.zfzn.firemaster.domain.od.InfoComponent;
+import com.zfzn.firemaster.dao.StatusRecordComponentDao;
 import com.zfzn.firemaster.domain.od.StatusRecordComponent;
 import com.zfzn.firemaster.domain.up.FireFacilityComponentStatus;
 import com.zfzn.firemaster.util.SnowflakeIdWorker;
@@ -12,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,11 +23,11 @@ public class StatusRecordComponentManager {
     private final Logger _logger = LoggerFactory.getLogger(StatusRecordComponentManager.class);
 
     private final SnowflakeIdWorker idWorker = SnowflakeIdWorker.getInstance();
-    private final StatusRecordComponentMapper statusRecordComponentMapper;
+    private final StatusRecordComponentDao statusRecordComponentDao;
 
     @Autowired
-    public StatusRecordComponentManager(StatusRecordComponentMapper statusRecordComponentMapper) {
-        this.statusRecordComponentMapper = statusRecordComponentMapper;
+    public StatusRecordComponentManager(StatusRecordComponentDao statusRecordComponentDao) {
+        this.statusRecordComponentDao = statusRecordComponentDao;
     }
 
     public int saveAll(List<Object> srcList) {
@@ -58,7 +54,7 @@ public class StatusRecordComponentManager {
                     return src;
                 })
                 .collect(Collectors.toList());
-        int n = statusRecordComponentMapper.insertAll(list);
+        int n = statusRecordComponentDao.insertAll(list);
         _logger.info("存储部件状态信息，影响行数：" + n);
         return n;
     }

@@ -37,7 +37,7 @@ public class FireFacilityComponentConfigInfoParse implements ParseObject {
             int partPlace = (ac[1] << 8) & 0xFF | ac[0] & 0xFF;
             // 区号
             int partArea = (ac[3] << 8) & 0xFF | ac[2] & 0xFF;
-            // TODO 添加地址码
+            // 添加地址码
             int addrCode = (ac[3] << 24) & 0xFFFFFF | ac[2] << 16 & 0xFFFFFF | (ac[1] << 8) & 0xFFFFFF | ac[0] & 0xFFFFFF;
 
             // 部件说明
@@ -45,7 +45,7 @@ public class FireFacilityComponentConfigInfoParse implements ParseObject {
             // 状态发生时间
             Date triggerTime = DateUtils.bufToDate(buf);
 
-            FireFacilityComponentConfigInfo infoObj = new FireFacilityComponentConfigInfo(systemType, systemAddr, partType, partArea, partPlace, partLegend, triggerTime);
+            FireFacilityComponentConfigInfo infoObj = new FireFacilityComponentConfigInfo(systemType, systemAddr, partType, partArea, partPlace, addrCode,partLegend, triggerTime);
             list.add(infoObj);
         }
         return list;

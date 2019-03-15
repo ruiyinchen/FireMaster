@@ -10,7 +10,7 @@ import java.util.List;
 
 @Mapper
 @Repository
-public interface StatusRecordSystemMapper {
+public interface StatusRecordSystemDao {
     int deleteById(Long id);
 
     int insert(StatusRecordSystem record);
@@ -18,10 +18,6 @@ public interface StatusRecordSystemMapper {
     int insertSelective(StatusRecordSystem record);
 
     StatusRecordSystem selectById(Long id);
-
-    int updateByIdSelective(StatusRecordSystem record);
-
-    int updateById(StatusRecordSystem record);
 
     /**
      * 批量插入系统状态记录

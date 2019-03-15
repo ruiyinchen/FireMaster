@@ -64,26 +64,4 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByIdSelective" parameterType="com.zfzn.firemaster.domain.od.PackOriginal">
-        UPDATE pack_original
-        <set>
-            <if test="host != null">
-                host = #{host,jdbcType=CHAR},
-            </if>
-            <if test="content != null">
-                content = #{content,jdbcType=VARCHAR},
-            </if>
-            <if test="memo != null">
-                memo = #{memo,jdbcType=VARCHAR},
-            </if>
-        </set>
-        where id = #{id,jdbcType=BIGINT}
-    </update>
-    <update id="updateById" parameterType="com.zfzn.firemaster.domain.od.PackOriginal">
-        UPDATE pack_original
-        SET host = #{host,jdbcType=CHAR},
-        content = #{content,jdbcType=VARCHAR},
-        memo = #{memo,jdbcType=VARCHAR}
-        WHERE id = #{id,jdbcType=BIGINT}
-    </update>
 </mapper>

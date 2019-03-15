@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zfzn.firemaster.dao.SoftwareVersionFacilityMapper">
+<mapper namespace="com.zfzn.firemaster.dao.SoftwareVersionFacilityDao">
     <resultMap id="BaseResultMap" type="com.zfzn.firemaster.domain.od.SoftwareVersionFacility">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="sys_type" jdbcType="INTEGER" property="sysType"/>
@@ -71,34 +71,14 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByIdSelective" parameterType="com.zfzn.firemaster.domain.od.SoftwareVersionFacility">
-        UPDATE software_version_facility
-        <set>
-            <if test="sysType != null">
-                sys_type = #{sysType,jdbcType=INTEGER},
-            </if>
-            <if test="sysAddr != null">
-                sys_addr = #{sysAddr,jdbcType=INTEGER},
-            </if>
-            <if test="mainVersion != null">
-                main_version = #{mainVersion,jdbcType=INTEGER},
-            </if>
-            <if test="minorVersion != null">
-                minor_version = #{minorVersion,jdbcType=INTEGER},
-            </if>
-            <if test="gmtCreate != null">
-                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-            </if>
-        </set>
-        WHERE id = #{id,jdbcType=BIGINT}
-    </update>
-    <update id="updateById" parameterType="com.zfzn.firemaster.domain.od.SoftwareVersionFacility">
-        UPDATE software_version_facility
-        SET sys_type = #{sysType,jdbcType=INTEGER},
-        sys_addr = #{sysAddr,jdbcType=INTEGER},
-        main_version = #{mainVersion,jdbcType=INTEGER},
-        minor_version = #{minorVersion,jdbcType=INTEGER},
-        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP}
-        WHERE id = #{id,jdbcType=BIGINT}
-    </update>
+
+    <insert id="insertAll" parameterType="java.util.List">
+        INSERT INTO software_version_facility
+        (id, sys_type, sys_addr, main_version, minor_version, gmt_create)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id,jdbcType=BIGINT}, #{item.sysType,jdbcType=INTEGER}, #{item.sysAddr,jdbcType=INTEGER},
+            #{item.mainVersion,jdbcType=INTEGER}, #{item.minorVersion,jdbcType=INTEGER}, #{item.gmtCreate,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
 </mapper>

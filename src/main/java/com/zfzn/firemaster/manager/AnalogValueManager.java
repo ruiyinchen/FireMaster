@@ -1,10 +1,7 @@
 package com.zfzn.firemaster.manager;
 
-import com.zfzn.firemaster.dao.AnalogValueMapper;
-import com.zfzn.firemaster.domain.AppDataUnit;
+import com.zfzn.firemaster.dao.AnalogValueDao;
 import com.zfzn.firemaster.domain.od.AnalogValue;
-import com.zfzn.firemaster.domain.od.InfoComponent;
-import com.zfzn.firemaster.domain.up.FireFacilityComponentStatus;
 import com.zfzn.firemaster.domain.up.FireFacilityComponentValue;
 import com.zfzn.firemaster.util.SnowflakeIdWorker;
 import org.slf4j.Logger;
@@ -12,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,11 +23,11 @@ public class AnalogValueManager {
     private final Logger _logger = LoggerFactory.getLogger(FireDataStorage.class);
 
     private final SnowflakeIdWorker idWorker = SnowflakeIdWorker.getInstance();
-    private final AnalogValueMapper analogValueMapper;
+    private final AnalogValueDao analogValueDao;
 
     @Autowired
-    public AnalogValueManager(AnalogValueMapper analogValueMapper) {
-        this.analogValueMapper = analogValueMapper;
+    public AnalogValueManager(AnalogValueDao analogValueDao) {
+        this.analogValueDao = analogValueDao;
     }
 
     public int saveAll(List<Object> valueList) {
@@ -46,7 +42,7 @@ public class AnalogValueManager {
                     value.setGmtCreate(originalValue.getTriggerTime());
                     return value;
                 }).collect(Collectors.toList());
-        int m = analogValueMapper.insertAll(list);
+        int m = analogValueDao.insertAll(list);
         _logger.info("存储部件模拟量值，影响行数：" + m);
         return m;
     }

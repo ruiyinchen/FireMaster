@@ -1,6 +1,6 @@
 package com.zfzn.firemaster.manager;
 
-import com.zfzn.firemaster.dao.StatusRecordSystemMapper;
+import com.zfzn.firemaster.dao.StatusRecordSystemDao;
 import com.zfzn.firemaster.domain.od.StatusRecordSystem;
 import com.zfzn.firemaster.domain.up.FireFacilitySystemStatus;
 import com.zfzn.firemaster.util.SnowflakeIdWorker;
@@ -23,11 +23,11 @@ public class StatusRecordSystemManager {
     private final Logger _logger = LoggerFactory.getLogger(StatusRecordComponentManager.class);
 
     private final SnowflakeIdWorker idWorker = SnowflakeIdWorker.getInstance();
-    private final StatusRecordSystemMapper statusRecordSystemMapper;
+    private final StatusRecordSystemDao statusRecordSystemDao;
 
     @Autowired
-    public StatusRecordSystemManager(StatusRecordSystemMapper statusRecordSystemMapper) {
-        this.statusRecordSystemMapper = statusRecordSystemMapper;
+    public StatusRecordSystemManager(StatusRecordSystemDao statusRecordSystemDao) {
+        this.statusRecordSystemDao = statusRecordSystemDao;
     }
 
     public int saveAll(List<Object> fssList) {
@@ -58,7 +58,7 @@ public class StatusRecordSystemManager {
 
                     return srs;
                 }).collect(Collectors.toList());
-        int n=statusRecordSystemMapper.insertAll(list);
+        int n= statusRecordSystemDao.insertAll(list);
         _logger.info("存储系统状态信息，影响行："+n);
         return n;
     }

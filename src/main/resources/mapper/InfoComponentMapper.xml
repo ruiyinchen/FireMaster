@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zfzn.firemaster.dao.InfoComponentMapper">
+<mapper namespace="com.zfzn.firemaster.dao.InfoComponentDao">
     <resultMap id="BaseResultMap" type="com.zfzn.firemaster.domain.od.InfoComponent">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="sys_type" jdbcType="INTEGER" property="sysType"/>
@@ -80,41 +80,6 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.zfzn.firemaster.domain.od.InfoComponent">
-        UPDATE info_component
-        <set>
-            <if test="sysType != null">
-                sys_type = #{sysType,jdbcType=INTEGER},
-            </if>
-            <if test="sysAddr != null">
-                sys_addr = #{sysAddr,jdbcType=INTEGER},
-            </if>
-            <if test="componentType != null">
-                component_type = #{componentType,jdbcType=INTEGER},
-            </if>
-            <if test="componentAddr != null">
-                component_addr = #{componentAddr,jdbcType=INTEGER},
-            </if>
-            <if test="gmtCreate != null">
-                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-            </if>
-            <if test="gmtModified != null">
-                gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
-            </if>
-        </set>
-        WHERE id = #{id,jdbcType=INTEGER}
-    </update>
-    <update id="updateByPrimaryKey" parameterType="com.zfzn.firemaster.domain.od.InfoComponent">
-        UPDATE info_component
-        SET sys_type = #{sysType,jdbcType=INTEGER},
-        sys_addr = #{sysAddr,jdbcType=INTEGER},
-        component_type = #{componentType,jdbcType=INTEGER},
-        component_addr = #{componentAddr,jdbcType=INTEGER},
-        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
-        WHERE id = #{id,jdbcType=INTEGER}
-    </update>
-
 
     <select id="checkDitto" parameterType="java.util.List" resultType="java.lang.Integer">
         SELECT component_addr

@@ -1,6 +1,6 @@
 package com.zfzn.firemaster.manager;
 
-import com.zfzn.firemaster.dao.InfoComponentMapper;
+import com.zfzn.firemaster.dao.InfoComponentDao;
 import com.zfzn.firemaster.domain.od.InfoComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,19 +16,19 @@ import java.util.stream.Collectors;
  */
 @Component
 public class InfoComponentManager {
-    private final InfoComponentMapper infoComponentMapper;
+    private final InfoComponentDao infoComponentDao;
 
     @Autowired
-    public InfoComponentManager(InfoComponentMapper infoComponentMapper) {
-        this.infoComponentMapper = infoComponentMapper;
+    public InfoComponentManager(InfoComponentDao infoComponentDao) {
+        this.infoComponentDao = infoComponentDao;
     }
 
     public int saveList(List<InfoComponent> componentList){
-        List<Integer> dittoList=infoComponentMapper.checkDitto(componentList);
+        List<Integer> dittoList= infoComponentDao.checkDitto(componentList);
         // 过滤重复的部件
         List<InfoComponent> list=componentList.stream()
                 .filter(item->!dittoList.contains(item.getComponentAddr()))
                 .collect(Collectors.toList());
-        return list.size()>0?infoComponentMapper.insertAll(list):0;
+        return list.size()>0? infoComponentDao.insertAll(list):0;
     }
 }

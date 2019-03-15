@@ -9,7 +9,7 @@ import java.util.List;
 
 @Mapper
 @Repository
-public interface AnalogValueMapper {
+public interface AnalogValueDao {
 
     int deleteById(Long id);
 
@@ -18,10 +18,6 @@ public interface AnalogValueMapper {
     int insertSelective(AnalogValue record);
 
     AnalogValue selectById(Long id);
-
-    int updateByIdSelective(AnalogValue record);
-
-    int updateById(AnalogValue record);
 
     /**
      * 批量插入部件模拟量值

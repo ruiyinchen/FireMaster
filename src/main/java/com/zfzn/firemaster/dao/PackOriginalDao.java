@@ -15,8 +15,4 @@ public interface PackOriginalDao {
     int insertSelective(PackOriginal record);
 
     PackOriginal selectById(Long id);
-
-    int updateByIdSelective(PackOriginal record);
-
-    int updateById(PackOriginal record);
 }

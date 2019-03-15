@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zfzn.firemaster.dao.StatusRecordComponentMapper">
+<mapper namespace="com.zfzn.firemaster.dao.StatusRecordComponentDao">
     <resultMap id="BaseResultMap" type="com.zfzn.firemaster.domain.od.StatusRecordComponent">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="addr_code" jdbcType="INTEGER" property="addrCode"/>
@@ -127,64 +127,6 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByIdSelective" parameterType="com.zfzn.firemaster.domain.od.StatusRecordComponent">
-        UPDATE status_record_component
-        <set>
-            <if test="addrCode != null">
-                addr_code = #{addrCode,jdbcType=INTEGER},
-            </if>
-            <if test="normalRun != null">
-                normal_run = #{normalRun,jdbcType=TINYINT},
-            </if>
-            <if test="fireAlarm != null">
-                fire_alarm = #{fireAlarm,jdbcType=TINYINT},
-            </if>
-            <if test="breakdown != null">
-                breakdown = #{breakdown,jdbcType=TINYINT},
-            </if>
-            <if test="shield != null">
-                shield = #{shield,jdbcType=TINYINT},
-            </if>
-            <if test="supervision != null">
-                supervision = #{supervision,jdbcType=TINYINT},
-            </if>
-            <if test="started != null">
-                started = #{started,jdbcType=TINYINT},
-            </if>
-            <if test="feedback != null">
-                feedback = #{feedback,jdbcType=TINYINT},
-            </if>
-            <if test="delay != null">
-                delay = #{delay,jdbcType=TINYINT},
-            </if>
-            <if test="electricityFailure != null">
-                electricity_failure = #{electricityFailure,jdbcType=TINYINT},
-            </if>
-            <if test="explanation != null">
-                explanation = #{explanation,jdbcType=VARCHAR},
-            </if>
-            <if test="gmtCreate != null">
-                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-            </if>
-        </set>
-        WHERE id = #{id,jdbcType=BIGINT}
-    </update>
-    <update id="updateById" parameterType="com.zfzn.firemaster.domain.od.StatusRecordComponent">
-        UPDATE status_record_component
-        SET addr_code = #{addrCode,jdbcType=INTEGER},
-        normal_run = #{normalRun,jdbcType=TINYINT},
-        fire_alarm = #{fireAlarm,jdbcType=TINYINT},
-        breakdown = #{breakdown,jdbcType=TINYINT},
-        shield = #{shield,jdbcType=TINYINT},
-        supervision = #{supervision,jdbcType=TINYINT},
-        started = #{started,jdbcType=TINYINT},
-        feedback = #{feedback,jdbcType=TINYINT},
-        delay = #{delay,jdbcType=TINYINT},
-        electricity_failure = #{electricityFailure,jdbcType=TINYINT},
-        explanation = #{explanation,jdbcType=VARCHAR},
-        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP}
-        WHERE id = #{id,jdbcType=BIGINT}
-    </update>
 
     <insert id="insertAll" parameterType="java.util.List">
         INSERT INTO status_record_component

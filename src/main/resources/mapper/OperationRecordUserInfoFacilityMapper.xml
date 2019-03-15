@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zfzn.firemaster.dao.OperationRecordUserInfoFacilityMapper">
+<mapper namespace="com.zfzn.firemaster.dao.OperationRecordUserInfoFacilityDao">
     <resultMap id="BaseResultMap" type="com.zfzn.firemaster.domain.od.OperationRecordUserInfoFacility">
         <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="operational_info" jdbcType="INTEGER" property="operationalInfo"/>
+        <result column="reset" jdbcType="TINYINT" property="reset"/>
+        <result column="silence" jdbcType="TINYINT" property="silence"/>
+        <result column="manual_alarm" jdbcType="TINYINT" property="manualAlarm"/>
+        <result column="eliminate_alarm" jdbcType="TINYINT" property="eliminateAlarm"/>
+        <result column="self_test" jdbcType="TINYINT" property="selfTest"/>
+        <result column="confirm" jdbcType="TINYINT" property="confirm"/>
+        <result column="test" jdbcType="TINYINT" property="test"/>
+        <result column="reserved" jdbcType="TINYINT" property="reserved"/>
         <result column="operator" jdbcType="INTEGER" property="operator"/>
         <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id, operational_info, operator, gmt_create
+        id, reset, silence, manual_alarm, eliminate_alarm, self_test, confirm, test, reserved,
+        operator, gmt_create
     </sql>
     <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
-        select
+        SELECT
         <include refid="Base_Column_List"/>
         FROM operation_record_user_info_facility
         WHERE id = #{id,jdbcType=BIGINT}
@@ -21,10 +29,14 @@
         WHERE id = #{id,jdbcType=BIGINT}
     </delete>
     <insert id="insert" parameterType="com.zfzn.firemaster.domain.od.OperationRecordUserInfoFacility">
-        INSERT INTO operation_record_user_info_facility (id, operational_info, operator,
-        gmt_create)
-        VALUES (#{id,jdbcType=BIGINT}, #{operationalInfo,jdbcType=INTEGER}, #{operator,jdbcType=INTEGER},
-        #{gmtCreate,jdbcType=TIMESTAMP})
+        INSERT INTO operation_record_user_info_facility (id, reset, silence,
+        manual_alarm, eliminate_alarm, self_test,
+        confirm, test, reserved,
+        operator, gmt_create)
+        VALUES (#{id,jdbcType=BIGINT}, #{reset,jdbcType=TINYINT}, #{silence,jdbcType=TINYINT},
+        #{manualAlarm,jdbcType=TINYINT}, #{eliminateAlarm,jdbcType=TINYINT}, #{selfTest,jdbcType=TINYINT},
+        #{confirm,jdbcType=TINYINT}, #{test,jdbcType=TINYINT}, #{reserved,jdbcType=TINYINT},
+        #{operator,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP})
     </insert>
     <insert id="insertSelective" parameterType="com.zfzn.firemaster.domain.od.OperationRecordUserInfoFacility">
         INSERT INTO operation_record_user_info_facility
@@ -32,8 +44,29 @@
             <if test="id != null">
                 id,
             </if>
-            <if test="operationalInfo != null">
-                operational_info,
+            <if test="reset != null">
+                reset,
+            </if>
+            <if test="silence != null">
+                silence,
+            </if>
+            <if test="manualAlarm != null">
+                manual_alarm,
+            </if>
+            <if test="eliminateAlarm != null">
+                eliminate_alarm,
+            </if>
+            <if test="selfTest != null">
+                self_test,
+            </if>
+            <if test="confirm != null">
+                confirm,
+            </if>
+            <if test="test != null">
+                test,
+            </if>
+            <if test="reserved != null">
+                reserved,
             </if>
             <if test="operator != null">
                 operator,
@@ -46,8 +79,29 @@
             <if test="id != null">
                 #{id,jdbcType=BIGINT},
             </if>
-            <if test="operationalInfo != null">
-                #{operationalInfo,jdbcType=INTEGER},
+            <if test="reset != null">
+                #{reset,jdbcType=TINYINT},
+            </if>
+            <if test="silence != null">
+                #{silence,jdbcType=TINYINT},
+            </if>
+            <if test="manualAlarm != null">
+                #{manualAlarm,jdbcType=TINYINT},
+            </if>
+            <if test="eliminateAlarm != null">
+                #{eliminateAlarm,jdbcType=TINYINT},
+            </if>
+            <if test="selfTest != null">
+                #{selfTest,jdbcType=TINYINT},
+            </if>
+            <if test="confirm != null">
+                #{confirm,jdbcType=TINYINT},
+            </if>
+            <if test="test != null">
+                #{test,jdbcType=TINYINT},
+            </if>
+            <if test="reserved != null">
+                #{reserved,jdbcType=TINYINT},
             </if>
             <if test="operator != null">
                 #{operator,jdbcType=INTEGER},
@@ -57,26 +111,17 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByIdSelective" parameterType="com.zfzn.firemaster.domain.od.OperationRecordUserInfoFacility">
-        UPDATE operation_record_user_info_facility
-        <set>
-            <if test="operationalInfo != null">
-                operational_info = #{operationalInfo,jdbcType=INTEGER},
-            </if>
-            <if test="operator != null">
-                operator = #{operator,jdbcType=INTEGER},
-            </if>
-            <if test="gmtCreate != null">
-                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-            </if>
-        </set>
-        WHERE id = #{id,jdbcType=BIGINT}
-    </update>
-    <update id="updateById" parameterType="com.zfzn.firemaster.domain.od.OperationRecordUserInfoFacility">
-        UPDATE operation_record_user_info_facility
-        SET operational_info = #{operationalInfo,jdbcType=INTEGER},
-        operator = #{operator,jdbcType=INTEGER},
-        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP}
-        WHERE id = #{id,jdbcType=BIGINT}
-    </update>
+
+    <insert id="insertAll" parameterType="java.util.List">
+        INSERT INTO operation_record_user_info_facility
+        (id, reset, silence, manual_alarm, eliminate_alarm, self_test, confirm, test, reserved,
+        operator, gmt_create)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id,jdbcType=BIGINT}, #{item.reset,jdbcType=TINYINT}, #{item.silence,jdbcType=TINYINT},
+            #{item.manualAlarm,jdbcType=TINYINT}, #{item.eliminateAlarm,jdbcType=TINYINT}, #{item.selfTest,jdbcType=TINYINT},
+            #{item.confirm,jdbcType=TINYINT}, #{item.test,jdbcType=TINYINT}, #{item.reserved,jdbcType=TINYINT},
+            #{item.operator,jdbcType=INTEGER}, #{item.gmtCreate,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
 </mapper>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zfzn.firemaster.dao.StatusRecordSystemMapper">
+<mapper namespace="com.zfzn.firemaster.dao.StatusRecordSystemDao">
     <resultMap id="BaseResultMap" type="com.zfzn.firemaster.domain.od.StatusRecordSystem">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="sys_code" jdbcType="INTEGER" property="sysCode"/>
@@ -167,84 +167,6 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByIdSelective" parameterType="com.zfzn.firemaster.domain.od.StatusRecordSystem">
-        UPDATE status_record_system
-        <set>
-            <if test="sysCode != null">
-                sys_code = #{sysCode,jdbcType=INTEGER},
-            </if>
-            <if test="sysType != null">
-                sys_type = #{sysType,jdbcType=INTEGER},
-            </if>
-            <if test="normalRun != null">
-                normal_run = #{normalRun,jdbcType=TINYINT},
-            </if>
-            <if test="fireAlarm != null">
-                fire_alarm = #{fireAlarm,jdbcType=TINYINT},
-            </if>
-            <if test="breakdown != null">
-                breakdown = #{breakdown,jdbcType=TINYINT},
-            </if>
-            <if test="shield != null">
-                shield = #{shield,jdbcType=TINYINT},
-            </if>
-            <if test="supervision != null">
-                supervision = #{supervision,jdbcType=TINYINT},
-            </if>
-            <if test="started != null">
-                started = #{started,jdbcType=TINYINT},
-            </if>
-            <if test="feedback != null">
-                feedback = #{feedback,jdbcType=TINYINT},
-            </if>
-            <if test="delay != null">
-                delay = #{delay,jdbcType=TINYINT},
-            </if>
-            <if test="mainPowerFailure != null">
-                main_power_failure = #{mainPowerFailure,jdbcType=TINYINT},
-            </if>
-            <if test="backupPowerFailure != null">
-                backup_power_failure = #{backupPowerFailure,jdbcType=TINYINT},
-            </if>
-            <if test="busFailure != null">
-                bus_failure = #{busFailure,jdbcType=TINYINT},
-            </if>
-            <if test="manualStatus != null">
-                manual_status = #{manualStatus,jdbcType=TINYINT},
-            </if>
-            <if test="deployChange != null">
-                deploy_change = #{deployChange,jdbcType=TINYINT},
-            </if>
-            <if test="reset != null">
-                reset = #{reset,jdbcType=TINYINT},
-            </if>
-            <if test="gmtCreate != null">
-                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-            </if>
-        </set>
-        WHERE id = #{id,jdbcType=BIGINT}
-    </update>
-    <update id="updateById" parameterType="com.zfzn.firemaster.domain.od.StatusRecordSystem">
-        UPDATE status_record_system
-        SET sys_code = #{sysCode,jdbcType=INTEGER},
-        sys_type = #{sysType,jdbcType=INTEGER},
-        normal_run = #{normalRun,jdbcType=TINYINT},
-        fire_alarm = #{fireAlarm,jdbcType=TINYINT},
-        breakdown = #{breakdown,jdbcType=TINYINT},
-        shield = #{shield,jdbcType=TINYINT},
-        supervision = #{supervision,jdbcType=TINYINT},
-        started = #{started,jdbcType=TINYINT},
-        feedback = #{feedback,jdbcType=TINYINT},
-        delay = #{delay,jdbcType=TINYINT},
-        main_power_failure = #{mainPowerFailure,jdbcType=TINYINT},
-        backup_power_failure = #{backupPowerFailure,jdbcType=TINYINT},
-        bus_failure = #{busFailure,jdbcType=TINYINT},
-        manual_status = #{manualStatus,jdbcType=TINYINT},
-        deploy_change = #{deployChange,jdbcType=TINYINT},
-        reset = #{reset,jdbcType=TINYINT},
-        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP}
-        WHERE id = #{id,jdbcType=BIGINT}
-    </update>
 
     <insert id="insertAll" parameterType="java.util.List">
         INSERT INTO status_record_system

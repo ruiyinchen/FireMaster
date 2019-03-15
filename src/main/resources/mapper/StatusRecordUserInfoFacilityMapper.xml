@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zfzn.firemaster.dao.StatusRecordUserInfoFacilityMapper">
+<mapper namespace="com.zfzn.firemaster.dao.StatusRecordUserInfoFacilityDao">
     <resultMap id="BaseResultMap" type="com.zfzn.firemaster.domain.od.StatusRecordUserInfoFacility">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="normal" jdbcType="TINYINT" property="normal"/>
@@ -104,50 +104,17 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByIdSelective" parameterType="com.zfzn.firemaster.domain.od.StatusRecordUserInfoFacility">
-        UPDATE status_record_user_info_facility
-        <set>
-            <if test="normal != null">
-                normal = #{normal,jdbcType=TINYINT},
-            </if>
-            <if test="fireAlarm != null">
-                fire_alarm = #{fireAlarm,jdbcType=TINYINT},
-            </if>
-            <if test="breakdown != null">
-                breakdown = #{breakdown,jdbcType=TINYINT},
-            </if>
-            <if test="mainPowerFailure != null">
-                main_power_failure = #{mainPowerFailure,jdbcType=TINYINT},
-            </if>
-            <if test="backupPowerFailure != null">
-                backup_power_failure = #{backupPowerFailure,jdbcType=TINYINT},
-            </if>
-            <if test="channelFailure != null">
-                channel_failure = #{channelFailure,jdbcType=TINYINT},
-            </if>
-            <if test="connectionFailure != null">
-                connection_failure = #{connectionFailure,jdbcType=TINYINT},
-            </if>
-            <if test="reserved != null">
-                reserved = #{reserved,jdbcType=TINYINT},
-            </if>
-            <if test="gmtCreate != null">
-                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-            </if>
-        </set>
-        WHERE id = #{id,jdbcType=BIGINT}
-    </update>
-    <update id="updateById" parameterType="com.zfzn.firemaster.domain.od.StatusRecordUserInfoFacility">
-        UPDATE status_record_user_info_facility
-        SET normal = #{normal,jdbcType=TINYINT},
-        fire_alarm = #{fireAlarm,jdbcType=TINYINT},
-        breakdown = #{breakdown,jdbcType=TINYINT},
-        main_power_failure = #{mainPowerFailure,jdbcType=TINYINT},
-        backup_power_failure = #{backupPowerFailure,jdbcType=TINYINT},
-        channel_failure = #{channelFailure,jdbcType=TINYINT},
-        connection_failure = #{connectionFailure,jdbcType=TINYINT},
-        reserved = #{reserved,jdbcType=TINYINT},
-        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP}
-        WHERE id = #{id,jdbcType=BIGINT}
-    </update>
+
+    <insert id="insertAll" parameterType="java.util.List">
+        INSERT INTO status_record_user_info_facility
+        (id, normal, fire_alarm, breakdown, main_power_failure, backup_power_failure, channel_failure,
+        connection_failure, reserved, gmt_create)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id,jdbcType=BIGINT}, #{item.normal,jdbcType=TINYINT}, #{item.fireAlarm,jdbcType=TINYINT},
+            #{item.breakdown,jdbcType=TINYINT}, #{item.mainPowerFailure,jdbcType=TINYINT}, #{item.backupPowerFailure,jdbcType=TINYINT},
+            #{item.channelFailure,jdbcType=TINYINT}, #{item.connectionFailure,jdbcType=TINYINT}, #{item.reserved,jdbcType=TINYINT},
+            #{item.gmtCreate,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
 </mapper>

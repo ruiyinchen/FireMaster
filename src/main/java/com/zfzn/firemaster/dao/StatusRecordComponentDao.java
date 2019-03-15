@@ -10,18 +10,14 @@ import java.util.List;
 
 @Mapper
 @Repository
-public interface StatusRecordComponentMapper {
-    int deleteByPrimaryKey(Long id);
+public interface StatusRecordComponentDao {
+    int deleteById(Long id);
 
     int insert(StatusRecordComponent record);
 
     int insertSelective(StatusRecordComponent record);
 
-    StatusRecordComponent selectByPrimaryKey(Long id);
-
-    int updateByPrimaryKeySelective(StatusRecordComponent record);
-
-    int updateByPrimaryKey(StatusRecordComponent record);
+    StatusRecordComponent selectById(Long id);
 
     /**
      * 批量插入部件状态记录

@@ -1,22 +1,20 @@
 package com.zfzn.firemaster.manager;
 
 import com.alibaba.fastjson.JSON;
-import com.zfzn.firemaster.dao.InfoComponentMapper;
-import com.zfzn.firemaster.dao.StatusRecordComponentMapper;
-import com.zfzn.firemaster.dao.StatusRecordSystemMapper;
+import com.alibaba.fastjson.JSONObject;
+import com.zfzn.firemaster.dao.InfoComponentDao;
+import com.zfzn.firemaster.dao.StatusRecordComponentDao;
+import com.zfzn.firemaster.dao.StatusRecordSystemDao;
 import com.zfzn.firemaster.domain.AppDataUnit;
 import com.zfzn.firemaster.domain.od.InfoComponent;
 import com.zfzn.firemaster.domain.up.FireFacilityComponent;
-import com.zfzn.firemaster.domain.up.FireFacilityComponentStatus;
-import com.zfzn.firemaster.domain.up.FireFacilityComponentValue;
-import com.zfzn.firemaster.factory.up.*;
-import com.zfzn.firemaster.util.SnowflakeIdWorker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
-import java.util.LinkedList;
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,13 +34,31 @@ public class FireDataStorage {
     private final StatusRecordComponentManager statusRecordComponentManager;
     private final InfoComponentManager infoComponentManager;
     private final StatusRecordSystemManager statusRecordSystemManager;
+    private final OperationRecordFacilityManager operationRecordFacilityManager;
+    private final SoftwareVersionFacilityManager softwareVersionFacilityManager;
+    private final ConfFacilitySysManager confFacilitySysManager;
+    private final ConfFacilityComponentManager confFacilityComponentManager;
+    private final StatusRecordUserInfoFacilityManager statusRecordUserInfoFacilityManager;
+    private final OperationRecordUserInfoFacilityManager operationRecordUserInfoFacilityManager;
+    private final SoftwareVersionUserInfoFacilityManager softwareVersionUserInfoFacilityManager;
+    private final ConfUserInfoFacilityManager confUserInfoFacilityManager;
+    private final RedisTemplate<String, Serializable> redisTemplate;
 
     @Autowired
-    public FireDataStorage(AnalogValueManager analogValueManager, StatusRecordComponentManager statusRecordComponentManager, InfoComponentMapper infoComponentMapper, StatusRecordComponentMapper statusRecordComponentMapper, StatusRecordSystemMapper statusRecordSystemMapper, InfoComponentManager infoComponentManager, StatusRecordSystemManager statusRecordSystemManager) {
+    public FireDataStorage(AnalogValueManager analogValueManager, StatusRecordComponentManager statusRecordComponentManager, InfoComponentDao infoComponentDao, StatusRecordComponentDao statusRecordComponentDao, StatusRecordSystemDao statusRecordSystemDao, InfoComponentManager infoComponentManager, StatusRecordSystemManager statusRecordSystemManager, OperationRecordFacilityManager operationRecordFacilityManager, SoftwareVersionFacilityManager softwareVersionFacilityManager, ConfFacilitySysManager confFacilitySysManager, ConfFacilityComponentManager confFacilityComponentManager, StatusRecordUserInfoFacilityManager statusRecordUserInfoFacilityManager, OperationRecordUserInfoFacilityManager operationRecordUserInfoFacilityManager, SoftwareVersionUserInfoFacilityManager softwareVersionUserInfoFacilityManager, ConfUserInfoFacilityManager confUserInfoFacilityManager, RedisTemplate<String, Serializable> redisTemplate) {
         this.analogValueManager = analogValueManager;
         this.statusRecordComponentManager = statusRecordComponentManager;
         this.infoComponentManager = infoComponentManager;
         this.statusRecordSystemManager = statusRecordSystemManager;
+        this.operationRecordFacilityManager = operationRecordFacilityManager;
+        this.softwareVersionFacilityManager = softwareVersionFacilityManager;
+        this.confFacilitySysManager = confFacilitySysManager;
+        this.confFacilityComponentManager = confFacilityComponentManager;
+        this.statusRecordUserInfoFacilityManager = statusRecordUserInfoFacilityManager;
+        this.operationRecordUserInfoFacilityManager = operationRecordUserInfoFacilityManager;
+        this.softwareVersionUserInfoFacilityManager = softwareVersionUserInfoFacilityManager;
+        this.confUserInfoFacilityManager = confUserInfoFacilityManager;
+        this.redisTemplate = redisTemplate;
     }
 
     public void storage(AppDataUnit dataUnit) {
@@ -59,41 +75,40 @@ public class FireDataStorage {
                 analogValueManager.saveAll(dataUnit.getList());
                 break;
             case DATA_TYPE_UP_FIRE_DEVICE_OPERATIONAL_INFO:
-                _logger.info("消防设施操作信息："+ JSON.toJSONString(dataUnit));
+                operationRecordFacilityManager.saveAll(dataUnit.getList());
                 break;
             case DATA_TYPE_UP_FIRE_DEVICE_SOFTWARE_VERSION:
-                _logger.info("消防设施软件版本："+ JSON.toJSONString(dataUnit));
+                softwareVersionFacilityManager.saveAll(dataUnit.getList());
                 break;
             case DATA_TYPE_UP_FIRE_DEVICE_SYS_CONFIG:
-                _logger.info("消防设施系统配置："+ JSON.toJSONString(dataUnit));
+                confFacilitySysManager.saveAll(dataUnit.getList());
                 break;
             case DATA_TYPE_UP_FIRE_DEVICE_UNIT_CONFIG:
-                _logger.info("消防设施部件配置："+ JSON.toJSONString(dataUnit));
+                confFacilityComponentManager.saveAll(dataUnit.getList());
                 break;
             case DATA_TYPE_UP_USER_DEVICE_RUN_STATUS:
-                // TODO 待存储
-                _logger.info("用户信息传输装置运行状态："+ JSON.toJSONString(dataUnit));
+                statusRecordUserInfoFacilityManager.saveAll(dataUnit.getList());
                 break;
             case DATA_TYPE_UP_USER_DEVICE_OPERATIONAL_INFO:
-                _logger.info("用户信息传输装置操作信息："+ JSON.toJSONString(dataUnit));
+                operationRecordUserInfoFacilityManager.saveAll(dataUnit.getList());
                 break;
             case DATA_TYPE_UP_USER_DEVICE_SOFTWARE_VERSION:
-                _logger.info("用户信息传输装置软件版本："+ JSON.toJSONString(dataUnit));
+                softwareVersionUserInfoFacilityManager.saveAll(dataUnit.getList());
                 break;
             case DATA_TYPE_UP_USER_DEVICE_CONFIG:
-                _logger.info("用户信息传输装置配置："+ JSON.toJSONString(dataUnit));
+                confUserInfoFacilityManager.saveAll(dataUnit.getList());
                 break;
             case DATA_TYPE_UP_FIRE_DEVICE_SYSTEM_TIME:
-                _logger.info("建筑消防设施系统时间："+ JSON.toJSONString(dataUnit));
+                _logger.info("建筑消防设施系统时间：" + JSON.toJSONString(dataUnit));
                 break;
             case DATA_TYPE_UP_USER_DEVICE_SWITCH_STATUS:
-                _logger.info("用户信息传输装置开关量状态："+ JSON.toJSONString(dataUnit));
+                _logger.info("用户信息传输装置开关量状态：" + JSON.toJSONString(dataUnit));
                 break;
             case DATE_TYPE_UP_GAS_EXTINGUISHING_SYSTEM_STATUS:
-                _logger.info("气体灭火系统状态信息："+ JSON.toJSONString(dataUnit));
+                _logger.info("气体灭火系统状态信息：" + JSON.toJSONString(dataUnit));
                 break;
             case DATA_TYPE_UP_USER_DEVICE_SYS_TIME:
-                _logger.info("用户信息传输装置系统时间："+ JSON.toJSONString(dataUnit));
+                _logger.info("用户信息传输装置系统时间：" + JSON.toJSONString(dataUnit));
                 break;
         }
     }

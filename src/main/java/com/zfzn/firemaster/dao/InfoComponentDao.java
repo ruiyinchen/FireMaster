@@ -9,7 +9,7 @@ import java.util.List;
 
 @Mapper
 @Repository
-public interface InfoComponentMapper {
+public interface InfoComponentDao {
     int deleteById(Integer id);
 
     int insert(InfoComponent record);
@@ -17,10 +17,6 @@ public interface InfoComponentMapper {
     int insertSelective(InfoComponent record);
 
     InfoComponent selectById(Integer id);
-
-    int updateByIdSelective(InfoComponent record);
-
-    int updateById(InfoComponent record);
 
     /**
      * 检查重复的部件
