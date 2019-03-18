@@ -1,11 +1,13 @@
 package com.zfzn.firemaster.server;
 
+import com.alibaba.fastjson.JSON;
 import com.zfzn.firemaster.domain.down.IssuedCommand;
 import com.zfzn.firemaster.factory.EncoderObject;
 import com.zfzn.firemaster.factory.down.PackEncoder;
 import com.zfzn.firemaster.manager.FireDataStorage;
 import com.zfzn.firemaster.service.impl.MessageSender;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -13,8 +15,10 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
+import static io.netty.util.CharsetUtil.UTF_8;
+
 /**
- * 服务器通道
+ * 服务器通道前往
  *
  * @author : Tony.fuxudong
  * Created in 2019-02-03 17:47
@@ -30,20 +34,18 @@ public class FireControlChannel {
     @Value("${fire-control.server.port}")
     private int port;
     private final MessageSender messageSender;
-    private final FireDataStorage storage;
 
     @Autowired
-    public FireControlChannel(PackEncoder packEncoder, MessageSender messageSender, FireDataStorage storage) {
+    public FireControlChannel(PackEncoder packEncoder, MessageSender messageSender) {
         this.packEncoder = packEncoder;
         this.messageSender = messageSender;
-        this.storage = storage;
     }
 
     @PostConstruct
     private void init() {
         server = ALLOW_START ? new FireControlServer(port) : null;
         if (ALLOW_START) {
-            server.start(messageSender,storage);
+            server.start(messageSender);
         }
     }
 
@@ -64,5 +66,11 @@ public class FireControlChannel {
             packEncoder.build(byteBuf);
             server.send(byteBuf);
         }
+    }
+
+    public void sendTo(Object obj){
+        String msg=JSON.toJSONString(obj);
+        ByteBuf buf= Unpooled.copiedBuffer(msg,UTF_8);
+        server.sendTo(buf);
     }
 }

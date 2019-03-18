@@ -5,6 +5,8 @@ import com.zfzn.firemaster.domain.TcpDataPack;
 import com.zfzn.firemaster.factory.InfoBodyAnalysis;
 import com.zfzn.firemaster.factory.ParseObject;
 import com.zfzn.firemaster.manager.FireDataStorage;
+import com.zfzn.firemaster.service.PackMessageSender;
+import com.zfzn.firemaster.service.impl.MessageSender;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -25,10 +27,10 @@ import java.util.List;
 public class DataAnalysisHandler extends ChannelInboundHandlerAdapter {
     private final Logger _logger = LoggerFactory.getLogger(DataAnalysisHandler.class);
 
-    private final FireDataStorage storage;
+    private final PackMessageSender messageSender;
 
-    public DataAnalysisHandler(FireDataStorage storage) {
-        this.storage = storage;
+    public DataAnalysisHandler(PackMessageSender messageSender) {
+        this.messageSender = messageSender;
     }
 
     @Override
@@ -53,6 +55,6 @@ public class DataAnalysisHandler extends ChannelInboundHandlerAdapter {
 
         ReferenceCountUtil.release(msg);
         // 执行存储或发送命令
-        storage.storage(dataUnit);
+        messageSender.sendMessage(dataUnit);
     }
 }

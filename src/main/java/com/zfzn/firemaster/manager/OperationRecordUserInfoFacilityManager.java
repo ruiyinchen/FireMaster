@@ -1,7 +1,10 @@
 package com.zfzn.firemaster.manager;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.zfzn.firemaster.dao.OperationRecordUserInfoFacilityDao;
 import com.zfzn.firemaster.domain.od.OperationRecordUserInfoFacility;
+import com.zfzn.firemaster.domain.up.FireFacilityOperationInfo;
 import com.zfzn.firemaster.domain.up.UserInfoFacilityOperationInfo;
 import com.zfzn.firemaster.util.SnowflakeIdWorker;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +32,7 @@ public class OperationRecordUserInfoFacilityManager {
     public int saveAll(List<Object> ufoiList) {
         List<OperationRecordUserInfoFacility> list = ufoiList.stream()
                 .map(item -> {
-                    UserInfoFacilityOperationInfo ufoi = (UserInfoFacilityOperationInfo) item;
+                    UserInfoFacilityOperationInfo ufoi =  JSON.toJavaObject((JSONObject) item, UserInfoFacilityOperationInfo.class);
                     OperationRecordUserInfoFacility uif = new OperationRecordUserInfoFacility();
                     byte[] bytes = ufoi.getOperationalSign();
                     uif.setReset(bytes[7]);

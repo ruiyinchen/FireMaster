@@ -16,6 +16,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.io.Serializable;
 
+import static com.zfzn.firemaster.service.PackMessageSender.DATA_QUEUE;
 import static com.zfzn.firemaster.service.PackMessageSender.PACK_QUEUE;
 
 
@@ -47,12 +48,13 @@ public class RedisCacheAutoConfig {
      */
     @Bean
     //相当于xml中的bean
-    RedisMessageListenerContainer container(LettuceConnectionFactory connectionFactory, MessageListenerAdapter listenerAdapter) {
+    RedisMessageListenerContainer container(LettuceConnectionFactory connectionFactory, MessageListenerAdapter listenerAdapter,MessageListenerAdapter listenerAdapter2) {
 
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
         // 订阅了一个叫 pack_queue 的通道
         container.addMessageListener(listenerAdapter, new PatternTopic(PACK_QUEUE));
+        container.addMessageListener(listenerAdapter2, new PatternTopic(DATA_QUEUE));
         // 这个container 可以添加多个 messageListener
         return container;
     }
@@ -67,6 +69,12 @@ public class RedisCacheAutoConfig {
         // 这个地方 是给 messageListenerAdapter 传入一个消息接受的处理器，利用反射的方法调用“receiveMessage”
         // 也有好几个重载方法，这边默认调用处理器的方法 叫 handleMessage 可以自己到源码里面看
         return new MessageListenerAdapter(receiver, "receivePackMessage");
+    }
+    @Bean
+    MessageListenerAdapter listenerAdapter2(MessageReceiver receiver) {
+        // 这个地方 是给 messageListenerAdapter 传入一个消息接受的处理器，利用反射的方法调用“receiveMessage”
+        // 也有好几个重载方法，这边默认调用处理器的方法 叫 handleMessage 可以自己到源码里面看
+        return new MessageListenerAdapter(receiver, "receivedDataMessage");
     }
 
     @Bean

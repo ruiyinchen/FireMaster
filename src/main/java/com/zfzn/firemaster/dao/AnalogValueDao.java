@@ -26,4 +26,12 @@ public interface AnalogValueDao {
      * @return
      */
     int insertAll(@Param("list") List<AnalogValue> list);
+
+    /**
+     * 根据部件地址码查询部件模拟量值
+     *
+     * @param addrCode
+     * @return
+     */
+    AnalogValue selectByAddrCode(@Param("addrCode") Integer addrCode);
 }

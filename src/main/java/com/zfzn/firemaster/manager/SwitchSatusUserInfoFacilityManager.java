@@ -1,7 +1,10 @@
 package com.zfzn.firemaster.manager;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.zfzn.firemaster.dao.SwitchSatusUserInfoFacilityDao;
 import com.zfzn.firemaster.domain.od.SwitchSatusUserInfoFacility;
+import com.zfzn.firemaster.domain.up.UserInfoFacilityRunStatus;
 import com.zfzn.firemaster.domain.up.UserInfoFacilitySwitchStatus;
 import com.zfzn.firemaster.util.SnowflakeIdWorker;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +32,7 @@ public class SwitchSatusUserInfoFacilityManager {
     public int saveAll(List<Object> fssList){
         List<SwitchSatusUserInfoFacility> list=fssList.stream()
                 .map(item->{
-                    UserInfoFacilitySwitchStatus fss=(UserInfoFacilitySwitchStatus)item;
+                    UserInfoFacilitySwitchStatus fss= JSON.toJavaObject((JSONObject) item, UserInfoFacilitySwitchStatus.class);
                     SwitchSatusUserInfoFacility suif=new SwitchSatusUserInfoFacility();
                     suif.setId(idWorker.nextId());
                     suif.setLocation(fss.getSwitchPosition());

@@ -1,8 +1,13 @@
 package com.zfzn.firemaster.manager;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.zfzn.firemaster.dao.StatusRecordSystemDao;
+import com.zfzn.firemaster.domain.bo.AlarmObject;
 import com.zfzn.firemaster.domain.od.StatusRecordSystem;
 import com.zfzn.firemaster.domain.up.FireFacilitySystemStatus;
+import com.zfzn.firemaster.domain.up.GasExtinguishingSystemStatus;
+import com.zfzn.firemaster.server.FireControlChannel;
 import com.zfzn.firemaster.util.SnowflakeIdWorker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,16 +29,18 @@ public class StatusRecordSystemManager {
 
     private final SnowflakeIdWorker idWorker = SnowflakeIdWorker.getInstance();
     private final StatusRecordSystemDao statusRecordSystemDao;
+    private final FireControlChannel controlChannel;
 
     @Autowired
-    public StatusRecordSystemManager(StatusRecordSystemDao statusRecordSystemDao) {
+    public StatusRecordSystemManager(StatusRecordSystemDao statusRecordSystemDao, FireControlChannel controlChannel) {
         this.statusRecordSystemDao = statusRecordSystemDao;
+        this.controlChannel = controlChannel;
     }
 
     public int saveAll(List<Object> fssList) {
         List<StatusRecordSystem> list = fssList.stream()
                 .map(item -> {
-                    FireFacilitySystemStatus fss = (FireFacilitySystemStatus) item;
+                    FireFacilitySystemStatus fss = JSON.toJavaObject((JSONObject) item, FireFacilitySystemStatus.class);
                     StatusRecordSystem srs = new StatusRecordSystem();
                     srs.setId(idWorker.nextId());
                     srs.setSysCode(fss.getSystemAddr());
@@ -58,8 +65,8 @@ public class StatusRecordSystemManager {
 
                     return srs;
                 }).collect(Collectors.toList());
-        int n= statusRecordSystemDao.insertAll(list);
-        _logger.info("存储系统状态信息，影响行："+n);
-        return n;
+
+        list.forEach(item-> controlChannel.sendTo(new AlarmObject(2,item)));
+        return list.size() > 0 ? statusRecordSystemDao.insertAll(list) : 0;
     }
 }

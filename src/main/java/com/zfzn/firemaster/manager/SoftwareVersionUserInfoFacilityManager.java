@@ -1,6 +1,9 @@
 package com.zfzn.firemaster.manager;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.zfzn.firemaster.dao.SoftwareVersionUserInfoFacilityDao;
+import com.zfzn.firemaster.domain.od.SoftwareVersionFacility;
 import com.zfzn.firemaster.domain.od.SoftwareVersionUserInfoFacility;
 import com.zfzn.firemaster.domain.up.UserInfoFacilitySoftwareVersion;
 import com.zfzn.firemaster.util.SnowflakeIdWorker;
@@ -29,7 +32,7 @@ public class SoftwareVersionUserInfoFacilityManager {
     public int saveAll(List<Object> usvList) {
         List<SoftwareVersionUserInfoFacility> list = usvList.stream()
                 .map(item -> {
-                    UserInfoFacilitySoftwareVersion usv = (UserInfoFacilitySoftwareVersion) item;
+                    UserInfoFacilitySoftwareVersion usv = JSON.toJavaObject((JSONObject) item, UserInfoFacilitySoftwareVersion.class);
                     SoftwareVersionUserInfoFacility vuf = new SoftwareVersionUserInfoFacility();
                     vuf.setMainVersion(usv.getMajorVersionNo());
                     vuf.setMinorVersion(usv.getMinorVersionNo());

@@ -1,13 +1,11 @@
 package com.zfzn.firemaster.handler;
 
-import com.zfzn.firemaster.cache.FireDataCache;
 import com.zfzn.firemaster.domain.TcpDataPack;
 import com.zfzn.firemaster.domain.bo.PackInfo;
 import com.zfzn.firemaster.service.PackMessageSender;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.net.InetSocketAddress;
 

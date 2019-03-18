@@ -1,5 +1,6 @@
 package com.zfzn.firemaster.service;
 
+import com.zfzn.firemaster.domain.AppDataUnit;
 import com.zfzn.firemaster.domain.TcpDataPack;
 import com.zfzn.firemaster.domain.bo.PackInfo;
 
@@ -11,6 +12,9 @@ import com.zfzn.firemaster.domain.bo.PackInfo;
  */
 public interface PackMessageSender {
     String PACK_QUEUE="pack_queue";
+    String DATA_QUEUE="data_queue";
 
     void sendMessage(PackInfo packInfo,TcpDataPack dataPack);
+
+    void sendMessage(AppDataUnit dataUnit);
 }

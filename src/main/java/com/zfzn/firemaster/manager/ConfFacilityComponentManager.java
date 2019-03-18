@@ -1,8 +1,11 @@
 package com.zfzn.firemaster.manager;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.zfzn.firemaster.dao.ConfFacilityComponentDao;
 import com.zfzn.firemaster.domain.od.ConfFacilityComponent;
 import com.zfzn.firemaster.domain.up.FireFacilityComponentConfigInfo;
+import com.zfzn.firemaster.domain.up.FireFacilityComponentValue;
 import com.zfzn.firemaster.util.SnowflakeIdWorker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,7 +32,7 @@ public class ConfFacilityComponentManager {
     public int saveAll(List<Object> fccList){
         List<ConfFacilityComponent> list=fccList.stream()
                 .map(item->{
-                    FireFacilityComponentConfigInfo fcc=(FireFacilityComponentConfigInfo)item;
+                    FireFacilityComponentConfigInfo fcc=JSON.toJavaObject((JSONObject) item, FireFacilityComponentConfigInfo.class);
                     ConfFacilityComponent cfc=new ConfFacilityComponent();
                     cfc.setId(idWorker.nextId());
                     cfc.setAddrCode(fcc.getAddrCode());

@@ -1,8 +1,13 @@
 package com.zfzn.firemaster.manager;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.zfzn.firemaster.dao.StatusRecordComponentDao;
+import com.zfzn.firemaster.domain.bo.AlarmObject;
 import com.zfzn.firemaster.domain.od.StatusRecordComponent;
 import com.zfzn.firemaster.domain.up.FireFacilityComponentStatus;
+import com.zfzn.firemaster.domain.up.UserInfoFacilitySoftwareVersion;
+import com.zfzn.firemaster.server.FireControlChannel;
 import com.zfzn.firemaster.util.SnowflakeIdWorker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,23 +29,25 @@ public class StatusRecordComponentManager {
 
     private final SnowflakeIdWorker idWorker = SnowflakeIdWorker.getInstance();
     private final StatusRecordComponentDao statusRecordComponentDao;
+    private final FireControlChannel controlChannel;
 
     @Autowired
-    public StatusRecordComponentManager(StatusRecordComponentDao statusRecordComponentDao) {
+    public StatusRecordComponentManager(StatusRecordComponentDao statusRecordComponentDao, FireControlChannel controlChannel) {
         this.statusRecordComponentDao = statusRecordComponentDao;
+        this.controlChannel = controlChannel;
     }
 
     public int saveAll(List<Object> srcList) {
         List<StatusRecordComponent> list = srcList.stream()
                 .map(item -> {
-                    FireFacilityComponentStatus fcs = (FireFacilityComponentStatus) item;
+                    FireFacilityComponentStatus fcs = JSON.toJavaObject((JSONObject) item, FireFacilityComponentStatus.class);
                     StatusRecordComponent src = new StatusRecordComponent();
                     src.setId(idWorker.nextId());
                     src.setAddrCode(fcs.getAddrCode());
                     src.setExplanation(fcs.getPartLegend());
                     src.setGmtCreate(fcs.getTriggerTime());
 
-                    byte[] fcsStatus=fcs.getStatus();
+                    byte[] fcsStatus = fcs.getStatus();
                     src.setElectricityFailure(fcsStatus[15]);
                     src.setDelay(fcsStatus[0]);
                     src.setFeedback(fcsStatus[1]);
@@ -54,9 +61,9 @@ public class StatusRecordComponentManager {
                     return src;
                 })
                 .collect(Collectors.toList());
-        int n = statusRecordComponentDao.insertAll(list);
-        _logger.info("存储部件状态信息，影响行数：" + n);
-        return n;
+        // 前端推送
+        list.forEach(item-> controlChannel.sendTo(new AlarmObject(3,item)));
+        return list.size() > 0 ? statusRecordComponentDao.insertAll(list) : 0;
     }
 
 }

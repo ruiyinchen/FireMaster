@@ -26,4 +26,12 @@ public interface StatusRecordComponentDao {
      * @return
      */
     int insertAll(@Param("list") List<StatusRecordComponent> list);
+
+    /**
+     * 根据地址码查询部件状态
+     *
+     * @param addrCode
+     * @return
+     */
+    List<StatusRecordComponent> selectByAddrCode(@Param("addrCode") Integer addrCode);
 }

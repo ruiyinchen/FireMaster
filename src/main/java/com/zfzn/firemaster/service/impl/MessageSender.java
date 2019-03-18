@@ -3,6 +3,7 @@ package com.zfzn.firemaster.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.zfzn.firemaster.cache.FireDataCache;
 import com.zfzn.firemaster.cache.GlobalValueAdapter;
+import com.zfzn.firemaster.domain.AppDataUnit;
 import com.zfzn.firemaster.domain.TcpDataPack;
 import com.zfzn.firemaster.domain.bo.PackInfo;
 import com.zfzn.firemaster.service.PackMessageSender;
@@ -37,5 +38,11 @@ public class MessageSender implements PackMessageSender {
         if (dataPack != null) {
             fireDataCache.learnGlobal(packInfo.getHost(), new GlobalValueAdapter(dataPack).value());
         }
+    }
+
+    @Override
+    public void sendMessage(AppDataUnit dataUnit) {
+        String msg = JSON.toJSONString(dataUnit);
+        stringRedisTemplate.convertAndSend(DATA_QUEUE, msg);
     }
 }

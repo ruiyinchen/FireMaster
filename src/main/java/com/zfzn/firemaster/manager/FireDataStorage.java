@@ -1,6 +1,7 @@
 package com.zfzn.firemaster.manager;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.zfzn.firemaster.dao.InfoComponentDao;
 import com.zfzn.firemaster.domain.AppDataUnit;
 import com.zfzn.firemaster.domain.od.InfoComponent;
@@ -112,25 +113,25 @@ public class FireDataStorage {
         }
     }
 
-    public void componentStorage(AppDataUnit dataUnit) {
+    private void componentStorage(AppDataUnit dataUnit) {
         if (dataUnit.getList() != null) {
             List<InfoComponent> list = dataUnit.getList()
                     .stream()
-                    .map(item -> toInfoComponent((FireFacilityComponent) item))
+                    .map(item -> toInfoComponent((JSONObject) item))
                     .collect(Collectors.toList());
             if (list.size() > 0) {
                 int m = infoComponentManager.saveList(list);
-                _logger.info("存储部件信息，影响行数：" + m);
+//                _logger.info("存储部件信息，影响行数：" + m);
             }
         }
     }
 
-    private InfoComponent toInfoComponent(FireFacilityComponent component) {
+    private InfoComponent toInfoComponent(JSONObject component) {
         InfoComponent infoC = new InfoComponent();
-        infoC.setSysType(component.getSystemType());
-        infoC.setSysAddr(component.getSystemAddr());
-        infoC.setComponentType(component.getPartType());
-        infoC.setComponentAddr(component.getAddrCode());
+        infoC.setSysType(component.getInteger("systemType"));
+        infoC.setSysAddr(component.getInteger("systemAddr"));
+        infoC.setComponentType(component.getInteger("partType"));
+        infoC.setComponentAddr(component.getInteger("addrCode"));
         return infoC;
     }
 }

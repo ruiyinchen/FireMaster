@@ -8,6 +8,7 @@ import com.zfzn.firemaster.handler.OriginalInboundHandler;
 import com.zfzn.firemaster.handler.TransmitOutBoundHandler;
 import com.zfzn.firemaster.manager.FireDataStorage;
 import com.zfzn.firemaster.service.PackMessageSender;
+import com.zfzn.firemaster.service.impl.MessageSender;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;
@@ -32,6 +33,10 @@ public class FireControlServer {
      * 远程连接通道
      */
     private static final Map<String, ChannelHandlerContext> channelContainer = Collections.synchronizedMap(new HashMap<>());
+    /**
+     * 末端集合
+     */
+    private static final Map<String, ChannelHandlerContext> endSet = Collections.synchronizedMap(new HashMap<>());
 
     private final Logger _logger = LoggerFactory.getLogger(getClass());
 
@@ -54,12 +59,12 @@ public class FireControlServer {
     /**
      * 启动服务器
      */
-    public void start(PackMessageSender messageSender, FireDataStorage storage) {
+    public void start(PackMessageSender messageSender) {
         ServerBootstrap bootstrap = new ServerBootstrap();
 
-        ActiveInboundHandler activeHandler = new ActiveInboundHandler(channelContainer);
+        ActiveInboundHandler activeHandler = new ActiveInboundHandler(channelContainer,endSet);
         OriginalInboundHandler originalInboundHandler = new OriginalInboundHandler(messageSender);
-        DataAnalysisHandler analysisHandler = new DataAnalysisHandler(storage);
+        DataAnalysisHandler analysisHandler = new DataAnalysisHandler(messageSender);
         TransmitOutBoundHandler transmitHandler = new TransmitOutBoundHandler();
 
         bootstrap.group(boss, worker)
@@ -71,8 +76,8 @@ public class FireControlServer {
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
                     protected void initChannel(NioSocketChannel channel) {
-                        channel.pipeline().addLast(activeHandler);
                         channel.pipeline().addLast(new FireDecoder());
+                        channel.pipeline().addLast(activeHandler);
                         channel.pipeline().addLast(originalInboundHandler);
                         channel.pipeline().addLast(analysisHandler);
                         channel.pipeline().addLast(new FireEncoder());
@@ -110,8 +115,10 @@ public class FireControlServer {
     }
 
     public void send(ByteBuf byteBuf) {
-//        future.channel().writeAndFlush(Unpooled.copiedBuffer(msg,UTF_8));
-        // TODO 代码修改
         channelContainer.forEach((key, ctx) -> ctx.writeAndFlush(byteBuf));
+    }
+
+    public void sendTo(ByteBuf byteBuf) {
+        endSet.forEach((key, ctx) -> ctx.writeAndFlush(byteBuf));
     }
 }

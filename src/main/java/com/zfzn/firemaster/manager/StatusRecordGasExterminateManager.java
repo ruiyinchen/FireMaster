@@ -1,7 +1,10 @@
 package com.zfzn.firemaster.manager;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.zfzn.firemaster.dao.StatusRecordGasExterminateDao;
 import com.zfzn.firemaster.domain.od.StatusRecordGasExterminate;
+import com.zfzn.firemaster.domain.up.FireFacilityComponentStatus;
 import com.zfzn.firemaster.domain.up.GasExtinguishingSystemStatus;
 import com.zfzn.firemaster.util.SnowflakeIdWorker;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +32,7 @@ public class StatusRecordGasExterminateManager {
     public int saveAll(List<Object> gesList){
         List<StatusRecordGasExterminate> list=gesList.stream()
                 .map(item->{
-                    GasExtinguishingSystemStatus ges=(GasExtinguishingSystemStatus)item;
+                    GasExtinguishingSystemStatus ges= JSON.toJavaObject((JSONObject) item, GasExtinguishingSystemStatus.class);
                     StatusRecordGasExterminate sre=new StatusRecordGasExterminate();
                     sre.setId(idWorker.nextId());
                     sre.setSysType(ges.getSystemType());

@@ -25,4 +25,11 @@ public interface StatusRecordSystemDao {
      * @return
      */
     int insertAll(@Param("list") List<StatusRecordSystem> list);
+
+    /**
+     * 根据系统地址查询系统状态
+     * @param parameter
+     * @return
+     */
+    List<StatusRecordSystem> selectBySysAddr(Integer parameter);
 }

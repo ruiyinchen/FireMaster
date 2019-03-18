@@ -74,4 +74,11 @@
             #{item.analogQuantity,jdbcType=INTEGER}, #{item.gmtCreate,jdbcType=TIMESTAMP})
         </foreach>
     </insert>
+
+    <select id="selectByAddrCode" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM analog_value
+        WHERE addr_code = #{addrCode,jdbcType=INTEGER}
+    </select>
 </mapper>
