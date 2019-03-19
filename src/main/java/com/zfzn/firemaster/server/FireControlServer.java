@@ -15,6 +15,7 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.util.ReferenceCountUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,7 +66,7 @@ public class FireControlServer {
         ActiveInboundHandler activeHandler = new ActiveInboundHandler(channelContainer,endSet);
         OriginalInboundHandler originalInboundHandler = new OriginalInboundHandler(messageSender);
         DataAnalysisHandler analysisHandler = new DataAnalysisHandler(messageSender);
-        TransmitOutBoundHandler transmitHandler = new TransmitOutBoundHandler();
+//        TransmitOutBoundHandler transmitHandler = new TransmitOutBoundHandler();
 
         bootstrap.group(boss, worker)
                 .channel(NioServerSocketChannel.class)
@@ -81,7 +82,7 @@ public class FireControlServer {
                         channel.pipeline().addLast(originalInboundHandler);
                         channel.pipeline().addLast(analysisHandler);
                         channel.pipeline().addLast(new FireEncoder());
-                        channel.pipeline().addLast(transmitHandler);
+//                        channel.pipeline().addLast(transmitHandler);
                     }
                 });
 
@@ -119,6 +120,7 @@ public class FireControlServer {
     }
 
     public void sendTo(ByteBuf byteBuf) {
-        endSet.forEach((key, ctx) -> ctx.writeAndFlush(byteBuf));
+        endSet.forEach((key, ctx) -> ctx.writeAndFlush(byteBuf.copy()));
+        ReferenceCountUtil.release(byteBuf);
     }
 }

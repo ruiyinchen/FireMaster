@@ -8,12 +8,11 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
+import io.netty.util.CharsetUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-
-import static io.netty.util.CharsetUtil.UTF_8;
 
 /**
  * 火警数据解码器
@@ -32,7 +31,7 @@ public class FireDecoder extends ByteToMessageDecoder {
         byteBuf.readBytes(sign);
         if (84 == sign[0] && 68 == sign[1]) {
             dataPack.setBeginSign(sign);
-            ctx.writeAndFlush(Unpooled.copiedBuffer("你是客户端!",UTF_8));
+            ctx.writeAndFlush(Unpooled.copiedBuffer("OK!", CharsetUtil.US_ASCII));
             list.add(dataPack);
         } else if (64 == sign[0] && 64 == sign[1]) {
             byteBuf.resetReaderIndex();

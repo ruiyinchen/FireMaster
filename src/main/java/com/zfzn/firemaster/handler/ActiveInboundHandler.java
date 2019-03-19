@@ -36,11 +36,11 @@ public class ActiveInboundHandler extends ChannelInboundHandlerAdapter {
         byte[] sign = dataPack.getBeginSign();
         if (84 == sign[0] && 68 == sign[1]) {
             InetSocketAddress socketAddr = (InetSocketAddress) ctx.channel().remoteAddress();
-            String key = Joiner.on(':').skipNulls().join(
+            String hostname = Joiner.on(':').skipNulls().join(
                     socketAddr.getHostString(),
                     socketAddr.getPort());
-            channelContainer.remove(key);
-            endSet.put(key, ctx);
+            channelContainer.remove(hostname);
+            endSet.put(hostname, ctx);
         } else {
             ctx.fireChannelRead(msg);
         }
@@ -65,10 +65,11 @@ public class ActiveInboundHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         InetSocketAddress socketAddr = (InetSocketAddress) ctx.channel().remoteAddress();
-
-        channelContainer.remove(Joiner.on(':').skipNulls().join(
+        String hostname = Joiner.on(':').skipNulls().join(
                 socketAddr.getHostString(),
-                socketAddr.getPort()));
+                socketAddr.getPort());
+        channelContainer.remove(hostname);
+        endSet.remove(hostname);
 
         _logger.info(Joiner.on(' ').skipNulls().join(
                 "Remote Client:",
